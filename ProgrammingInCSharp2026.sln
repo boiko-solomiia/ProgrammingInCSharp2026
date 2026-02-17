@@ -5,6 +5,8 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskManager.DBModels", "TaskManager.DBModels\TaskManager.DBModels.csproj", "{F12BDD41-E479-4284-9BA0-37CBD2A80286}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskManager.Common", "TaskManager.Common\TaskManager.Common.csproj", "{6CC7B633-7DA4-47BC-BC27-621F88C24F49}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +20,9 @@ Global
 		{F12BDD41-E479-4284-9BA0-37CBD2A80286}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F12BDD41-E479-4284-9BA0-37CBD2A80286}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F12BDD41-E479-4284-9BA0-37CBD2A80286}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6CC7B633-7DA4-47BC-BC27-621F88C24F49}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6CC7B633-7DA4-47BC-BC27-621F88C24F49}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6CC7B633-7DA4-47BC-BC27-621F88C24F49}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6CC7B633-7DA4-47BC-BC27-621F88C24F49}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
