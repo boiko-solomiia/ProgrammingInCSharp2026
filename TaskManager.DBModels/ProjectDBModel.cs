@@ -9,10 +9,7 @@ namespace TaskManager.DBModels
         public string Description { get; set; }
         public ProjectType ProjectType { get; set; }
 
-        private ProjectDBModel()
-        {
-            
-        }
+        private ProjectDBModel() { }
 
         public ProjectDBModel(string name, string description, ProjectType projectType)
         {
@@ -20,6 +17,11 @@ namespace TaskManager.DBModels
             Name = name;
             Description = description;
             ProjectType = projectType;
+        }
+        
+        public ProjectDBModel(string name, ProjectType projectType) 
+            : this(name, string.Empty, projectType)
+        {
         }
     }
 }
