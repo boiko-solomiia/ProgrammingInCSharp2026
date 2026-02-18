@@ -1,4 +1,4 @@
-namespace TaskManager.DBModels
+namespace TaskManager.Common.Enums
 {
     public enum Priority
     {

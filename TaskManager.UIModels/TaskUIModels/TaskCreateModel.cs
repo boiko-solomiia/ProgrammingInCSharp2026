@@ -1,4 +1,5 @@
 ﻿using TaskManager.Common.Enums;
+using TaskManager.DBModels;
 
 namespace TaskManager.UIModels.TaskUIModels
 {
@@ -40,10 +41,6 @@ namespace TaskManager.UIModels.TaskUIModels
         {
             get => _isCompleted;
             set => _isCompleted = value;
-        }
-        public bool IsOverdue
-        {
-            get => _isOverdue;
         }
 
         public TaskCreateModel(Guid projectId)

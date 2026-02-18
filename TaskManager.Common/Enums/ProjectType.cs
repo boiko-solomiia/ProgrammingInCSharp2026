@@ -7,7 +7,6 @@ namespace TaskManager.Common.Enums
         Team,
         Personal,
         Commercial,
-        Academic,
         Hobby,
         Other
     }

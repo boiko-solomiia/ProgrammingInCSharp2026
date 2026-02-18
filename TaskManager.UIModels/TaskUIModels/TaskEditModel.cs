@@ -1,4 +1,5 @@
 using TaskManager.Common.Enums;
+using TaskManager.DBModels;
 
 namespace TaskManager.UIModels.TaskUIModels
 {
@@ -52,7 +53,7 @@ namespace TaskManager.UIModels.TaskUIModels
             get => _isOverdue;
         }
 
-        public TaskEDitModel(TaskDBModel dbModel)
+        public TaskEditModel(TaskDBModel dbModel)
         {
             _dbModel = dbModel;
             _projectId = dbModel.ProjectId;

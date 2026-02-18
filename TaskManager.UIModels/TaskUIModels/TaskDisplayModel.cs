@@ -1,4 +1,5 @@
 using TaskManager.Common.Enums;
+using TaskManager.DBModels;
 
 namespace TaskManager.UIModels.TaskUIModels
 {
