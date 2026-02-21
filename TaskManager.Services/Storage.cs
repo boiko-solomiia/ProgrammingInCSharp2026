@@ -3,21 +3,35 @@ using TaskManager.DBModels;
 
 namespace TaskManager.Services
 {
+    /// <summary>
+    /// Static in-memory storage that holds fake data for testing.
+    /// Populated with realistic sample data on initialization.
+    /// Internal access - only available to StorageService
+    /// </summary>
     internal static class Storage
     {
         private static readonly List<ProjectDBModel> _projects;
         private static readonly List<TaskDBModel> _tasks;
 
+        /// <summary>
+        /// Returns a copy of all projects to prevent external modification
+        /// </summary>
         internal static IEnumerable<ProjectDBModel> Projects
         {
             get => _projects.ToList();
         }
 
+        /// <summary>
+        /// Returns a copy of all tasks to prevent external modification
+        /// </summary>
         internal static IEnumerable<TaskDBModel> Tasks
         {
             get => _tasks.ToList();
         }
-
+        
+        /// <summary>
+        /// Static constructor initializes collections and loads sample data
+        /// </summary>
         static Storage()
         {
             _projects = new List<ProjectDBModel>();
@@ -25,6 +39,10 @@ namespace TaskManager.Services
             LoadInitialData();
         }
         
+        /// <summary>
+        /// Populates storage with realistic sample data (
+        /// 6 projects with different types and 27 tasks distributed across projects)
+        /// </summary>
         private static void LoadInitialData()
         {
             var airclaySculpting = new ProjectDBModel(

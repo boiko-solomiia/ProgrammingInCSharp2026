@@ -1,14 +1,15 @@
-﻿using System;
-using System.Linq;
-using System.Reflection;
-using TaskManager.Services;
+﻿using TaskManager.Services;
 using TaskManager.UIModels.ProjectUIModels;
 
-namespace TaskManager.ConsoleApp
+namespace TaskManagerConsoleApp
 {
     public class ConsoleApp
     {
         private static StorageService _storage;
+       
+        /// <summary>
+        /// Application entry point. Initializes storage service and runs main interaction loop
+        /// </summary>
         public static void Main()
         {
             _storage = new StorageService();
@@ -40,6 +41,9 @@ namespace TaskManager.ConsoleApp
             }
         }
 
+        /// <summary>
+        /// Displays main menu options
+        /// </summary>
         private static void PrintMenu()
         {
             Console.WriteLine("MENU:");
@@ -49,6 +53,11 @@ namespace TaskManager.ConsoleApp
         }
 
 
+        /// <summary>
+        /// Retrieves all projects from storage and converts them to display models.
+        /// Loads associated tasks for each project
+        /// </summary>
+        /// <returns>Collection of project display models with loaded tasks</returns>
         private static List<ProjectDisplayModel> GetProjectDisplayModels()
         {
             var projects = new List<ProjectDisplayModel>();
@@ -61,6 +70,9 @@ namespace TaskManager.ConsoleApp
             return projects;
         }
 
+        /// <summary>
+        /// Displays list of all projects with their progress information
+        /// </summary>
         private static void ShowProjects()
         {
             var projects = GetProjectDisplayModels();
@@ -78,6 +90,9 @@ namespace TaskManager.ConsoleApp
             }
         }
 
+        /// <summary>
+        /// Handles project selection and displays its tasks
+        /// </summary>
         private static void ShowProjectTasks()
         {
             var projects = GetProjectDisplayModels();
@@ -115,6 +130,12 @@ namespace TaskManager.ConsoleApp
             }
         }
 
+        /// <summary>
+        /// Reads integer from console with validation
+        /// (keeps asking until valid number is entered)
+        /// </summary>
+        /// <param name="str">Prompt message</param>
+        /// <returns>Valid integer input</returns>
         private static int ReadInt(string str)
         {
             while (true)
