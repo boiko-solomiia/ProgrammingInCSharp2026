@@ -83,17 +83,17 @@ namespace TaskManager.Services
             _tasks.Add(new TaskDBModel(laboratory.Id, "Setup repository", "Create and configure git hub repository with proper gitignore", Priority.High, new DateTime(2026, 2, 15), true));
             _tasks.Add(new TaskDBModel(laboratory.Id, "Create DBModels", "Do database model classes for Project and Task", Priority.High, new DateTime(2026, 2, 12), true));
             _tasks.Add(new TaskDBModel(laboratory.Id, "Create UIModels", "Do display, create and edit models for both entities", Priority.High, new DateTime(2026, 3, 15), true));
-            _tasks.Add(new TaskDBModel(laboratory.Id, "Create StorageService", "Implement fake storage and service for working with storage", Priority.High, new DateTime(2026, 3, 18), false));
-            _tasks.Add(new TaskDBModel(laboratory.Id, "Create console app", "Implement console application", Priority.High, new DateTime(2026, 2, 19), false));
-            _tasks.Add(new TaskDBModel(laboratory.Id, "Add comments", "Write comments for important code parts", Priority.Low, new DateTime(2026, 2, 19), false));
-            _tasks.Add(new TaskDBModel(laboratory.Id, "Write README", "Create README file with project description", Priority.Low, new DateTime(2026, 2, 19), false));
-            _tasks.Add(new TaskDBModel(laboratory.Id, "Final review", "Check all requirements and prepare for submission", Priority.Medium, new DateTime(2026, 2, 19), false));
+            _tasks.Add(new TaskDBModel(laboratory.Id, "Create StorageService", "Implement fake storage and service for working with storage", Priority.Critical, new DateTime(2026, 3, 18), false));
+            _tasks.Add(new TaskDBModel(laboratory.Id, "Create console app", "Implement console application", Priority.Critical, new DateTime(2026, 2, 19), false));
+            _tasks.Add(new TaskDBModel(laboratory.Id, "Add comments", "Write comments for important code parts", Priority.Critical, new DateTime(2026, 2, 19), false));
+            _tasks.Add(new TaskDBModel(laboratory.Id, "Write README", "Create README file with project description", Priority.Critical, new DateTime(2026, 2, 19), false));
+            _tasks.Add(new TaskDBModel(laboratory.Id, "Final review", "Check all requirements and prepare for submission", Priority.Critical, new DateTime(2026, 2, 19), false));
             
-            _tasks.Add(new TaskDBModel(traditionalBeadwork.Id, "Research traditional patterns", "Find information about authentic Ukrainian gerdan patterns and their symbolism", Priority.Low, new DateTime(2026, 3, 10), false));
-            _tasks.Add(new TaskDBModel(traditionalBeadwork.Id, "Create gerdan pattern scheme", "Make a detailed scheme with traditional Ukrainian ornament", Priority.Low, new DateTime(2026, 3, 15), false));
-            _tasks.Add(new TaskDBModel(traditionalBeadwork.Id, "Purchase beads", "Buy beads in chosen colors", Priority.Low, new DateTime(2026, 3, 20), false));
-            _tasks.Add(new TaskDBModel(traditionalBeadwork.Id, "Get needle and thread", "Special beading needle and strong thread (polyester or nylon)", Priority.Low, new DateTime(2026, 3, 22), false));
-            _tasks.Add(new TaskDBModel(traditionalBeadwork.Id, "Create gerdan", "Weave the gerdan according to the prepared pattern", Priority.Low, new DateTime(2026, 4, 10), false));
+            _tasks.Add(new TaskDBModel(traditionalBeadwork.Id, "Research traditional patterns", "Find information about authentic Ukrainian gerdan patterns and their symbolism", Priority.Backlog, new DateTime(2026, 3, 10), false));
+            _tasks.Add(new TaskDBModel(traditionalBeadwork.Id, "Create gerdan pattern scheme", "Make a detailed scheme with traditional Ukrainian ornament", Priority.Backlog, new DateTime(2026, 3, 15), false));
+            _tasks.Add(new TaskDBModel(traditionalBeadwork.Id, "Purchase beads", "Buy beads in chosen colors", Priority.Backlog, new DateTime(2026, 3, 20), false));
+            _tasks.Add(new TaskDBModel(traditionalBeadwork.Id, "Get needle and thread", "Special beading needle and strong thread (polyester or nylon)", Priority.Backlog, new DateTime(2026, 3, 22), false));
+            _tasks.Add(new TaskDBModel(traditionalBeadwork.Id, "Create gerdan", "Weave the gerdan according to the prepared pattern", Priority.Backlog, new DateTime(2026, 4, 10), false));
         }
     }
 }
