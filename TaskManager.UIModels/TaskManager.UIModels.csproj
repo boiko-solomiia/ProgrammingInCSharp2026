@@ -9,6 +9,7 @@
     <ItemGroup>
       <ProjectReference Include="..\TaskManager.Common\TaskManager.Common.csproj" />
       <ProjectReference Include="..\TaskManager.DBModels\TaskManager.DBModels.csproj" />
+      <ProjectReference Include="..\TaskManager.Services\TaskManager.Services.csproj" />
     </ItemGroup>
 
 </Project>

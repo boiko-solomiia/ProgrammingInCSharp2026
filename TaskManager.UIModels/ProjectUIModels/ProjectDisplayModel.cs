@@ -1,5 +1,6 @@
 using TaskManager.Common.Enums;
 using TaskManager.DBModels;
+using TaskManager.Services;
 using TaskManager.UIModels.TaskUIModels;
 
 namespace TaskManager.UIModels.ProjectUIModels
@@ -61,6 +62,28 @@ namespace TaskManager.UIModels.ProjectUIModels
                 if (task.IsCompleted) tasksCompleted++;
             }
             _progress = (tasksCompleted * 100) / _tasks.Count;
+        }
+
+        public void LoadTasks(StorageService storage, bool forceReload = false)
+        {
+            if (Id == null) return;
+    
+            if (forceReload)
+                _tasks.Clear();
+            else if (_tasks.Count > 0)
+                return;
+
+            foreach (var task in storage.GetTasks(Id))
+            {
+                _tasks.Add(new TaskDisplayModel(task));                
+            }
+    
+            CalculateProgress();
+        }
+
+        public override string ToString()
+        {
+            return $"Project: {Name} ({_tasks.Count} tasks, {Progress}% complete)";
         }
     }
 }
