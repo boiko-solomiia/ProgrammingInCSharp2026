@@ -1,3 +1,5 @@
+using System;
+using System.Threading.Tasks;
 using TaskManager.Common.Enums;
 using TaskManager.DBModels;
 
@@ -62,5 +64,9 @@ namespace TaskManager.UIModels.TaskUIModels
             _isCompleted = dbModel.IsCompleted;
         }
 
+        public override string ToString()
+        {
+            return $"TASK: {Name}\n{Description}\n{Priority} priority\nis complited:  {IsCompleted}\nDue: {Deadline:d}\n ";
+        }
     }
 }
