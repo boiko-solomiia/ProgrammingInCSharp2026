@@ -66,7 +66,7 @@ namespace TaskManager.UIModels.TaskUIModels
 
         public override string ToString()
         {
-            return $"TASK: {Name}\n{Description}\n{Priority} priority\nis complited:  {IsCompleted}\nDue: {Deadline:d}\n ";
+            return $"TASK: {Name}\n{Description}\n{Priority} priority\nIs complited:  {IsCompleted}\nDue: {Deadline:d}\nIs overdue:  {IsOverdue}\n ";
         }
     }
 }
