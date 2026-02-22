@@ -114,7 +114,7 @@ namespace TaskManagerConsoleApp
                     return;
                 }
                 var project = projects[index];
-                project.LoadTasks(_storage, true);
+                project.LoadTasks(_storage);
                 if (project.Tasks.Count == 0)
                 {
                     Console.WriteLine("No tasks");

@@ -97,19 +97,14 @@ namespace TaskManager.UIModels.ProjectUIModels
         /// Loads tasks for this project from storage
         /// </summary>
         /// <param name="storage">Storage service</param>
-        /// <param name="forceReload">If true, reloads tasks even if already loaded</param>
-        public void LoadTasks(StorageService storage, bool forceReload = false)
+        public void LoadTasks(StorageService storage)
         {
-            if (forceReload)
-                _tasks.Clear();
-            else if (_tasks.Count > 0)
+            if (_tasks.Count > 0)
                 return;
-
             foreach (var task in storage.GetTasks(Id))
             {
                 _tasks.Add(new TaskDisplayModel(task));                
             }
-    
             CalculateProgress();
         }
 
