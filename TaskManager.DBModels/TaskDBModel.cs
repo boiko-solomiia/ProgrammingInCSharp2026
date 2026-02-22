@@ -18,7 +18,9 @@ namespace TaskManager.DBModels
             Name = name;
             Description = description;
             Priority = priority;
-            Deadline = deadline;
+            if (deadline.Kind == DateTimeKind.Unspecified)
+                deadline = DateTime.SpecifyKind(deadline, DateTimeKind.Local);
+            Deadline = deadline.ToUniversalTime();
             IsCompleted = isCompleted;
         }
 

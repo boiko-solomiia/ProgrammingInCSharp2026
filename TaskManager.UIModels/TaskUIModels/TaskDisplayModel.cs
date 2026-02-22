@@ -60,7 +60,7 @@ namespace TaskManager.UIModels.TaskUIModels
             _name = dbModel.Name;
             _description = dbModel.Description;
             _priority = dbModel.Priority;
-            _deadline = dbModel.Deadline;
+            _deadline = dbModel.Deadline.ToLocalTime();
             _isCompleted = dbModel.IsCompleted;
         }
 
