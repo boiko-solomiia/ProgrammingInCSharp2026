@@ -14,6 +14,7 @@ namespace TaskManager.UIModels.ProjectUIModels
         private readonly ProjectDBModel _dbModel;
         private readonly List<TaskDisplayModel> _tasks;
         private int _progress;
+        private bool _tasksLoaded = false;
 
         /// <summary>
         /// Unique project identifier
@@ -64,6 +65,16 @@ namespace TaskManager.UIModels.ProjectUIModels
         }
         
         /// <summary>
+        /// Progress description for UI display.
+        /// Shows "Not Loaded" if tasks haven't been loaded yet,
+        /// otherwise shows progress percentage
+        /// </summary>
+        public string ProgressDescription
+        {
+            get => !_tasksLoaded ? "Not Loaded" : $"{_progress}%";
+        }
+        
+        /// <summary>
         /// Creates display model from database project
         /// </summary>
         /// <param name="dbModel">Project from database</param>
@@ -84,7 +95,7 @@ namespace TaskManager.UIModels.ProjectUIModels
                 _progress = 0;
                 return;
             }
-
+            
             int tasksCompleted = 0;
             foreach (TaskDisplayModel task in _tasks)
             {
@@ -99,12 +110,13 @@ namespace TaskManager.UIModels.ProjectUIModels
         /// <param name="storage">Storage service</param>
         public void LoadTasks(StorageService storage)
         {
-            if (_tasks.Count > 0)
-                return;
+            if (_tasksLoaded) return;
+            
             foreach (var task in storage.GetTasks(Id))
             {
                 _tasks.Add(new TaskDisplayModel(task));                
             }
+            _tasksLoaded = true;
             CalculateProgress();
         }
 

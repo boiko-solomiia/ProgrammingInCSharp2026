@@ -25,7 +25,8 @@ namespace TaskManager.DBModels
         /// <param name="priority">Task priority</param>
         /// <param name="deadline">Task deadline (will be converted to UTC)</param>
         /// <param name="isCompleted">Task completion status</param>
-        public TaskDBModel(Guid projectId, string name, string description, Priority priority, DateTime deadline, bool isCompleted) {
+        public TaskDBModel(Guid projectId, string name, string description, Priority priority, DateTime deadline, bool isCompleted)
+        {
             Id = Guid.NewGuid();
             ProjectId = projectId;
             Name = name;
