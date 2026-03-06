@@ -1,4 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
+using TaskManager.Pages;
+using TaskManager.Services;
 
 namespace TaskManager
 {
@@ -18,6 +20,11 @@ namespace TaskManager
 #if DEBUG
     		builder.Logging.AddDebug();
 #endif
+            builder.Services.AddSingleton<IStorageService, StorageService>();
+            
+            builder.Services.AddSingleton<ProjectsPage>();        
+            builder.Services.AddTransient<ProjectDetailsPage>();  
+            builder.Services.AddTransient<TaskDetailsPage>();
 
             return builder.Build();
         }
