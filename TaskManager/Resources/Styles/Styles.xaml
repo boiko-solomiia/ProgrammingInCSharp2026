@@ -14,10 +14,10 @@
     </Style>
 
     <Style TargetType="Border">
-        <Setter Property="Stroke" Value="{AppThemeBinding Light={StaticResource BorderLight}, Dark={StaticResource Gray500}}" />
+        <Setter Property="Stroke" Value="{AppThemeBinding Light={StaticResource PrimaryDark}, Dark={StaticResource Gray500}}" />
         <Setter Property="StrokeShape" Value="RoundRectangle 10"/>
         <Setter Property="StrokeThickness" Value="1"/>
-        <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource CardBackground}, Dark={StaticResource PrimaryDark}}" />
+        <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource TaskCardBackground}, Dark={StaticResource PrimaryDark}}" />
     </Style>
 
     <Style TargetType="BoxView">
@@ -175,7 +175,7 @@
     </Style>
 
     <Style x:Key="Headline" TargetType="Label">
-        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource TextPink}, Dark={StaticResource TextPink}}" />
+        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource TextLighterPink}, Dark={StaticResource TextLighterPink}}" />
         <Setter Property="FontSize" Value="22" />
         <Setter Property="FontAttributes" Value="Bold" />
         <Setter Property="HorizontalOptions" Value="Center" />

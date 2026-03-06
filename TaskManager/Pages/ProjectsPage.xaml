@@ -15,22 +15,27 @@
         <CollectionView.ItemTemplate>
             <DataTemplate x:DataType="models:ProjectDisplayModel">
                 <Border 
-                    Stroke="Pink"
-                    Padding="10"
-                    Margin="0,5">
+                    Stroke="{StaticResource BorderMedium}"
+                    StrokeThickness="1"
+                    Padding="15"
+                    Margin="0,8"
+                    BackgroundColor="{StaticResource ProjectCardBackground}">
                     <VerticalStackLayout Spacing="5">
                         <Label
-                            Style="{StaticResource SubHeadline}"
+                            Style="{StaticResource Headline}"
                             Text="{Binding Name}"/>
                         <Grid ColumnDefinitions="*, *">
                             <Label Grid.Column="0"
+                                   Style="{StaticResource SubHeadline}"
                                    Text="{Binding ProjectType}"
                                    HorizontalOptions="Start"/>
                             <Label Grid.Column="1"
+                                   Style="{StaticResource SubHeadline}"
                                    Text="{Binding ProgressDescription}"
                                    HorizontalOptions="End"/>
                         </Grid>
                         <Label 
+                            TextColor="{StaticResource TextLighterPink}"
                             Text="{Binding Description}"
                             HorizontalOptions="Start"/>
                     </VerticalStackLayout>
