@@ -6,15 +6,15 @@
              xmlns:models="clr-namespace:TaskManager.UIModels.ProjectUIModels;assembly=TaskManager.UIModels"
              x:Class="TaskManager.Pages.ProjectsPage"
              x:DataType="pages:ProjectsPage"
-             Title="Projects">   
-    <CollectionView 
+             Title="Projects">
+    <CollectionView
         ItemsSource="{Binding Projects}"
         SelectionMode="Single"
         Margin="10"
         SelectionChanged="ProjectSelected">
         <CollectionView.ItemTemplate>
             <DataTemplate x:DataType="models:ProjectDisplayModel">
-                <Border 
+                <Border
                     Stroke="{StaticResource BorderMedium}"
                     StrokeThickness="1"
                     Padding="15"
@@ -23,21 +23,21 @@
                     <VerticalStackLayout Spacing="5">
                         <Label
                             Style="{StaticResource Headline}"
-                            Text="{Binding Name}"/>
+                            Text="{Binding Name}" />
                         <Grid ColumnDefinitions="*, *">
                             <Label Grid.Column="0"
                                    Style="{StaticResource SubHeadline}"
                                    Text="{Binding ProjectType}"
-                                   HorizontalOptions="Start"/>
+                                   HorizontalOptions="Start" />
                             <Label Grid.Column="1"
                                    Style="{StaticResource SubHeadline}"
                                    Text="{Binding ProgressDescription}"
-                                   HorizontalOptions="End"/>
+                                   HorizontalOptions="End" />
                         </Grid>
-                        <Label 
+                        <Label
                             TextColor="{StaticResource TextLighterPink}"
                             Text="{Binding Description}"
-                            HorizontalOptions="Start"/>
+                            HorizontalOptions="Start" />
                     </VerticalStackLayout>
                 </Border>
             </DataTemplate>
