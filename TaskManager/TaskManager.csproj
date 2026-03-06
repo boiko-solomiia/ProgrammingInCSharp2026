@@ -67,4 +67,10 @@
 	  <ProjectReference Include="..\TaskManager.UIModels\TaskManager.UIModels.csproj" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <MauiXaml Update="Pages\TaskDetailsPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	</ItemGroup>
+
 </Project>

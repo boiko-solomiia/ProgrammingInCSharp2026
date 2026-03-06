@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="TaskManager.Pages.TaskDetailsPage"
+             Title="Task Details">
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="20">
+
+            <Grid ColumnDefinitions="Auto,*"
+                  RowDefinitions="Auto,Auto,Auto,Auto,Auto"
+                  ColumnSpacing="15"
+                  RowSpacing="15">
+
+                <Label Text="Name:"
+                       FontAttributes="Bold"
+                       Grid.Row="0"
+                       Grid.Column="0" />
+                <Label Text="{Binding Name}"
+                       Grid.Row="0"
+                       Grid.Column="1" />
+
+                <Label Text="Description:"
+                       FontAttributes="Bold"
+                       Grid.Row="1"
+                       Grid.Column="0"
+                       VerticalOptions="Start" />
+                <Label Text="{Binding Description}"
+                       Grid.Row="1"
+                       Grid.Column="1"
+                       LineBreakMode="WordWrap" />
+
+                <Label Text="Priority:"
+                       FontAttributes="Bold"
+                       Grid.Row="2"
+                       Grid.Column="0" />
+                <Label Text="{Binding Priority}"
+                       Grid.Row="2"
+                       Grid.Column="1" />
+
+                <Label Text="Deadline:"
+                       FontAttributes="Bold"
+                       Grid.Row="3"
+                       Grid.Column="0" />
+                <Label Text="{Binding Deadline, StringFormat='{0:MMMM dd, yyyy}'}"
+                       Grid.Row="3"
+                       Grid.Column="1" />
+
+                <Label Text="Is Completed:"
+                       FontAttributes="Bold"
+                       Grid.Row="4"
+                       Grid.Column="0" />
+                <Label Text="{Binding IsCompleted}"
+                       Grid.Row="4"
+                       Grid.Column="1" />
+
+            </Grid>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
