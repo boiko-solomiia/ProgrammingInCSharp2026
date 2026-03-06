@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:projectModels="clr-namespace:TaskManager.UIModels.ProjectUIModels;assembly=TaskManager.UIModels"
+             xmlns:taskModels="clr-namespace:TaskManager.UIModels.TaskUIModels;assembly=TaskManager.UIModels"
+             x:Class="TaskManager.Pages.ProjectDetailsPage"
+             x:DataType="projectModels:ProjectDisplayModel"
+             Title="Project Details">
+    <Grid RowDefinitions="Auto, *">
+        <Border
+            Stroke="Magenta"
+            Padding="10"
+            Margin="0,10">
+            <VerticalStackLayout Spacing="5">
+                <Label
+                    Style="{StaticResource SubHeadline}"
+                    Text="{Binding Name}"/>
+                <Grid ColumnDefinitions="*, *">
+                    <Label Grid.Column="0"
+                           Text="{Binding ProjectType}"
+                           HorizontalOptions="Start"/>
+                    <Label Grid.Column="1"
+                           Text="{Binding ProgressDescription}"
+                           HorizontalOptions="End"/>
+                </Grid>
+                <Label 
+                    Text="{Binding Description}"
+                    HorizontalOptions="Start"/>
+            </VerticalStackLayout>
+        </Border>
+        <CollectionView Grid.Row="1"
+                        ItemsSource="{Binding Tasks}"
+                        Margin="10"
+                        SelectionMode="Single"
+                        SelectionChanged="TaskSelected">
+            <CollectionView.ItemTemplate>
+                <DataTemplate
+                    x:DataType="taskModels:TaskDisplayModel">
+                    <Border
+                        Stroke="Blue"
+                        Padding="10"
+                        Margin="0,10">
+                        <VerticalStackLayout>
+                            <Label
+                                Style="{StaticResource SubHeadline}"
+                                Text="{Binding Name}"/>
+                            <Grid ColumnDefinitions="*, Auto">
+                                <Label Grid.Column="0"
+                                       Text="{Binding Priority, StringFormat='Priority: {0}'}"/>
+                                <Label Grid.Column="1"
+                                       Text="{Binding IsCompleted, StringFormat='Completed: {0}'}"/>
+                            </Grid>
+                            <Label Text="{Binding Deadline, StringFormat='Due: {0:dd MMM yyyy}'}"/>
+                        </VerticalStackLayout>
+                    </Border>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </Grid>
+</ContentPage>

@@ -16,7 +16,6 @@
             <DataTemplate x:DataType="models:ProjectDisplayModel">
                 <Border 
                     Stroke="Magenta"
-                    BackgroundColor="Lavender"
                     Padding="10"
                     Margin="0,5">
                     <VerticalStackLayout Spacing="5">
@@ -32,7 +31,8 @@
                                    HorizontalOptions="End"/>
                         </Grid>
                         <Label 
-                            Text="{Binding Description}"/>
+                            Text="{Binding Description}"
+                            HorizontalOptions="Start"/>
                     </VerticalStackLayout>
                 </Border>
             </DataTemplate>

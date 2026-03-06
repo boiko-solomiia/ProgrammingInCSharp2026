@@ -1,0 +1,34 @@
+using TaskManager.Services;
+using TaskManager.UIModels.ProjectUIModels;
+using TaskManager.UIModels.TaskUIModels;
+
+namespace TaskManager.Pages;
+
+[QueryProperty(nameof(CurrentProject), nameof(CurrentProject))]
+public partial class ProjectDetailsPage : ContentPage
+{
+    private readonly StorageService _storage;
+    private ProjectDisplayModel _currentProject;
+
+    public ProjectDisplayModel CurrentProject
+    {
+        get => _currentProject;
+        set
+        {
+            _currentProject = value;
+            _currentProject.LoadTasks(_storage);  
+            BindingContext = CurrentProject;
+        }
+    }
+    
+    public ProjectDetailsPage()  
+    {
+        InitializeComponent();
+        _storage = new StorageService();
+    }
+
+    private void TaskSelected(object sender, SelectionChangedEventArgs e)
+    {
+        
+    }
+}
