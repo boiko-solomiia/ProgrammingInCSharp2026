@@ -15,7 +15,7 @@
         <CollectionView.ItemTemplate>
             <DataTemplate x:DataType="models:ProjectDisplayModel">
                 <Border 
-                    Stroke="Magenta"
+                    Stroke="Pink"
                     Padding="10"
                     Margin="0,5">
                     <VerticalStackLayout Spacing="5">
