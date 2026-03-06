@@ -12,7 +12,7 @@
     <Color x:Key="SecondaryLight">#E0F2FE</Color>   
     
     <Color x:Key="Accent">#FFF6CC</Color>           
-    <Color x:Key="AccentLight">#FFF9E6</Color>      
+    <Color x:Key="AccentLight">#FFF9E6</Color>      ti
     
     <Color x:Key="Background">#FFF8F5</Color>        
     <Color x:Key="CardBackground">#EFFFFC</Color>    
