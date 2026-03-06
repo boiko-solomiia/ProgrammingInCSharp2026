@@ -6,20 +6,20 @@ namespace TaskManager.Pages;
 
 public partial class ProjectsPage : ContentPage
 {
-    private StorageService _storage;
+    private IStorageService _storage;
     
     public ObservableCollection<ProjectDisplayModel> Projects { get; set; }
     
-    public ProjectsPage()
+    public ProjectsPage(IStorageService storageService)
     {
         InitializeComponent();
-        _storage = new StorageService();
+        _storage = storageService;
         Projects = new ObservableCollection<ProjectDisplayModel>();
         
         foreach (var project in _storage.GetAllProjects())
         {
-            var model = new ProjectDisplayModel(project);
-            model.LoadTasks(_storage);
+            var model = new ProjectDisplayModel(_storage, project);
+            model.LoadTasks();
             Projects.Add(model);
         } 
 

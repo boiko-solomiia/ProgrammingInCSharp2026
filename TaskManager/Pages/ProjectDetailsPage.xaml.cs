@@ -7,7 +7,7 @@ namespace TaskManager.Pages;
 [QueryProperty(nameof(CurrentProject), nameof(CurrentProject))]
 public partial class ProjectDetailsPage : ContentPage
 {
-    private readonly StorageService _storage;
+    private readonly IStorageService _storage;
     private ProjectDisplayModel _currentProject;
 
     public ProjectDisplayModel CurrentProject
@@ -16,15 +16,15 @@ public partial class ProjectDetailsPage : ContentPage
         set
         {
             _currentProject = value;
-            _currentProject.LoadTasks(_storage);  
+            _currentProject.LoadTasks();  
             BindingContext = CurrentProject;
         }
     }
     
-    public ProjectDetailsPage()  
+    public ProjectDetailsPage(IStorageService storage)  
     {
         InitializeComponent();
-        _storage = new StorageService();
+        _storage = storage;
     }
 
     private void TaskSelected(object sender, SelectionChangedEventArgs e)

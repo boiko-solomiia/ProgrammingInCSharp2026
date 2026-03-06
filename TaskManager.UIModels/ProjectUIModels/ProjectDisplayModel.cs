@@ -11,6 +11,7 @@ namespace TaskManager.UIModels.ProjectUIModels
     /// </summary>
     public class ProjectDisplayModel
     {
+        private readonly IStorageService _storage;
         private readonly ProjectDBModel _dbModel;
         private readonly List<TaskDisplayModel> _tasks;
         private int _progress;
@@ -78,8 +79,9 @@ namespace TaskManager.UIModels.ProjectUIModels
         /// Creates display model from database project
         /// </summary>
         /// <param name="dbModel">Project from database</param>
-        public ProjectDisplayModel(ProjectDBModel dbModel)
+        public ProjectDisplayModel(IStorageService storage, ProjectDBModel dbModel)
         {
+            _storage = storage;
             _dbModel = dbModel;
             _tasks = new List<TaskDisplayModel>();
             CalculateProgress();
@@ -107,12 +109,11 @@ namespace TaskManager.UIModels.ProjectUIModels
         /// <summary>
         /// Loads tasks for this project from storage
         /// </summary>
-        /// <param name="storage">Storage service</param>
-        public void LoadTasks(StorageService storage)
+        public void LoadTasks()
         {
             if (_tasksLoaded) return;
             
-            foreach (var task in storage.GetTasks(Id))
+            foreach (var task in _storage.GetTasks(Id))
             {
                 _tasks.Add(new TaskDisplayModel(task));                
             }

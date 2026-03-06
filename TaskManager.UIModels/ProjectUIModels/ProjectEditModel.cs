@@ -12,6 +12,7 @@ namespace TaskManager.UIModels.ProjectUIModels
     /// </summary>
     public class ProjectEditModel
     {
+        private readonly IStorageService _storage;
         private readonly ProjectDBModel _dbModel;
         private string _name;
         private string _description;
@@ -66,8 +67,9 @@ namespace TaskManager.UIModels.ProjectUIModels
         /// Creates edit model from existing project
         /// </summary>
         /// <param name="dbModel">Existing project from database</param>
-        public ProjectEditModel(ProjectDBModel dbModel)
+        public ProjectEditModel(IStorageService storage, ProjectDBModel dbModel)
         {
+            _storage = storage;
             _dbModel = dbModel;
             _name = dbModel.Name;
             _description = dbModel.Description;
@@ -96,13 +98,13 @@ namespace TaskManager.UIModels.ProjectUIModels
         /// Only loads if tasks haven't been loaded yet
         /// </summary>
         /// <param name="storage">Storage service to load tasks from</param>
-        public void LoadTasks(StorageService storage)
+        public void LoadTasks()
         {
             if (_tasks.Count > 0)
             {
                 return;
             }
-            var taskDbModels = storage.GetTasks(Id);
+            var taskDbModels = _storage.GetTasks(Id);
             foreach (var taskDb in taskDbModels)
             {
                 _tasks.Add(new TaskEditModel(taskDb)); 
@@ -112,10 +114,10 @@ namespace TaskManager.UIModels.ProjectUIModels
         /// <summary>
         /// Reloads tasks from storage, discarding any local changes
         /// </summary>
-        public void RefreshTasks(StorageService storage)
+        public void RefreshTasks()
         {
             _tasks.Clear();  
-            var taskDbModels = storage.GetTasks(Id);
+            var taskDbModels = _storage.GetTasks(Id);
             foreach (var taskDb in taskDbModels)
             {
                 _tasks.Add(new TaskEditModel(taskDb)); 

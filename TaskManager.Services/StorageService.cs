@@ -10,7 +10,7 @@ namespace TaskManager.Services
     /// Service class that provides access to storage data.
     /// Loads data from static Storage class on first use.
     /// </summary>
-    public class StorageService
+    public class StorageService : IStorageService
     {
         private List<ProjectDBModel> _projects;
         private List<TaskDBModel> _tasks;

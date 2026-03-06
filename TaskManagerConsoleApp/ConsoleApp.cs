@@ -5,7 +5,7 @@ namespace TaskManagerConsoleApp
 {
     public class ConsoleApp
     {
-        private static StorageService _storage;
+        private static IStorageService _storage;
        
         /// <summary>
         /// Application entry point. Initializes storage service and runs main interaction loop
@@ -63,8 +63,8 @@ namespace TaskManagerConsoleApp
             var projects = new List<ProjectDisplayModel>();
             foreach (var p in _storage.GetAllProjects())
             {
-                var model = new ProjectDisplayModel(p);
-                model.LoadTasks(_storage);
+                var model = new ProjectDisplayModel(_storage, p);
+                model.LoadTasks();
                 projects.Add(model);
             }
             return projects;
@@ -114,7 +114,7 @@ namespace TaskManagerConsoleApp
                     return;
                 }
                 var project = projects[index];
-                project.LoadTasks(_storage);
+                project.LoadTasks();
                 if (project.Tasks.Count == 0)
                 {
                     Console.WriteLine("No tasks");
