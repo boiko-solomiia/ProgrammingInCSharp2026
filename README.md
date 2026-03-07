@@ -10,6 +10,7 @@ TaskManager.DBModels/ # Database entity classes
 TaskManager.Services/ # Storage access and fake data
 TaskManager.UIModels/ # UI models for create/display/edit operations
 TaskManagerConsoleApp/ # Console application
+TaskManager/ # MAUI graphical application
 ```
 
 ## Class Overview
@@ -37,12 +38,20 @@ For each entity, three separate classes handle different responsibilities
 
 ### Services (TaskManager.Services)
 
-**Storage** is a static class containing fake in-memory data 
-**StorageService** is the public API for data access
+**IStorageService** - interface for storage operations  
+**StorageService** - implements interface, provides data access
+**Storage** - static class containing fake in-memory data 
 
 ### Console Application (TaskManagerConsoleApp)
 
 **ConsoleApp** is the main entry point. It displays a menu, handles user input, and coordinates between services and UI models
+
+### MAUI Application (TaskManager)
+
+**Pages:**
+- `ProjectsPage` - displays list of all projects
+- `ProjectDetailsPage` - shows project details with tasks
+- `TaskDetailsPage` - shows detailed task information
 
 ## Sample Data
 
@@ -52,12 +61,19 @@ The application includes pre-loaded data for testing:
 
 ## Usage Instructions
 
+### Console Application
 Run the application and select from the menu:
 - `1` - Show all projects
 - `2` - Show tasks of a project
 - `0` - Exit
 
 When viewing projects, enter the number of a project to see its tasks. Press Enter to return to the main menu after each operation
+
+### MAUI Application
+1. Run the application
+2. Browse projects on the main page
+3. Tap a project to see its details and tasks
+4. Tap a task to see full task information
 
 ## Code Documentation
 
