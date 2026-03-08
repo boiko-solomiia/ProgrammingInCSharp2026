@@ -39,7 +39,7 @@ For each entity, three separate classes handle different responsibilities
 ### Services (TaskManager.Services)
 
 **IStorageService** - interface for storage operations  
-**StorageService** - implements interface, provides data access
+**StorageService** - implements interface, provides data access 
 **Storage** - static class containing fake in-memory data 
 
 ### Console Application (TaskManagerConsoleApp)
