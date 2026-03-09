@@ -6,7 +6,7 @@
     xmlns:local="clr-namespace:TaskManager"
     xmlns:pages="clr-namespace:TaskManager.Pages"
     Title="TaskManager">
-
+    <!-- Main page of the app -->
     <ShellContent
         Title="Projects"
         ContentTemplate="{DataTemplate pages:ProjectsPage}"

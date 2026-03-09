@@ -4,8 +4,15 @@ using TaskManager.Services;
 
 namespace TaskManager
 {
+    /// <summary>
+    /// Configures and creates the MAUI app
+    /// </summary>
     public static class MauiProgram
     {
+        /// <summary>
+        /// Creates the app, registers services, and sets fonts
+        /// </summary>
+        /// <returns>The configured MAUI app</returns>
         public static MauiApp CreateMauiApp()
         {
             var builder = MauiApp.CreateBuilder();

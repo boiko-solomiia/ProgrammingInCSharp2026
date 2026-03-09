@@ -9,6 +9,7 @@
              Title="Project Details">
     <Grid RowDefinitions="Auto, Auto, *"
           RowSpacing="3">
+        <!-- Project information -->
         <Border
             Grid.Row="0"
             Stroke="{StaticResource BorderMedium}"
@@ -37,11 +38,15 @@
                     FontSize="16" />
             </VerticalStackLayout>
         </Border>
+
+        <!-- Tasks title -->
         <Label Grid.Row="1"
                Text="Tasks"
                Style="{StaticResource Headline}"
                TextColor="{StaticResource TextBlue}"
                Margin="5" />
+
+        <!-- List of tasks -->
         <CollectionView Grid.Row="2"
                         ItemsSource="{Binding Tasks}"
                         SelectionMode="Single"

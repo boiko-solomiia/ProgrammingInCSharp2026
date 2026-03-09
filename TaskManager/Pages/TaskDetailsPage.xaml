@@ -7,6 +7,7 @@
     <ScrollView>
         <VerticalStackLayout Padding="20" Spacing="20">
 
+            <!-- Task information -->
             <Grid ColumnDefinitions="Auto,*"
                   RowDefinitions="Auto,Auto,Auto,Auto,Auto"
                   ColumnSpacing="15"
