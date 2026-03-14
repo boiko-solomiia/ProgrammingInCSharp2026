@@ -31,21 +31,36 @@ namespace TaskManager.DBModels
         private ProjectDBModel() { }
         
         /// <summary>
-        /// Creates a new project with all fields
+        /// Creates a project with specified identifier.
+        /// Used when reconstructing projects from storage with existing IDs.
         /// </summary>
+        /// <param name="id">Project identifier</param>
         /// <param name="name">Project name</param>
         /// <param name="description">Project description</param>
         /// <param name="projectType">Project type</param>
-        public ProjectDBModel(string name, string description, ProjectType projectType)
+        public ProjectDBModel(Guid id, string name, string description, ProjectType projectType)
         {
-            Id = Guid.NewGuid();
+            Id = id;
             Name = name;
             Description = description;
             ProjectType = projectType;
         }
         
         /// <summary>
-        /// Creates a new project with empty description
+        /// Creates a new project with all fields.
+        /// Generates a new unique identifier automatically.
+        /// </summary>
+        /// <param name="name">Project name</param>
+        /// <param name="description">Project description</param>
+        /// <param name="projectType">Project type</param>
+        public ProjectDBModel(string name, string description, ProjectType projectType) 
+            : this(Guid.NewGuid(), name, description, projectType)
+        {
+        }
+        
+        /// <summary>
+        /// Creates a new project with empty description.
+        /// Generates a new unique identifier automatically.
         /// </summary>
         /// <param name="name">Project name</param>
         /// <param name="projectType">Project type</param>
