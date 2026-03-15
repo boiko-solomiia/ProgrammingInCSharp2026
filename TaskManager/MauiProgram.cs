@@ -1,6 +1,8 @@
 ﻿using Microsoft.Extensions.Logging;
 using TaskManager.Pages;
+using TaskManager.Repositories;
 using TaskManager.Services;
+using TaskManager.Storage;
 
 namespace TaskManager
 {
@@ -27,6 +29,12 @@ namespace TaskManager
 #if DEBUG
     		builder.Logging.AddDebug();
 #endif
+            builder.Services.AddSingleton<IStorageContext, InMemoryStorageContext>();
+            
+            builder.Services.AddSingleton<IProjectRepository, ProjectRepository>();
+            builder.Services.AddSingleton<ITaskRepository, TaskRepository>();
+            
+            
             builder.Services.AddSingleton<IStorageService, StorageService>();
             
             builder.Services.AddSingleton<ProjectsPage>();        
