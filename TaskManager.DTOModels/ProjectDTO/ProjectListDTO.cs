@@ -10,20 +10,13 @@ namespace TaskManager.DTOModels.ProjectDTO
         public int TaskCount { get;}
         public int Progress { get;}
 
-        public ProjectListDTO(Guid id, string name, ProjectType projectType, int taskCount, int completedTaskCount)
+        public ProjectListDTO(Guid id, string name, ProjectType projectType, int taskCount, int progress)
         {
             Id = id;
             Name = name;
             ProjectType = projectType;
             TaskCount = taskCount;
-            if (taskCount == 0) 
-            {
-                Progress = 0;
-            }
-            else
-            { 
-                Progress=  (completedTaskCount * 100) / taskCount;
-            }
+            Progress = progress;
         }
     }
 }

@@ -12,7 +12,7 @@ namespace TaskManager.DTOModels.TaskDTO
         public bool IsCompleted { get; }
         public bool IsOverdue { get; }
 
-        public TaskDetailsDTO(Guid id, string name, string description, Priority priority, DateTime deadline, bool isCompleted)
+        public TaskDetailsDTO(Guid id, string name, string description, Priority priority, DateTime deadline, bool isCompleted,  bool isOverdue)
         {
             Id = id;
             Name = name;
@@ -20,14 +20,7 @@ namespace TaskManager.DTOModels.TaskDTO
             Priority = priority;
             Deadline = deadline;
             IsCompleted = isCompleted;
-            if (isCompleted)
-            {
-                IsOverdue = false;
-            }
-            else
-            {
-                IsOverdue = DateTime.UtcNow > deadline.ToUniversalTime();
-            }
+            IsOverdue = isOverdue;
         }
     }
 }

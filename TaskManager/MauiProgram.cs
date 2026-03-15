@@ -33,7 +33,10 @@ namespace TaskManager
             
             builder.Services.AddSingleton<IProjectRepository, ProjectRepository>();
             builder.Services.AddSingleton<ITaskRepository, TaskRepository>();
-            
+
+
+            builder.Services.AddSingleton<IProjectService, ProjectService>();
+            builder.Services.AddSingleton<ITaskService, TaskService>();
             
             builder.Services.AddSingleton<IStorageService, StorageService>();
             

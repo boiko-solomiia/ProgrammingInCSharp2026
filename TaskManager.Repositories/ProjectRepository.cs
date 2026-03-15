@@ -16,5 +16,10 @@ namespace TaskManager.Repositories
         {
             return _storageContext.GetAllProjects();
         }
+
+        public ProjectDBModel GetProject(Guid projectId)
+        {
+            return _storageContext.GetProject(projectId);
+        }
     }
 }

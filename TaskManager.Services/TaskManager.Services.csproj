@@ -8,6 +8,8 @@
 
     <ItemGroup>
       <ProjectReference Include="..\TaskManager.DBModels\TaskManager.DBModels.csproj" />
+      <ProjectReference Include="..\TaskManager.DTOModels\TaskManager.DTOModels.csproj" />
+      <ProjectReference Include="..\TaskManager.Repositories\TaskManager.Repositories.csproj" />
     </ItemGroup>
 
 </Project>

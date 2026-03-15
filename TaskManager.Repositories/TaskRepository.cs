@@ -17,6 +17,13 @@ namespace TaskManager.Repositories
             return _storageContext.GetTasksForProject(projectId);
         }
 
+        public TaskDBModel GetTask(Guid projectId, Guid taskId)
+        {
+            var tasks = _storageContext.GetTasksForProject(projectId);
+            var task = tasks.FirstOrDefault(t => t.Id == taskId);
+            return task;
+        }
+
         public int GetTasksCountForProject(Guid projectId)
         {
             return _storageContext.GetTasksCountForProject(projectId);
