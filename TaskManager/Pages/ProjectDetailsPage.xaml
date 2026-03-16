@@ -2,10 +2,11 @@
 
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:projectModels="clr-namespace:TaskManager.UIModels.ProjectUIModels;assembly=TaskManager.UIModels"
-             xmlns:taskModels="clr-namespace:TaskManager.UIModels.TaskUIModels;assembly=TaskManager.UIModels"
+             xmlns:projectModels="clr-namespace:TaskManager.DTOModels.ProjectDTO;assembly=TaskManager.DTOModels"
+             xmlns:taskModels="clr-namespace:TaskManager.DTOModels.TaskDTO;assembly=TaskManager.DTOModels"
+             xmlns:vm="clr-namespace:TaskManager.ViewModels"
              x:Class="TaskManager.Pages.ProjectDetailsPage"
-             x:DataType="projectModels:ProjectDisplayModel"
+             x:DataType="vm:ProjectDetailsViewModel"
              Title="Project Details">
     <Grid RowDefinitions="Auto, Auto, *"
           RowSpacing="3">
@@ -20,19 +21,19 @@
             <VerticalStackLayout Spacing="5">
                 <Label
                     Style="{StaticResource Headline}"
-                    Text="{Binding Name}" />
+                    Text="{Binding CurrentProject.Name}" />
                 <Grid ColumnDefinitions="*, *">
                     <Label Grid.Column="0"
                            Style="{StaticResource SubHeadline}"
-                           Text="{Binding ProjectType}"
+                           Text="{Binding CurrentProject.ProjectType}"
                            HorizontalOptions="Start" />
                     <Label Grid.Column="1"
                            Style="{StaticResource SubHeadline}"
-                           Text="{Binding ProgressDescription}"
+                           Text="{Binding CurrentProject.Progress, StringFormat='Progress: {0}%'}"
                            HorizontalOptions="End" />
                 </Grid>
                 <Label
-                    Text="{Binding Description}"
+                    Text="{Binding CurrentProject.Description}"
                     TextColor="{StaticResource TextLighterPink}"
                     HorizontalOptions="Start"
                     FontSize="16" />
@@ -47,13 +48,15 @@
                Margin="5" />
 
         <!-- List of tasks -->
-        <CollectionView Grid.Row="2"
-                        ItemsSource="{Binding Tasks}"
-                        SelectionMode="Single"
-                        SelectionChanged="TaskSelected">
+        <CollectionView x:Name="TasksCollection"
+                Grid.Row="2"
+                ItemsSource="{Binding Tasks}"
+                SelectionMode="Single"
+                SelectionChangedCommand="{Binding LoadTaskCommand}"
+                SelectionChangedCommandParameter="{Binding SelectedItem.Id, Source={x:Reference TasksCollection}}">
             <CollectionView.ItemTemplate>
                 <DataTemplate
-                    x:DataType="taskModels:TaskDisplayModel">
+                    x:DataType="taskModels:TaskListDTO">
                     <Border
                         Stroke="{StaticResource Secondary}"
                         StrokeThickness="1"
