@@ -1,6 +1,4 @@
-using System.Collections.ObjectModel;
-using TaskManager.Services;
-using TaskManager.UIModels.ProjectUIModels;
+using TaskManager.ViewModels;
 
 namespace TaskManager.Pages;
 
@@ -9,41 +7,13 @@ namespace TaskManager.Pages;
 /// </summary>
 public partial class ProjectsPage : ContentPage
 {
-    private IStorageService _storage;
-
     /// <summary>
-    /// Gets the collection of projects for display
+    /// Creates the page and assigns the view model
     /// </summary>
-    public ObservableCollection<ProjectDisplayModel> Projects { get; set; }
-
-    /// <summary>
-    /// Creates the page and loads all projects
-    /// </summary>
-    /// <param name="storageService">The service used to get projects and tasks</param>
-    public ProjectsPage(IStorageService storageService)
+    /// <param name="vm">The view model for the projects page</param>
+    public ProjectsPage(ProjectsViewModel vm)
     {
         InitializeComponent();
-        _storage = storageService;
-        Projects = new ObservableCollection<ProjectDisplayModel>();
-        
-        foreach (var project in _storage.GetAllProjects())
-        {
-            var model = new ProjectDisplayModel(_storage, project);
-            model.LoadTasks();
-            Projects.Add(model);
-        } 
-
-        BindingContext = this;
-    }
-
-    /// <summary>
-    /// Opens the selected project page
-    /// </summary>
-    /// <param name="sender">The object that raised the event</param>
-    /// <param name="e">Data about the selection change</param>
-    private async void ProjectSelected(object sender, SelectionChangedEventArgs e)
-    {
-        var project = (ProjectDisplayModel)e.CurrentSelection[0];
-        await Shell.Current.GoToAsync($"{nameof(ProjectDetailsPage)}", new Dictionary<string, object> { { nameof(ProjectDetailsPage.CurrentProject), project } });
+        BindingContext = vm;
     }
 }
