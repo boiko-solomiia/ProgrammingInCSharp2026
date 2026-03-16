@@ -3,6 +3,8 @@ using TaskManager.Pages;
 using TaskManager.Repositories;
 using TaskManager.Services;
 using TaskManager.Storage;
+using TaskManager.ViewModels;
+
 
 namespace TaskManager
 {
@@ -43,6 +45,10 @@ namespace TaskManager
             builder.Services.AddSingleton<ProjectsPage>();        
             builder.Services.AddTransient<ProjectDetailsPage>();  
             builder.Services.AddTransient<TaskDetailsPage>();
+
+            builder.Services.AddSingleton<ProjectsViewModel>();
+            builder.Services.AddTransient<ProjectDetailsViewModel>();
+            builder.Services.AddTransient<TaskDetailsViewModel>();
 
             return builder.Build();
         }
