@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using Microsoft.Maui.Controls;
 using TaskManager.DTOModels.TaskDTO;
 using TaskManager.Services;
 
@@ -20,7 +21,6 @@ namespace TaskManager.ViewModels
         {
             var projectId = (Guid)query["ProjectId"];
             var taskId = (Guid)query["TaskId"];
-
             CurrentTask = _taskService.GetTask(projectId, taskId);
         }
     }

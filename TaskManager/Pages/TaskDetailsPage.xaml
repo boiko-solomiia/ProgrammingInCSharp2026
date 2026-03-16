@@ -2,7 +2,9 @@
 
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:TaskManager.ViewModels"
              x:Class="TaskManager.Pages.TaskDetailsPage"
+             x:DataType="vm:TaskDetailsViewModel"
              Title="Task Details">
     <ScrollView>
         <VerticalStackLayout Padding="20" Spacing="20">
@@ -17,7 +19,7 @@
                        FontAttributes="Bold"
                        Grid.Row="0"
                        Grid.Column="0" />
-                <Label Text="{Binding Name}"
+                <Label Text="{Binding CurrentTask.Name}"
                        Style="{StaticResource Headline18}"
                        Grid.Row="0"
                        Grid.Column="1" />
@@ -28,7 +30,7 @@
                        Grid.Row="1"
                        Grid.Column="0"
                        VerticalOptions="Start" />
-                <Label Text="{Binding Description}"
+                <Label Text="{Binding CurrentTask.Description}"
                        Style="{StaticResource Headline18}"
                        Grid.Row="1"
                        Grid.Column="1"
@@ -39,7 +41,7 @@
                        FontAttributes="Bold"
                        Grid.Row="2"
                        Grid.Column="0" />
-                <Label Text="{Binding Priority}"
+                <Label Text="{Binding CurrentTask.Priority}"
                        Style="{StaticResource Headline18}"
                        Grid.Row="2"
                        Grid.Column="1" />
@@ -49,7 +51,7 @@
                        FontAttributes="Bold"
                        Grid.Row="3"
                        Grid.Column="0" />
-                <Label Text="{Binding Deadline, StringFormat='{0:MMMM dd, yyyy}'}"
+                <Label Text="{Binding CurrentTask.Deadline, StringFormat='{0:MMMM dd, yyyy}'}"
                        Style="{StaticResource Headline18}"
                        Grid.Row="3"
                        Grid.Column="1" />
@@ -59,7 +61,7 @@
                        FontAttributes="Bold"
                        Grid.Row="4"
                        Grid.Column="0" />
-                <Label Text="{Binding IsCompleted}"
+                <Label Text="{Binding CurrentTask.IsCompleted}"
                        Style="{StaticResource Headline18}"
                        Grid.Row="4"
                        Grid.Column="1" />

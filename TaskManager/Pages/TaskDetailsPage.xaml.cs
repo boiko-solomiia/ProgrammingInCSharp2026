@@ -1,34 +1,19 @@
-using TaskManager.UIModels.ProjectUIModels;
-using TaskManager.UIModels.TaskUIModels;
+using TaskManager.ViewModels;
 
 namespace TaskManager.Pages;
 
 /// <summary>
 /// Shows details of the selected task
 /// </summary>
-[QueryProperty(nameof(CurrentTask), nameof(CurrentTask))]
 public partial class TaskDetailsPage : ContentPage
 {
-    private TaskDisplayModel _currentTask;
-
     /// <summary>
-    /// Gets or sets the current task
+    /// Creates the task details page and assigns the view model
     /// </summary>
-    public TaskDisplayModel CurrentTask
+    /// <param name="vm">The view model for the task details page</param>
+    public TaskDetailsPage(TaskDetailsViewModel vm)
     {
-        get => _currentTask;
-        set
-        {
-            _currentTask = value;
-            BindingContext = CurrentTask;
-        }
+        InitializeComponent();
+        BindingContext = vm;
     }
-
-    /// <summary>
-    /// Creates the task details page
-    /// </summary>
-    public TaskDetailsPage()
-	{
-		InitializeComponent();
-	}
 }

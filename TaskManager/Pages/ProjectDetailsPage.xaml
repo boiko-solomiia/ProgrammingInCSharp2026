@@ -52,8 +52,9 @@
                 Grid.Row="2"
                 ItemsSource="{Binding Tasks}"
                 SelectionMode="Single"
+                SelectedItem="{Binding SelectedTask}"
                 SelectionChangedCommand="{Binding LoadTaskCommand}"
-                SelectionChangedCommandParameter="{Binding SelectedItem.Id, Source={x:Reference TasksCollection}}">
+                SelectionChangedCommandParameter="{Binding SelectedItem, Source={x:Reference TasksCollection}}">
             <CollectionView.ItemTemplate>
                 <DataTemplate
                     x:DataType="taskModels:TaskListDTO">
