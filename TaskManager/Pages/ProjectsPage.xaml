@@ -23,7 +23,7 @@
                     Padding="15"
                     Margin="0,8"
                     BackgroundColor="{StaticResource ProjectCardBackground}">
-
+                    
                     <VerticalStackLayout Spacing="5">
                         <Label
                             Style="{StaticResource Headline}"
@@ -37,13 +37,13 @@
 
                             <Label Grid.Column="1"
                                    Style="{StaticResource SubHeadline}"
-                                   Text="{Binding Progress, StringFormat='Progress: {0}%'}"
+                                   Text="{Binding ProgressDescription}"
                                    HorizontalOptions="End" />
                         </Grid>
 
                         <Label
-                            Text="{Binding TaskCount, StringFormat='Tasks: {0}'}"
                             TextColor="{StaticResource TextLighterPink}"
+                            Text="{Binding Description}"
                             HorizontalOptions="Start" />
                     </VerticalStackLayout>
                 </Border>

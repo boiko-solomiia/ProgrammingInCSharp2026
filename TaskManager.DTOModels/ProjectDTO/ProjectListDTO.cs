@@ -6,14 +6,17 @@ namespace TaskManager.DTOModels.ProjectDTO
     {
         public Guid Id { get;}
         public string Name { get;}
+        public string Description { get; }
         public ProjectType ProjectType { get;}
         public int TaskCount { get;}
         public int Progress { get;}
 
-        public ProjectListDTO(Guid id, string name, ProjectType projectType, int taskCount, int progress)
+        public string ProgressDescription => $"Progress: {Progress}%";
+        public ProjectListDTO(Guid id, string name, string description, ProjectType projectType, int taskCount, int progress)
         {
             Id = id;
             Name = name;
+            Description = description;
             ProjectType = projectType;
             TaskCount = taskCount;
             Progress = progress;
