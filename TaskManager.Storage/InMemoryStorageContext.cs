@@ -3,6 +3,9 @@ using TaskManager.DBModels;
 
 namespace TaskManager.Storage
 {
+    /// <summary>
+    /// In-memory implementation of the storage context with sample data
+    /// </summary>
     public class InMemoryStorageContext : IStorageContext
     {
         private record ProjectRecord (Guid Id,  string Name, string Description, ProjectType ProjectType);
@@ -11,6 +14,9 @@ namespace TaskManager.Storage
         private static readonly List<ProjectRecord> _projects = new List<ProjectRecord>();
         private static readonly List<TaskRecord> _tasks = new List<TaskRecord>();
 
+        /// <summary>
+        /// Static constructor initializes sample data
+        /// </summary>
         static InMemoryStorageContext()
         {
             var airclaySculpting = new ProjectRecord(
@@ -95,6 +101,7 @@ namespace TaskManager.Storage
             _tasks.Add(new TaskRecord(Guid.NewGuid(), traditionalBeadwork.Id, "Create gerdan", "Weave the gerdan according to the prepared pattern", Priority.Backlog, new DateTime(2026, 4, 10), false));
         }
         
+        /// <inheritdoc />
         public IEnumerable<ProjectDBModel> GetAllProjects()
         {
             foreach (var project in _projects)
@@ -103,6 +110,7 @@ namespace TaskManager.Storage
             }
         }
 
+        /// <inheritdoc />
         public IEnumerable<TaskDBModel> GetTasksForProject(Guid projectId)
         {
             return _tasks
@@ -110,17 +118,20 @@ namespace TaskManager.Storage
                 .Select(task => new TaskDBModel(task.Id, task.ProjectId, task.Name, task.Description, task.Priority, task.Deadline, task.IsCompleted));
         }
 
+        /// <inheritdoc />
         public ProjectDBModel GetProject(Guid projectId)
         {
             var project = _projects.FirstOrDefault(project => project.Id == projectId);
             return project == null ? null : new ProjectDBModel(project.Id, project.Name, project.Description, project.ProjectType);
         }
 
+        /// <inheritdoc />
         public int GetTasksCountForProject(Guid projectId)
         {
             return _tasks.Count(task => task.ProjectId == projectId);
         }
 
+        /// <inheritdoc />
         public int GetCompletedTasksCountForProject(Guid projectId)
         {
             return _tasks.Count(task => task.ProjectId == projectId && task.IsCompleted);
