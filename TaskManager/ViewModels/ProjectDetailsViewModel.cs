@@ -38,12 +38,7 @@ namespace TaskManager.ViewModels
         [RelayCommand]
         private void LoadTask(Guid taskId)
         {
-            Shell.Current.GoToAsync(
-                $"{nameof(TaskDetailsPage)}",
-                new Dictionary<string, object>
-                {
-                    { "TaskId", taskId }
-                });
+            Shell.Current.GoToAsync($"{nameof(TaskDetailsPage)}",new Dictionary<string, object>{{ "TaskId", taskId }});
         }
     }
 }
