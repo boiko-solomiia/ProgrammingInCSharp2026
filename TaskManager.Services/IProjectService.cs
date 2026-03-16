@@ -19,5 +19,20 @@ namespace TaskManager.Services
         /// <param name="projectId">ID of the project</param>
         /// <returns>Detailed project information including description and progress</returns>
         ProjectDetailsDTO GetProject(Guid projectId);
+
+        /// <summary>
+        /// Gets editable data for a specific project
+        /// </summary>
+        ProjectEditDTO GetProjectForEdit(Guid projectId);
+
+        /// <summary>
+        /// Creates a new project from the provided DTO
+        /// </summary>
+        Guid CreateProject(ProjectCreateDTO projectDto);
+
+        /// <summary>
+        /// Updates an existing project using the provided DTO
+        /// </summary>
+        void UpdateProject(ProjectEditDTO projectDto);
     }
 }

@@ -23,5 +23,20 @@ namespace TaskManager.Services
         /// <param name="taskId">The unique identifier of the task.</param>
         /// <returns>Detailed task information including description and overdue status, or null if not found.</returns>
         TaskDetailsDTO GetTask(Guid projectId, Guid taskId);
+
+        /// <summary>
+        /// Gets editable data for a specific task within a project
+        /// </summary>
+        TaskEditDTO GetTaskForEdit(Guid projectId, Guid taskId);
+
+        /// <summary>
+        /// Creates a new task from the provided DTO
+        /// </summary>
+        Guid CreateTask(TaskCreateDTO taskDto);
+
+        /// <summary>
+        /// Updates an existing task using the provided DTO
+        /// </summary>
+        void UpdateTask(TaskEditDTO taskDto);
     }
 }
