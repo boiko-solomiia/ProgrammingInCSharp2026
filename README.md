@@ -1,16 +1,18 @@
 # TaskManager
 
-A console application for managing projects and tasks. Developed in C# with .NET 10.0 following layered architecture principles
+A .NET MAUI application for managing projects and tasks. Developed in C# with .NET 10.0 following layered architecture principles, MVVM, DTO models, repositories, services, and dependency injection
 
 ## Project Structure
 
 ```
 TaskManager.Common/ # Shared enums (ProjectType, Priority)
 TaskManager.DBModels/ # Database entity classes
-TaskManager.Services/ # Storage access and fake data
-TaskManager.UIModels/ # UI models for create/display/edit operations
-TaskManagerConsoleApp/ # Console application
-TaskManager/ # MAUI graphical application
+TaskManager.DTOModels/ # DTO models for list, details, create, and edit scenarios
+TaskManager.Storage/ # In-memory storage context with sample data
+TaskManager.Repositories/ # Data access layer working with DB models
+TaskManager.Services/ # Business logic and mapping from DB models to DTOs
+TaskManager/ # MAUI graphical application (Pages, ViewModels, App, MauiProgram)
+
 ```
 
 ## Class Overview
@@ -22,29 +24,51 @@ TaskManager/ # MAUI graphical application
 
 Both classes contain only data fields and constructors. No computed properties or business logic
 
-### UI Models (TaskManager.UIModels)
+### DTO Models (TaskManager.DTOModels)
 
-For each entity, three separate classes handle different responsibilities
+DTO models are used to pass data from the service layer to the UI
 
-**Project Models:**
-- `ProjectCreateModel` collects user input for new project and converts to DB model via `ToDbModel()`
-- `ProjectDisplayModel` provides read-only view, loads tasks, calculates progress as percentage of completed tasks
-- `ProjectEditModel` provides editable view, loads tasks, allows modifications, saves via `SaveChangesToDBModel()`
+**Project DTOs:**
+- ProjectListDTO contains data needed to display a project in the list
+- ProjectDetailsDTO contains full project information for the details page
+- ProjectCreateDTO contains data needed to create a new project
+- ProjectEditDTO contains data needed to edit an existing project
+  
+**Task DTOs:**
+- TaskListDTO contains data needed to display a task in the list
+- TaskDetailsDTO contains full task information for the details page
+- TaskCreateDTO contains data needed to create a new task
+- TaskEditDTO contains data needed to edit an existing task
 
-**Task Models:**
-- `TaskCreateModel` collects user input for new task and converts to DB model
-- `TaskDisplayModel` provides read-only view and calculates `IsOverdue` based on deadline and completion status
-- `TaskEditModel` provides editable view and saves modifications via `SaveChangesToDBModel()`
+### Storage (TaskManager.Storage)
+
+**IStorageContext**
+- interface for working with in-memory data
+
+**InMemoryStorageContext**
+- stores fake data for projects and tasks
+The storage layer keeps sample data and returns DB models
+
+### Repositories (TaskManager.Repositories)
+Repositories work with the storage layer and return DB models
+
+**Project Repository:**
+- IProjectRepository - interface for project data access
+- ProjectRepository - implementation for working with project data
+  
+**Task Repository:**
+- ITaskRepository - interface for task data access
+- TaskRepository - implementation for working with task data
 
 ### Services (TaskManager.Services)
 
-**IStorageService** - interface for storage operations  
-**StorageService** - implements interface, provides data access  
-**Storage** - static class containing fake in-memory data
+**Project Service:**
+- IProjectService - interface for project operations
+- ProjectService - gets project data, calculates progress, and returns DTO models
 
-### Console Application (TaskManagerConsoleApp)
-
-**ConsoleApp** is the main entry point. It displays a menu, handles user input, and coordinates between services and UI models
+**Task Service:**
+- ITaskService - interface for task operations
+- TaskService - gets task data, calculates overdue status, and returns DTO models
 
 ### MAUI Application (TaskManager)
 
@@ -53,6 +77,11 @@ For each entity, three separate classes handle different responsibilities
 - `ProjectDetailsPage` - shows project details with tasks
 - `TaskDetailsPage` - shows detailed task information
 
+**ViewModels:**
+- ProjectsViewModel - loads projects and handles navigation to project details
+- ProjectDetailsViewModel - loads selected project and its tasks
+- TaskDetailsViewModel - loads selected task details 
+
 ## Sample Data
 
 The application includes pre-loaded data for testing:
@@ -60,14 +89,6 @@ The application includes pre-loaded data for testing:
 - 27 tasks distributed across projects
 
 ## Usage Instructions
-
-### Console Application
-Run the application and select from the menu:
-- `1` - Show all projects
-- `2` - Show tasks of a project
-- `0` - Exit
-
-When viewing projects, enter the number of a project to see its tasks. Press Enter to return to the main menu after each operation
 
 ### MAUI Application
 1. Run the application
