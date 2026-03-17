@@ -1,7 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Microsoft.Maui.Controls;
 using TaskManager.DTOModels.ProjectDTO;
 using TaskManager.DTOModels.TaskDTO;
 using TaskManager.Pages;
@@ -14,14 +13,27 @@ namespace TaskManager.ViewModels
         private readonly IProjectService _projectService;
         private readonly ITaskService _taskService;
 
-        [ObservableProperty]
-        private ProjectDetailsDTO currentProject;
+        private ProjectDetailsDTO? _currentProject;
+        private ObservableCollection<TaskListDTO> _tasks = new();
+        private TaskListDTO? _selectedTask;
 
-        [ObservableProperty]
-        private ObservableCollection<TaskListDTO> tasks;
+        public ProjectDetailsDTO? CurrentProject
+        {
+            get => _currentProject;
+            set => SetProperty(ref _currentProject, value);
+        }
 
-        [ObservableProperty]
-        private TaskListDTO? selectedTask;
+        public ObservableCollection<TaskListDTO> Tasks
+        {
+            get => _tasks;
+            set => SetProperty(ref _tasks, value);
+        }
+
+        public TaskListDTO? SelectedTask
+        {
+            get => _selectedTask;
+            set => SetProperty(ref _selectedTask, value);
+        }
 
         public ProjectDetailsViewModel(IProjectService projectService, ITaskService taskService)
         {
@@ -42,7 +54,7 @@ namespace TaskManager.ViewModels
             if (task == null || CurrentProject == null)
                 return;
 
-            await Shell.Current.GoToAsync(nameof(TaskDetailsPage),new Dictionary<string, object>{{ "ProjectId", CurrentProject.Id },{ "TaskId", task.Id }});
+            await Shell.Current.GoToAsync(nameof(TaskDetailsPage), new Dictionary<string, object>{{"ProjectId", CurrentProject.Id },{"TaskId", task.Id }});
         }
     }
 }
