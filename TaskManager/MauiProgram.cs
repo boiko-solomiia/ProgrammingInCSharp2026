@@ -40,7 +40,6 @@ namespace TaskManager
             builder.Services.AddSingleton<IProjectService, ProjectService>();
             builder.Services.AddSingleton<ITaskService, TaskService>();
             
-            builder.Services.AddSingleton<IStorageService, StorageService>();
             
             builder.Services.AddSingleton<ProjectsPage>();        
             builder.Services.AddTransient<ProjectDetailsPage>();  
