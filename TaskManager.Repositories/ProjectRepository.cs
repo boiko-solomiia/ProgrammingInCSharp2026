@@ -31,5 +31,17 @@ namespace TaskManager.Repositories
         {
             return _storageContext.GetProject(projectId);
         }
+
+        /// <inheritdoc />
+        public void AddProject(ProjectDBModel project)
+        {
+            _storageContext.AddProject(project);
+        }
+
+        /// <inheritdoc />
+        public void UpdateProject(ProjectDBModel project)
+        {
+            _storageContext.UpdateProject(project);
+        }
     }
 }

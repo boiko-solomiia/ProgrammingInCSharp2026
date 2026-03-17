@@ -20,5 +20,15 @@ namespace TaskManager.Repositories
         /// <param name="projectId">The unique identifier of the project</param>
         /// <returns>The project database model if found; otherwise, null</returns>
         ProjectDBModel GetProject(Guid projectId);
+
+        /// <summary>
+        /// Adds a new project to storage
+        /// </summary>
+        void AddProject(ProjectDBModel project);
+
+        /// <summary>
+        /// Updates an existing project in storage
+        /// </summary>
+        void UpdateProject(ProjectDBModel project);
     }
 }

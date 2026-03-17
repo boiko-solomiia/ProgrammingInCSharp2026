@@ -40,5 +40,9 @@ namespace TaskManager.Storage
         /// <param name="projectId">ID of the project</param>
         /// <returns>Number of completed tasks</returns>
         int GetCompletedTasksCountForProject(Guid projectId);
+        void AddProject(ProjectDBModel project);
+        void UpdateProject(ProjectDBModel project);
+        void AddTask(TaskDBModel task);
+        void UpdateTask(TaskDBModel task);
     }
 }

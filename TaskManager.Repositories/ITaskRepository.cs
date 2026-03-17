@@ -37,5 +37,8 @@ namespace TaskManager.Repositories
         /// <param name="projectId">The unique identifier of the project</param>
         /// <returns>The count of completed tasks in the project</returns>
         int GetCompletedTasksCountForProject(Guid projectId);
+
+        void AddTask(TaskDBModel task);
+        void UpdateTask(TaskDBModel task);
     }
 }

@@ -136,5 +136,57 @@ namespace TaskManager.Storage
         {
             return _tasks.Count(task => task.ProjectId == projectId && task.IsCompleted);
         }
+
+        /// <inheritdoc />
+        public void AddProject(ProjectDBModel project)
+        {
+            _projects.Add(new ProjectRecord(
+                project.Id,
+                project.Name,
+                project.Description,
+                project.ProjectType));
+        }
+
+        /// <inheritdoc />
+        public void UpdateProject(ProjectDBModel project)
+        {
+            var index = _projects.FindIndex(p => p.Id == project.Id);
+            if (index == -1)
+                return;
+
+            _projects[index] = new ProjectRecord(
+                project.Id,
+                project.Name,
+                project.Description,
+                project.ProjectType);
+        }
+
+        public void AddTask(TaskDBModel task)
+        {
+            _tasks.Add(new TaskRecord(
+                task.Id,
+                task.ProjectId,
+                task.Name,
+                task.Description,
+                task.Priority,
+                task.Deadline,
+                task.IsCompleted));
+        }
+
+        public void UpdateTask(TaskDBModel task)
+        {
+            var index = _tasks.FindIndex(t => t.Id == task.Id && t.ProjectId == task.ProjectId);
+            if (index == -1)
+                return;
+
+            _tasks[index] = new TaskRecord(
+                task.Id,
+                task.ProjectId,
+                task.Name,
+                task.Description,
+                task.Priority,
+                task.Deadline,
+                task.IsCompleted);
+        }
     }
 }
