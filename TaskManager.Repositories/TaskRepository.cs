@@ -47,11 +47,13 @@ namespace TaskManager.Repositories
             return _storageContext.GetCompletedTasksCountForProject(projectId);
         }
 
+        /// <inheritdoc />
         public void AddTask(TaskDBModel task)
         {
             _storageContext.AddTask(task);
         }
 
+        /// <inheritdoc />
         public void UpdateTask(TaskDBModel task)
         {
             _storageContext.UpdateTask(task);

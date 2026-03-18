@@ -5,6 +5,10 @@ using TaskManager.Services;
 
 namespace TaskManager.ViewModels
 {
+    /// <summary>
+    /// ViewModel for the Projects list page.
+    /// Displays all projects and handles navigation to project details
+    /// </summary>
     public class ProjectsViewModel
     {
         private readonly IProjectService _projectService;
@@ -21,6 +25,9 @@ namespace TaskManager.ViewModels
             ProjectSelectedCommand = new Command(LoadProject);
         }
 
+        /// <summary>
+        /// Navigates to the selected project's details page
+        /// </summary>
         private void LoadProject()
         {
             if (SelectedProject == null)

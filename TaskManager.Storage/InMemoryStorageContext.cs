@@ -160,7 +160,8 @@ namespace TaskManager.Storage
                 project.Description,
                 project.ProjectType);
         }
-
+        
+        /// <inheritdoc />
         public void AddTask(TaskDBModel task)
         {
             _tasks.Add(new TaskRecord(
@@ -172,7 +173,8 @@ namespace TaskManager.Storage
                 task.Deadline,
                 task.IsCompleted));
         }
-
+        
+        /// <inheritdoc />
         public void UpdateTask(TaskDBModel task)
         {
             var index = _tasks.FindIndex(t => t.Id == task.Id && t.ProjectId == task.ProjectId);

@@ -38,7 +38,16 @@ namespace TaskManager.Repositories
         /// <returns>The count of completed tasks in the project</returns>
         int GetCompletedTasksCountForProject(Guid projectId);
 
+        /// <summary>
+        /// Adds a new task to storage
+        /// </summary>
+        /// <param name="task">The task database model to add</param>
         void AddTask(TaskDBModel task);
+
+        /// <summary>
+        /// Updates an existing task in storage
+        /// </summary>
+        /// <param name="task">The task database model with updated values</param>
         void UpdateTask(TaskDBModel task);
     }
 }

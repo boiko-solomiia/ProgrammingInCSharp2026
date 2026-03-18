@@ -24,11 +24,13 @@ namespace TaskManager.Repositories
         /// <summary>
         /// Adds a new project to storage
         /// </summary>
+        /// <param name="project">The project database model to add</param> 
         void AddProject(ProjectDBModel project);
 
         /// <summary>
         /// Updates an existing project in storage
         /// </summary>
+        /// <param name="project">The project database model with updated values</param>
         void UpdateProject(ProjectDBModel project);
     }
 }

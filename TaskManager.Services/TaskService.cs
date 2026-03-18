@@ -46,13 +46,15 @@ namespace TaskManager.Services
         {
             var task = _taskRepository.GetTask(projectId, taskId);
             if (task == null) return null;
-            return new TaskEditDTO(task.Id, task.ProjectId,task.Name, task.Description, task.Priority, task.Deadline, task.IsCompleted);
+            return new TaskEditDTO(task.Id, task.ProjectId, task.Name, task.Description, task.Priority, task.Deadline,
+                task.IsCompleted);
         }
 
         /// <inheritdoc />
         public Guid CreateTask(TaskCreateDTO taskDto)
         {
-            var task = new TaskDBModel(taskDto.ProjectId, taskDto.Name, taskDto.Description, taskDto.Priority, taskDto.Deadline, taskDto.IsCompleted);
+            var task = new TaskDBModel(taskDto.ProjectId, taskDto.Name, taskDto.Description, taskDto.Priority,
+                taskDto.Deadline, taskDto.IsCompleted);
             _taskRepository.AddTask(task);
             return task.Id;
         }

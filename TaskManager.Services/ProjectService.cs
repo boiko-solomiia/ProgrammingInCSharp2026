@@ -12,7 +12,7 @@ namespace TaskManager.Services
     {
         private readonly IProjectRepository _projectRepository;
         private readonly ITaskRepository _taskRepository;
-        
+
         /// <summary>
         /// Initializes a new instance of the ProjectService
         /// </summary>
@@ -23,7 +23,7 @@ namespace TaskManager.Services
             _projectRepository = projectRepository;
             _taskRepository = taskRepository;
         }
-        
+
         /// <inheritdoc />
         public IEnumerable<ProjectListDTO> GetAllProjects()
         {
@@ -32,13 +32,14 @@ namespace TaskManager.Services
                 var taskCount = _taskRepository.GetTasksCountForProject(project.Id);
                 var completedTaskCount = _taskRepository.GetCompletedTasksCountForProject(project.Id);
                 var progress = taskCount == 0 ? 0 : (completedTaskCount * 100) / taskCount;
-                yield return new ProjectListDTO(project.Id, project.Name, project.Description, project.ProjectType, taskCount, progress);
+                yield return new ProjectListDTO(project.Id, project.Name, project.Description, project.ProjectType,
+                    taskCount, progress);
             }
         }
-        
+
         /// <inheritdoc />
         public ProjectDetailsDTO GetProject(Guid projectId)
-        { 
+        {
             var project = _projectRepository.GetProject(projectId);
             if (project == null) return null;
             var taskCount = _taskRepository.GetTasksCountForProject(project.Id);
@@ -52,13 +53,13 @@ namespace TaskManager.Services
         {
             var project = _projectRepository.GetProject(projectId);
             if (project == null) return null;
-
-            return new ProjectEditDTO(project.Id, project.Name, project.Description, project.ProjectType);}
+            return new ProjectEditDTO(project.Id, project.Name, project.Description, project.ProjectType);
+        }
 
         /// <inheritdoc />
         public Guid CreateProject(ProjectCreateDTO projectDto)
         {
-            var project = new ProjectDBModel(projectDto.Name,projectDto.Description, projectDto.ProjectType);
+            var project = new ProjectDBModel(projectDto.Name, projectDto.Description, projectDto.ProjectType);
             _projectRepository.AddProject(project);
             return project.Id;
         }

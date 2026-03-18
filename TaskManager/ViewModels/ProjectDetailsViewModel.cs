@@ -8,6 +8,11 @@ using TaskManager.Services;
 
 namespace TaskManager.ViewModels
 {
+    /// <summary>
+    /// ViewModel for the Project Details page.
+    /// Displays detailed information about a specific project and its associated tasks.
+    /// Handles navigation to task details when a task is selected
+    /// </summary>
     public partial class ProjectDetailsViewModel : ObservableObject, IQueryAttributable
     {
         private readonly IProjectService _projectService;
@@ -48,6 +53,9 @@ namespace TaskManager.ViewModels
             Tasks = new ObservableCollection<TaskListDTO>(_taskService.GetTasksForProject(projectId));
         }
 
+        /// <summary>
+        /// Navigates to task details when a task is selected
+        /// </summary>
         [RelayCommand]
         private async Task LoadTask(TaskListDTO? task)
         {
