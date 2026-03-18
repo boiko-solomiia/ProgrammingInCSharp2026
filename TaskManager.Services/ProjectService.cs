@@ -32,7 +32,7 @@ namespace TaskManager.Services
                 var taskCount = _taskRepository.GetTasksCountForProject(project.Id);
                 var completedTaskCount = _taskRepository.GetCompletedTasksCountForProject(project.Id);
                 var progress = taskCount == 0 ? 0 : (completedTaskCount * 100) / taskCount;
-                yield return new ProjectListDTO(project.Id, project.Name, project.Description, project.ProjectType,
+                yield return new ProjectListDTO(project.Id, project.Name, project.ProjectType,
                     taskCount, progress);
             }
         }

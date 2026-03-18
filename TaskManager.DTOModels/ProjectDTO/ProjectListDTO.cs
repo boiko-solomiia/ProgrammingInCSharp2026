@@ -19,11 +19,6 @@ namespace TaskManager.DTOModels.ProjectDTO
         public string Name { get;}
         
         /// <summary>
-        /// Project description
-        /// </summary>
-        public string Description { get; }
-        
-        /// <summary>
         /// Project type
         /// </summary>
         public ProjectType ProjectType { get;}
@@ -45,21 +40,27 @@ namespace TaskManager.DTOModels.ProjectDTO
         {
             get => $"Progress: {Progress}%";
         }
+        
+        /// <summary>
+        /// Formatted task count text for display (e.g., "11 tasks")
+        /// </summary>
+        public string TaskCountDescription
+        {
+            get => TaskCount == 1 ? "1 task" : $"{TaskCount} tasks";
+        }
 
         /// <summary>
         /// Creates a new immutable DTO with project data optimized for list display
         /// </summary>
         /// <param name="id">The unique project identifier</param>
         /// <param name="name">The project name</param>
-        /// <param name="description">The project description</param>
         /// <param name="projectType">The project type</param>
         /// <param name="taskCount">Total number of tasks</param>
         /// <param name="progress">Completion progress percentage</param>
-        public ProjectListDTO(Guid id, string name, string description, ProjectType projectType, int taskCount, int progress)
+        public ProjectListDTO(Guid id, string name, ProjectType projectType, int taskCount, int progress)
         {
             Id = id;
             Name = name;
-            Description = description;
             ProjectType = projectType;
             TaskCount = taskCount;
             Progress = progress;

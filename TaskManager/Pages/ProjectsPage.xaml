@@ -29,6 +29,12 @@
                             Style="{StaticResource Headline}"
                             Text="{Binding Name}" />
 
+                        <Label
+                            TextColor="{StaticResource TextLighterPink}"
+                            Text="{Binding TaskCountDescription}"
+                            Style="{StaticResource Headline18}"
+                            HorizontalOptions="Center" />
+                        
                         <Grid ColumnDefinitions="*, *">
                             <Label Grid.Column="0"
                                    Style="{StaticResource SubHeadline}"
@@ -40,11 +46,6 @@
                                    Text="{Binding ProgressDescription}"
                                    HorizontalOptions="End" />
                         </Grid>
-
-                        <Label
-                            TextColor="{StaticResource TextLighterPink}"
-                            Text="{Binding Description}"
-                            HorizontalOptions="Start" />
                     </VerticalStackLayout>
                 </Border>
             </DataTemplate>
