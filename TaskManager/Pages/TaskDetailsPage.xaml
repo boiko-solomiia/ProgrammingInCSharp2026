@@ -10,7 +10,7 @@
         <VerticalStackLayout Padding="20" Spacing="20">
 
             <Grid ColumnDefinitions="Auto,*"
-                  RowDefinitions="Auto,Auto,Auto,Auto,Auto"
+                  RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto"
                   ColumnSpacing="15"
                   RowSpacing="15">
 
@@ -64,6 +64,16 @@
                 <Label Text="{Binding CurrentTask.IsCompleted}"
                        Style="{StaticResource Headline18}"
                        Grid.Row="4"
+                       Grid.Column="1" />
+
+                <Label Text="Is Overdue:"
+                       Style="{StaticResource Headline18}"
+                       FontAttributes="Bold"
+                       Grid.Row="5"
+                       Grid.Column="0" />
+                <Label Text="{Binding CurrentTask.IsOverdue}"
+                       Style="{StaticResource Headline18}"
+                       Grid.Row="5"
                        Grid.Column="1" />
 
             </Grid>
