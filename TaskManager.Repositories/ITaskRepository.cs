@@ -49,5 +49,7 @@ namespace TaskManager.Repositories
         /// </summary>
         /// <param name="task">The task database model with updated values</param>
         void UpdateTask(TaskDBModel task);
+
+        void DeleteTask(Guid taskId);
     }
 }

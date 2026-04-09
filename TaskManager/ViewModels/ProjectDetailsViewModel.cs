@@ -97,5 +97,42 @@ namespace TaskManager.ViewModels
                 IsBusy = false;
             }
         }
+
+        [RelayCommand]
+        private async Task EditTask(TaskListDTO? task)
+        {
+            if (task == null)
+                return;
+
+            await Shell.Current.DisplayAlertAsync("Edit task", $"Editing for task \"{task.Name}\" will be added next.", "OK");
+        }
+
+
+        [RelayCommand]
+        private async Task DeleteTask(TaskListDTO? task)
+        {
+            if (task == null || CurrentProject == null)
+                return;
+
+            bool confirm = await Shell.Current.DisplayAlert("Delete task", $"Are you sure you want to delete task \"{task.Name}\"?", "Yes", "No");
+
+            if (!confirm)
+                return;
+
+            IsBusy = true;
+            try
+            {
+                _taskService.DeleteTask(CurrentProject.Id, task.Id);
+                await RefreshData();
+            }
+            catch (Exception ex)
+            {
+                await Shell.Current.DisplayAlertAsync("Error", $"Failed to delete task: {ex.Message}", "OK");
+            }
+            finally
+            {
+                IsBusy = false;
+            }
+        }
     }
 }

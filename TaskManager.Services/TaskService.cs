@@ -71,5 +71,15 @@ namespace TaskManager.Services
             task.IsCompleted = taskDto.IsCompleted;
             _taskRepository.UpdateTask(task);
         }
+
+        public void DeleteTask(Guid projectId, Guid taskId)
+        {
+            var task = _taskRepository.GetTask(projectId, taskId);
+
+            if (task == null)
+                throw new Exception("Task not found");
+
+            _taskRepository.DeleteTask(taskId);
+        }
     }
 }

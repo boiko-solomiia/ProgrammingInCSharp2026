@@ -190,5 +190,15 @@ namespace TaskManager.Storage
                 task.Deadline,
                 task.IsCompleted);
         }
+
+        public void DeleteTask(Guid taskId)
+        {
+            var task = _tasks.FirstOrDefault(t => t.Id == taskId);
+
+            if (task != null)
+            {
+                _tasks.Remove(task);
+            }
+        }
     }
 }

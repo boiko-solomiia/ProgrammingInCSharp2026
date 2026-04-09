@@ -44,5 +44,7 @@ namespace TaskManager.Services
         /// </summary>
         /// <param name="taskDto">The task data transfer object containing updated values</param>
         void UpdateTask(TaskEditDTO taskDto);
+
+        void DeleteTask(Guid projectId, Guid taskId);
     }
 }

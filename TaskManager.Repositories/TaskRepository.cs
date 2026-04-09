@@ -58,5 +58,10 @@ namespace TaskManager.Repositories
         {
             _storageContext.UpdateTask(task);
         }
+
+        public void DeleteTask(Guid taskId)
+        {
+            _storageContext.DeleteTask(taskId);
+        }
     }
 }
