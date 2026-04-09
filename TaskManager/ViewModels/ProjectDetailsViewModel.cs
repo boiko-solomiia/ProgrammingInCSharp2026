@@ -13,32 +13,34 @@ namespace TaskManager.ViewModels
     /// Displays detailed information about a specific project and its associated tasks.
     /// Handles navigation to task details when a task is selected
     /// </summary>
-    public partial class ProjectDetailsViewModel : ObservableObject, IQueryAttributable
+    public partial class ProjectDetailsViewModel : BaseViewModel, IQueryAttributable
     {
         private readonly IProjectService _projectService;
         private readonly ITaskService _taskService;
 
-        private ProjectDetailsDTO? _currentProject;
-        private ObservableCollection<TaskListDTO> _tasks = new();
-        private TaskListDTO? _selectedTask;
+        private Guid _projectId;
 
+        private ProjectDetailsDTO? _currentProject;
         public ProjectDetailsDTO? CurrentProject
         {
             get => _currentProject;
             set => SetProperty(ref _currentProject, value);
         }
-
+       
+        private ObservableCollection<TaskListDTO> _tasks = new();
         public ObservableCollection<TaskListDTO> Tasks
         {
             get => _tasks;
             set => SetProperty(ref _tasks, value);
         }
-
+     
+        private TaskListDTO? _selectedTask;
         public TaskListDTO? SelectedTask
         {
             get => _selectedTask;
             set => SetProperty(ref _selectedTask, value);
         }
+
 
         public ProjectDetailsViewModel(IProjectService projectService, ITaskService taskService)
         {
@@ -48,9 +50,29 @@ namespace TaskManager.ViewModels
 
         public void ApplyQueryAttributes(IDictionary<string, object> query)
         {
-            var projectId = (Guid)query["ProjectId"];
-            CurrentProject = _projectService.GetProject(projectId);
-            Tasks = new ObservableCollection<TaskListDTO>(_taskService.GetTasksForProject(projectId));
+            if (query.TryGetValue("ProjectId", out var value) && value is Guid id)
+            {
+                _projectId = id;
+                _ = RefreshData();
+            }
+        }
+
+        internal async Task RefreshData()
+        {
+            IsBusy = true;
+            try
+            {
+                CurrentProject = _projectService.GetProject(_projectId);
+                Tasks = new ObservableCollection<TaskListDTO>(_taskService.GetTasksForProject(_projectId));
+            }
+            catch (Exception ex)
+            {
+                await Shell.Current.DisplayAlertAsync("Error", $"Failed to load project details: {ex.Message}", "OK");
+            }
+            finally
+            {
+                IsBusy = false;
+            }
         }
 
         /// <summary>
@@ -61,8 +83,19 @@ namespace TaskManager.ViewModels
         {
             if (task == null || CurrentProject == null)
                 return;
-
-            await Shell.Current.GoToAsync(nameof(TaskDetailsPage), new Dictionary<string, object>{{"ProjectId", CurrentProject.Id },{"TaskId", task.Id }});
+            IsBusy = true;
+            try
+            {
+                await Shell.Current.GoToAsync(nameof(TaskDetailsPage), new Dictionary<string, object> { { "ProjectId", CurrentProject.Id }, { "TaskId", task.Id }});
+            }
+            catch (Exception ex)
+            {
+                await Shell.Current.DisplayAlertAsync("Error", $"Failed to navigate to task details: {ex.Message}", "OK");
+            }
+            finally
+            {
+                IsBusy = false;
+            }
         }
     }
 }

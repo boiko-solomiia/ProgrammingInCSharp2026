@@ -2,6 +2,8 @@
 using TaskManager.DTOModels.ProjectDTO;
 using TaskManager.Pages;
 using TaskManager.Services;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 
 namespace TaskManager.ViewModels
 {
@@ -9,31 +11,68 @@ namespace TaskManager.ViewModels
     /// ViewModel for the Projects list page.
     /// Displays all projects and handles navigation to project details
     /// </summary>
-    public class ProjectsViewModel
+    public partial class ProjectsViewModel : BaseViewModel
     {
         private readonly IProjectService _projectService;
 
-        public ObservableCollection<ProjectListDTO> Projects { get; set; }
-        public ProjectListDTO? SelectedProject { get; set; }
-        public Command ProjectSelectedCommand { get; }
+        private ObservableCollection<ProjectListDTO> _projects = new();
+        public ObservableCollection<ProjectListDTO> Projects
+        {
+            get => _projects;
+            set => SetProperty(ref _projects, value);
+        }
+
+        private ProjectListDTO? _selectedProject;
+        public ProjectListDTO? SelectedProject
+        {
+            get => _selectedProject;
+            set => SetProperty(ref _selectedProject, value);
+        }
 
         public ProjectsViewModel(IProjectService projectService)
         {
             _projectService = projectService;
+        }
 
-            Projects = new ObservableCollection<ProjectListDTO>(_projectService.GetAllProjects());
-            ProjectSelectedCommand = new Command(LoadProject);
+        internal async Task RefreshData()
+        {
+            IsBusy = true;
+            try
+            {
+                Projects = new ObservableCollection<ProjectListDTO>(_projectService.GetAllProjects());
+            }
+            catch (Exception ex)
+            {
+                await Shell.Current.DisplayAlertAsync("Error", $"Failed to load projects: {ex.Message}", "OK");
+            }
+            finally
+            {
+                IsBusy = false;
+            }
         }
 
         /// <summary>
         /// Navigates to the selected project's details page
         /// </summary>
-        private void LoadProject()
-        {
-            if (SelectedProject == null)
-                return;
 
-            Shell.Current.GoToAsync($"{nameof(ProjectDetailsPage)}", new Dictionary<string, object>{ { "ProjectId", SelectedProject.Id }});
+        [RelayCommand]
+        private async Task LoadProject()
+        {
+            IsBusy = true;
+            try
+            {
+                if(SelectedProject == null)
+                    return;
+                await Shell.Current.GoToAsync(nameof(ProjectDetailsPage), new Dictionary<string, object> { { "ProjectId", SelectedProject.Id } });
+            }
+            catch (Exception ex)
+            {
+                await Shell.Current.DisplayAlertAsync("Error", $"Failed to navigate to project details: {ex.Message}", "OK");
+            }
+            finally
+            {
+                IsBusy = false;
+            }
         }
     }
 }

@@ -1,3 +1,4 @@
+using AndroidX.Lifecycle;
 using TaskManager.ViewModels;
 
 namespace TaskManager.Pages;
@@ -15,5 +16,15 @@ public partial class ProjectsPage : ContentPage
     {
         InitializeComponent();
         BindingContext = vm;
+    }
+
+    protected override async void OnAppearing()
+    {
+        base.OnAppearing();
+
+        if (BindingContext is ProjectsViewModel vm)
+        {
+            await vm.RefreshData();
+        }
     }
 }

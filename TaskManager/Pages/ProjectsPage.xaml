@@ -13,7 +13,7 @@
         SelectionMode="Single"
         Margin="10"
         SelectedItem="{Binding SelectedProject}"
-        SelectionChangedCommand="{Binding ProjectSelectedCommand}">
+        SelectionChangedCommand="{Binding LoadProjectCommand}">
 
         <CollectionView.ItemTemplate>
             <DataTemplate x:DataType="models:ProjectListDTO">

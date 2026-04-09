@@ -8,11 +8,14 @@ namespace TaskManager.ViewModels
     /// ViewModel for the Task Details page.
     /// Displays detailed information about a specific task including computed fields like overdue status
     /// </summary>
-    public partial class TaskDetailsViewModel : ObservableObject, IQueryAttributable
+    public partial class TaskDetailsViewModel : BaseViewModel, IQueryAttributable
     {
         private readonly ITaskService _taskService;
+
+        private Guid _projectId;
+        private Guid _taskId;
+
         private TaskDetailsDTO? _currentTask;
-        
         public TaskDetailsDTO? CurrentTask
         {
             get => _currentTask;
@@ -26,9 +29,30 @@ namespace TaskManager.ViewModels
 
         public void ApplyQueryAttributes(IDictionary<string, object> query)
         {
-            var projectId = (Guid)query["ProjectId"];
-            var taskId = (Guid)query["TaskId"];
-            CurrentTask = _taskService.GetTask(projectId, taskId);
+            if (query.TryGetValue("ProjectId", out var pValue) && pValue is Guid pId)
+                _projectId = pId;
+
+            if (query.TryGetValue("TaskId", out var tValue) && tValue is Guid tId)
+                _taskId = tId;
+
+            _ = RefreshData();
+        }
+
+        internal async Task RefreshData()
+        {
+            IsBusy = true;
+            try
+            {
+                CurrentTask = _taskService.GetTask(_projectId, _taskId);
+            }
+            catch (Exception ex)
+            {
+                await Shell.Current.DisplayAlertAsync("Error", $"Failed to load task details: {ex.Message}", "OK");
+            }
+            finally
+            {
+                IsBusy = false;
+            }
         }
     }
 }
