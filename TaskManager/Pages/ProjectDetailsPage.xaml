@@ -7,6 +7,7 @@
              xmlns:vm="clr-namespace:TaskManager.ViewModels"
              x:Class="TaskManager.Pages.ProjectDetailsPage"
              x:DataType="vm:ProjectDetailsViewModel"
+             x:Name="ProjectDetailsPageRoot"
              Title="Project Details">
     <Grid RowDefinitions="Auto, Auto, *"
           RowSpacing="3">
@@ -58,7 +59,21 @@
             <CollectionView.ItemTemplate>
                 <DataTemplate
                     x:DataType="taskModels:TaskListDTO">
-                    <Border
+                    <SwipeView>
+                        <SwipeView.RightItems>
+                            <SwipeItems Mode="Reveal">
+                                <SwipeItem Text="Delete"
+                               BackgroundColor="#F6C1CC"
+                               Command="{Binding Source={x:Reference ProjectDetailsPageRoot}, Path=BindingContext.DeleteTaskCommand}"
+                               CommandParameter="{Binding .}" />
+                                <SwipeItem Text="Edit"
+                               BackgroundColor="#C7DDF7"
+                               Command="{Binding Source={x:Reference ProjectDetailsPageRoot}, Path=BindingContext.EditTaskCommand}"
+                               CommandParameter="{Binding .}" />
+                            </SwipeItems>
+                        </SwipeView.RightItems>
+                        
+                        <Border
                         Stroke="{StaticResource Secondary}"
                         StrokeThickness="1"
                         Padding="12"
@@ -78,6 +93,7 @@
                             <Label Text="{Binding Deadline, StringFormat='Due: {0:dd MMM yyyy}'}" />
                         </VerticalStackLayout>
                     </Border>
+                    </SwipeView>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
