@@ -26,14 +26,14 @@ namespace TaskManager.ViewModels
             get => _currentProject;
             set => SetProperty(ref _currentProject, value);
         }
-       
+
         private ObservableCollection<TaskListDTO> _tasks = new();
         public ObservableCollection<TaskListDTO> Tasks
         {
             get => _tasks;
             set => SetProperty(ref _tasks, value);
         }
-     
+
         private TaskListDTO? _selectedTask;
         public TaskListDTO? SelectedTask
         {
@@ -86,7 +86,7 @@ namespace TaskManager.ViewModels
             IsBusy = true;
             try
             {
-                await Shell.Current.GoToAsync(nameof(TaskDetailsPage), new Dictionary<string, object> { { "ProjectId", CurrentProject.Id }, { "TaskId", task.Id }});
+                await Shell.Current.GoToAsync(nameof(TaskDetailsPage), new Dictionary<string, object> { { "ProjectId", CurrentProject.Id }, { "TaskId", task.Id } });
             }
             catch (Exception ex)
             {
@@ -104,7 +104,7 @@ namespace TaskManager.ViewModels
             if (task == null || CurrentProject == null)
                 return;
 
-            await Shell.Current.GoToAsync(nameof(EditTaskPage), new Dictionary<string, object> { { "ProjectId", CurrentProject.Id }, { "TaskId", task.Id }});
+            await Shell.Current.GoToAsync(nameof(EditTaskPage), new Dictionary<string, object> { { "ProjectId", CurrentProject.Id }, { "TaskId", task.Id } });
         }
 
 
@@ -128,6 +128,27 @@ namespace TaskManager.ViewModels
             catch (Exception ex)
             {
                 await Shell.Current.DisplayAlertAsync("Error", $"Failed to delete task: {ex.Message}", "OK");
+            }
+            finally
+            {
+                IsBusy = false;
+            }
+        }
+
+        [RelayCommand]
+        private async Task AddTask()
+        {
+            if (CurrentProject == null)
+                return;
+
+            IsBusy = true;
+            try
+            {
+                await Shell.Current.GoToAsync(nameof(CreateTaskPage), new Dictionary<string, object> { { "ProjectId", CurrentProject.Id } });
+            }
+            catch (Exception ex)
+            {
+                await Shell.Current.DisplayAlertAsync("Error", $"Failed to navigate to create task page: {ex.Message}", "OK");
             }
             finally
             {

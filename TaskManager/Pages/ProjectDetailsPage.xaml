@@ -9,7 +9,7 @@
              x:DataType="vm:ProjectDetailsViewModel"
              x:Name="ProjectDetailsPageRoot"
              Title="Project Details">
-    <Grid RowDefinitions="Auto, Auto, *"
+    <Grid RowDefinitions="Auto, Auto, *, Auto"
           RowSpacing="3">
         <!-- Project information -->
         <Border
@@ -97,5 +97,10 @@
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
+        <Button Grid.Row="3"
+                Text="Add task"
+                Command="{Binding AddTaskCommand}"
+                Margin="10"
+                HorizontalOptions="Center" />
     </Grid>
 </ContentPage>

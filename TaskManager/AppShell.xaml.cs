@@ -16,6 +16,7 @@ namespace TaskManager
             Routing.RegisterRoute($"{nameof(ProjectsPage)}/{nameof(ProjectDetailsPage)}", typeof(ProjectDetailsPage));
             Routing.RegisterRoute($"{nameof(ProjectsPage)}/{nameof(ProjectDetailsPage)}/{nameof(TaskDetailsPage)}", typeof(TaskDetailsPage));
             Routing.RegisterRoute($"{nameof(ProjectsPage)}/{nameof(ProjectDetailsPage)}/{nameof(EditTaskPage)}", typeof(EditTaskPage));
+            Routing.RegisterRoute($"{nameof(ProjectsPage)}/{nameof(ProjectDetailsPage)}/{nameof(CreateTaskPage)}", typeof(CreateTaskPage));
         }
     }
 }
