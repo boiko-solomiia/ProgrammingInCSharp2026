@@ -58,6 +58,9 @@ namespace TaskManager
             builder.Services.AddTransient<CreateProjectPage>();
             builder.Services.AddTransient<CreateProjectViewModel>();
 
+            builder.Services.AddTransient<EditProjectPage>();
+            builder.Services.AddTransient<EditProjectViewModel>();
+
             return builder.Build();
         }
     }

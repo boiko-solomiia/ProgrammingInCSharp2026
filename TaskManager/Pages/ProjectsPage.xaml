@@ -6,19 +6,34 @@
              xmlns:vm="clr-namespace:TaskManager.ViewModels"
              x:Class="TaskManager.Pages.ProjectsPage"
              x:DataType="vm:ProjectsViewModel"
+             x:Name="ProjectsPageRoot"
              Title="Projects">
 
 <Grid RowDefinitions="*, Auto">
-        <CollectionView Grid.Row="0"
+        <CollectionView x:Name="ProjectsCollection"
+        Grid.Row="0"
         ItemsSource="{Binding Projects}"
         SelectionMode="Single"
         Margin="10"
         SelectedItem="{Binding SelectedProject}"
         SelectionChangedCommand="{Binding LoadProjectCommand}">
 
-        <CollectionView.ItemTemplate>
+            <CollectionView.ItemTemplate>
             <DataTemplate x:DataType="models:ProjectListDTO">
-                <Border
+                    <SwipeView>
+                        <SwipeView.RightItems>
+                            <SwipeItems Mode="Reveal">
+                                <SwipeItem Text="Delete"
+                                           BackgroundColor="#F6C1CC"
+                                           Command="{Binding Source={x:Reference ProjectsPageRoot}, Path=BindingContext.DeleteProjectCommand}"
+                                           CommandParameter="{Binding .}" />
+                                <SwipeItem Text="Edit"
+                                           BackgroundColor="#C7DDF7"
+                                           Command="{Binding Source={x:Reference ProjectsPageRoot}, Path=BindingContext.EditProjectCommand}"
+                                           CommandParameter="{Binding .}" />
+                            </SwipeItems>
+                        </SwipeView.RightItems>
+                        <Border
                     Stroke="{StaticResource BorderMedium}"
                     StrokeThickness="1"
                     Padding="15"
@@ -49,6 +64,7 @@
                         </Grid>
                     </VerticalStackLayout>
                 </Border>
+              </SwipeView>
             </DataTemplate>
         </CollectionView.ItemTemplate>
     </CollectionView>

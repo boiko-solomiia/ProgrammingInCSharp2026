@@ -32,5 +32,11 @@ namespace TaskManager.Repositories
         /// </summary>
         /// <param name="project">The project database model with updated values</param>
         void UpdateProject(ProjectDBModel project);
+
+        /// <summary>
+        /// Deletes a project from storage
+        /// </summary>
+        /// <param name="projectId">The unique identifier of the project to delete</param>
+        void DeleteProject(Guid projectId);
     }
 }

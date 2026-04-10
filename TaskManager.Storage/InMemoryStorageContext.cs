@@ -191,6 +191,7 @@ namespace TaskManager.Storage
                 task.IsCompleted);
         }
 
+        /// <inheritdoc />
         public void DeleteTask(Guid taskId)
         {
             var task = _tasks.FirstOrDefault(t => t.Id == taskId);
@@ -199,6 +200,19 @@ namespace TaskManager.Storage
             {
                 _tasks.Remove(task);
             }
+        }
+
+        /// <inheritdoc />
+        public void DeleteProject(Guid projectId)
+        {
+            var project = _projects.FirstOrDefault(p => p.Id == projectId);
+
+            if (project != null)
+            {
+                _projects.Remove(project);
+            }
+
+            _tasks.RemoveAll(t => t.ProjectId == projectId);
         }
     }
 }

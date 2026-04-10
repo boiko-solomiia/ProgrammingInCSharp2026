@@ -43,5 +43,11 @@ namespace TaskManager.Repositories
         {
             _storageContext.UpdateProject(project);
         }
+
+        /// <inheritdoc />
+        public void DeleteProject(Guid projectId)
+        {
+            _storageContext.DeleteProject(projectId);
+        }
     }
 }

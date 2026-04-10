@@ -114,7 +114,7 @@ namespace TaskManager.ViewModels
             if (task == null || CurrentProject == null)
                 return;
 
-            bool confirm = await Shell.Current.DisplayAlert("Delete task", $"Are you sure you want to delete task \"{task.Name}\"?", "Yes", "No");
+            bool confirm = await Shell.Current.DisplayAlertAsync("Delete task", $"Are you sure you want to delete task \"{task.Name}\"?", "Yes", "No");
 
             if (!confirm)
                 return;

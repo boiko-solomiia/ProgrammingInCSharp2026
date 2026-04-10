@@ -39,5 +39,11 @@ namespace TaskManager.Services
         /// </summary>
         /// <param name="projectDto">The project data transfer object containing updated values</param>
         void UpdateProject(ProjectEditDTO projectDto);
+
+        /// <summary>
+        /// Deletes a project and all tasks that belong to it
+        /// </summary>
+        /// <param name="projectId">The unique identifier of the project to delete</param>
+        void DeleteProject(Guid projectId);
     }
 }

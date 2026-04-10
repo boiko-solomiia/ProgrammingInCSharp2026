@@ -66,5 +66,7 @@ namespace TaskManager.Storage
         void UpdateTask(TaskDBModel task);
 
         void DeleteTask(Guid taskId);
+
+        void DeleteProject(Guid projectId);
     }
 }

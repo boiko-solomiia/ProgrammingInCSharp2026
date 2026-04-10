@@ -92,5 +92,53 @@ namespace TaskManager.ViewModels
                 IsBusy = false;
             }
         }
+
+        [RelayCommand]
+        private async Task EditProject(ProjectListDTO? project)
+        {
+            if (project == null)
+                return;
+
+            IsBusy = true;
+            try
+            {
+                await Shell.Current.GoToAsync(nameof(EditProjectPage), new Dictionary<string, object> { { "ProjectId", project.Id } });
+            }
+            catch (Exception ex)
+            {
+                await Shell.Current.DisplayAlertAsync("Error", $"Failed to navigate to edit project page: {ex.Message}", "OK");
+            }
+            finally
+            {
+                IsBusy = false;
+            }
+        }
+
+        [RelayCommand]
+        private async Task DeleteProject(ProjectListDTO? project)
+        {
+            if (project == null)
+                return;
+
+            bool confirm = await Shell.Current.DisplayAlertAsync("Delete project", $"Are you sure you want to delete project \"{project.Name}\"?", "Yes", "No");
+
+            if (!confirm)
+                return;
+
+            IsBusy = true;
+            try
+            {
+                _projectService.DeleteProject(project.Id);
+                await RefreshData();
+            }
+            catch (Exception ex)
+            {
+                await Shell.Current.DisplayAlertAsync("Error", $"Failed to delete project: {ex.Message}", "OK");
+            }
+            finally
+            {
+                IsBusy = false;
+            }
+        }
     }
 }

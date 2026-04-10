@@ -74,5 +74,21 @@ namespace TaskManager.Services
             project.ProjectType = projectDto.ProjectType;
             _projectRepository.UpdateProject(project);
         }
+
+        /// <inheritdoc />
+        public void DeleteProject(Guid projectId)
+        {
+            var project = _projectRepository.GetProject(projectId);
+            if (project == null)
+                return;
+
+            var tasks = _taskRepository.GetTasksForProject(projectId).ToList();
+            foreach (var task in tasks)
+            {
+                _taskRepository.DeleteTask(task.Id);
+            }
+
+            _projectRepository.DeleteProject(projectId);
+        }
     }
 }
