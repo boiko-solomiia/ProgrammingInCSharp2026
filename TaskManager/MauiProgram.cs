@@ -55,6 +55,9 @@ namespace TaskManager
             builder.Services.AddTransient<CreateTaskPage>();
             builder.Services.AddTransient<CreateTaskViewModel>();
 
+            builder.Services.AddTransient<CreateProjectPage>();
+            builder.Services.AddTransient<CreateProjectViewModel>();
+
             return builder.Build();
         }
     }

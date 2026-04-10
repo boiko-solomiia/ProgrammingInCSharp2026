@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:TaskManager.ViewModels"
+             x:Class="TaskManager.Pages.CreateProjectPage"
+             x:DataType="vm:CreateProjectViewModel"
+             Title="Create Project"
+             IsEnabled="{Binding IsNotBusy}">
+
+    <Grid>
+        <ScrollView>
+            <VerticalStackLayout Padding="20" Spacing="14">
+
+                <Label Text="Name"
+                       Style="{StaticResource SubHeadline}" />
+                <Entry Text="{Binding Name}" />
+
+                <Label Text="Description"
+                       Style="{StaticResource SubHeadline}" />
+                <Editor Text="{Binding Description}"
+                        AutoSize="TextChanges" />
+
+                <Label Text="Project type"
+                       Style="{StaticResource SubHeadline}" />
+                <Picker Title="Select project type"
+                        ItemsSource="{Binding ProjectTypes}"
+                        SelectedItem="{Binding ProjectType}" />
+
+                <Button Text="Create"
+                        Command="{Binding CreateCommand}"
+                        HorizontalOptions="Center"
+                        WidthRequest="160"
+                        Margin="0,10,0,0" />
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <BoxView IsVisible="{Binding IsBusy}"
+                 BackgroundColor="Gray"
+                 Opacity="0.2"
+                 InputTransparent="False" />
+
+        <ActivityIndicator IsVisible="{Binding IsBusy}"
+                           IsRunning="{Binding IsBusy}"
+                           VerticalOptions="Center"
+                           HorizontalOptions="Center" />
+    </Grid>
+</ContentPage>

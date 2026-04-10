@@ -74,5 +74,23 @@ namespace TaskManager.ViewModels
                 IsBusy = false;
             }
         }
+
+        [RelayCommand]
+        private async Task AddProject()
+        {
+            IsBusy = true;
+            try
+            {
+                await Shell.Current.GoToAsync(nameof(CreateProjectPage));
+            }
+            catch (Exception ex)
+            {
+                await Shell.Current.DisplayAlertAsync("Error", $"Failed to navigate to create project page: {ex.Message}", "OK");
+            }
+            finally
+            {
+                IsBusy = false;
+            }
+        }
     }
 }
