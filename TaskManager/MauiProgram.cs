@@ -49,6 +49,9 @@ namespace TaskManager
             builder.Services.AddTransient<ProjectDetailsViewModel>();
             builder.Services.AddTransient<TaskDetailsViewModel>();
 
+            builder.Services.AddTransient<EditTaskPage>();
+            builder.Services.AddTransient<EditTaskViewModel>();
+
             return builder.Build();
         }
     }

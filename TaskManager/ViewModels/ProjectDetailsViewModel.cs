@@ -101,10 +101,10 @@ namespace TaskManager.ViewModels
         [RelayCommand]
         private async Task EditTask(TaskListDTO? task)
         {
-            if (task == null)
+            if (task == null || CurrentProject == null)
                 return;
 
-            await Shell.Current.DisplayAlertAsync("Edit task", $"Editing for task \"{task.Name}\" will be added next.", "OK");
+            await Shell.Current.GoToAsync(nameof(EditTaskPage), new Dictionary<string, object> { { "ProjectId", CurrentProject.Id }, { "TaskId", task.Id }});
         }
 
 
