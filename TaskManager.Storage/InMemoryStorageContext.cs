@@ -102,8 +102,9 @@ namespace TaskManager.Storage
         }
         
         /// <inheritdoc />
-        public IEnumerable<ProjectDBModel> GetAllProjects()
+        public async IAsyncEnumerable<ProjectDBModel> GetAllProjectsAsync()
         {
+            await Task.Delay(1000);
             foreach (var project in _projects)
             {
                 yield return new ProjectDBModel(project.Id, project.Name, project.Description, project.ProjectType);
@@ -111,108 +112,158 @@ namespace TaskManager.Storage
         }
 
         /// <inheritdoc />
-        public IEnumerable<TaskDBModel> GetTasksForProject(Guid projectId)
+        public Task<IEnumerable<TaskDBModel>> GetTasksForProjectAsync(Guid projectId)
         {
-            return _tasks
-                .Where(task => task.ProjectId == projectId)
-                .Select(task => new TaskDBModel(task.Id, task.ProjectId, task.Name, task.Description, task.Priority, task.Deadline, task.IsCompleted));
+            return Task.Run(() =>
+            {
+                Thread.Sleep(1000);
+                return _tasks
+                    .Where(task => task.ProjectId == projectId)
+                    .Select(task => new TaskDBModel(task.Id, task.ProjectId, task.Name, task.Description, task.Priority, task.Deadline, task.IsCompleted))
+                    .ToList()
+                    .AsEnumerable();
+            });
         }
 
         /// <inheritdoc />
-        public ProjectDBModel GetProject(Guid projectId)
+        public Task<ProjectDBModel?> GetProjectAsync(Guid projectId)
         {
-            var project = _projects.FirstOrDefault(project => project.Id == projectId);
-            return project == null ? null : new ProjectDBModel(project.Id, project.Name, project.Description, project.ProjectType);
+            return Task.Run(() =>
+            {
+                Thread.Sleep(1000);
+                var project = _projects.FirstOrDefault(project => project.Id == projectId);
+                return project == null ? null : new ProjectDBModel(project.Id, project.Name, project.Description, project.ProjectType);
+            });
         }
 
         /// <inheritdoc />
-        public int GetTasksCountForProject(Guid projectId)
+        public Task<TaskDBModel?> GetTaskAsync(Guid taskId)
         {
-            return _tasks.Count(task => task.ProjectId == projectId);
+            return Task.Run(() =>
+            {
+                Thread.Sleep(1000);
+                var task = _tasks.FirstOrDefault(task => task.Id == taskId);
+                return task == null ? null : new TaskDBModel(task.Id, task.ProjectId, task.Name, task.Description, task.Priority, task.Deadline, task.IsCompleted);
+            });
         }
 
         /// <inheritdoc />
-        public int GetCompletedTasksCountForProject(Guid projectId)
+        public Task<int> GetTasksCountForProjectAsync(Guid projectId)
         {
-            return _tasks.Count(task => task.ProjectId == projectId && task.IsCompleted);
+            return Task.Run(() =>
+            {
+                Thread.Sleep(500);
+                return _tasks.Count(task => task.ProjectId == projectId);
+            });
         }
 
         /// <inheritdoc />
-        public void AddProject(ProjectDBModel project)
+        public Task<int> GetCompletedTasksCountForProjectAsync(Guid projectId)
         {
-            _projects.Add(new ProjectRecord(
-                project.Id,
-                project.Name,
-                project.Description,
-                project.ProjectType));
+            return Task.Run(() =>
+            {
+                Thread.Sleep(500);
+                return _tasks.Count(task => task.ProjectId == projectId && task.IsCompleted);
+            });
         }
 
         /// <inheritdoc />
-        public void UpdateProject(ProjectDBModel project)
+        public Task AddProjectAsync(ProjectDBModel project)
         {
-            var index = _projects.FindIndex(p => p.Id == project.Id);
-            if (index == -1)
-                return;
+            return Task.Run(() =>
+            {
+                Thread.Sleep(500);
+                _projects.Add(new ProjectRecord(
+                    project.Id,
+                    project.Name,
+                    project.Description,
+                    project.ProjectType));
+            });
+        }
 
-            _projects[index] = new ProjectRecord(
-                project.Id,
-                project.Name,
-                project.Description,
-                project.ProjectType);
+        /// <inheritdoc />
+        public Task UpdateProjectAsync(ProjectDBModel project)
+        {
+            return Task.Run(() =>
+            {
+                Thread.Sleep(500);
+                var index = _projects.FindIndex(p => p.Id == project.Id);
+                if (index == -1)
+                    return;
+
+                _projects[index] = new ProjectRecord(
+                    project.Id,
+                    project.Name,
+                    project.Description,
+                    project.ProjectType);
+            });
         }
         
         /// <inheritdoc />
-        public void AddTask(TaskDBModel task)
+        public Task AddTaskAsync(TaskDBModel task)
         {
-            _tasks.Add(new TaskRecord(
-                task.Id,
-                task.ProjectId,
-                task.Name,
-                task.Description,
-                task.Priority,
-                task.Deadline,
-                task.IsCompleted));
+            return Task.Run(() =>
+            {
+                Thread.Sleep(500);
+                _tasks.Add(new TaskRecord(
+                    task.Id,
+                    task.ProjectId,
+                    task.Name,
+                    task.Description,
+                    task.Priority,
+                    task.Deadline,
+                    task.IsCompleted));
+            });
         }
         
         /// <inheritdoc />
-        public void UpdateTask(TaskDBModel task)
+        public Task UpdateTaskAsync(TaskDBModel task)
         {
-            var index = _tasks.FindIndex(t => t.Id == task.Id && t.ProjectId == task.ProjectId);
-            if (index == -1)
-                return;
+            return Task.Run(() =>
+            {
+                Thread.Sleep(500);
+                var index = _tasks.FindIndex(t => t.Id == task.Id);
+                if (index == -1)
+                    return;
 
-            _tasks[index] = new TaskRecord(
-                task.Id,
-                task.ProjectId,
-                task.Name,
-                task.Description,
-                task.Priority,
-                task.Deadline,
-                task.IsCompleted);
+                _tasks[index] = new TaskRecord(
+                    task.Id,
+                    task.ProjectId,
+                    task.Name,
+                    task.Description,
+                    task.Priority,
+                    task.Deadline,
+                    task.IsCompleted);
+            });
         }
 
         /// <inheritdoc />
-        public void DeleteTask(Guid taskId)
+        public Task DeleteTaskAsync(Guid taskId)
         {
-            var task = _tasks.FirstOrDefault(t => t.Id == taskId);
-
-            if (task != null)
+            return Task.Run(() =>
             {
-                _tasks.Remove(task);
-            }
+                Thread.Sleep(500);
+                var task = _tasks.FirstOrDefault(t => t.Id == taskId);
+                if (task != null)
+                {
+                    _tasks.Remove(task);
+                }
+            });
         }
 
         /// <inheritdoc />
-        public void DeleteProject(Guid projectId)
+        public Task DeleteProjectAsync(Guid projectId)
         {
-            var project = _projects.FirstOrDefault(p => p.Id == projectId);
-
-            if (project != null)
+            return Task.Run(() =>
             {
-                _projects.Remove(project);
-            }
-
-            _tasks.RemoveAll(t => t.ProjectId == projectId);
+                Thread.Sleep(500);
+                var project = _projects.FirstOrDefault(p => p.Id == projectId);
+                if (project != null)
+                {
+                    _projects.Remove(project);
+                }
+                _tasks.RemoveAll(t => t.ProjectId == projectId);
+            });
         }
     }
 }

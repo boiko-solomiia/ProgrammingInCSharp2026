@@ -8,65 +8,80 @@ namespace TaskManager.Storage
     public interface IStorageContext
     {
         /// <summary>
-        /// Returns all projects from storage
+        /// Returns all projects from storage asynchronously
         /// </summary>
         /// <returns>Collection of all projects</returns>
-        IEnumerable<ProjectDBModel> GetAllProjects();
+        IAsyncEnumerable<ProjectDBModel> GetAllProjectsAsync();
 
         /// <summary>
-        /// Returns all tasks belonging to a specific project
+        /// Returns all tasks belonging to a specific project asynchronously
         /// </summary>
         /// <param name="projectId">ID of the project</param>
         /// <returns>Collection of tasks for the given project</returns>
-        IEnumerable<TaskDBModel> GetTasksForProject(Guid projectId);
+        Task<IEnumerable<TaskDBModel>> GetTasksForProjectAsync(Guid projectId);
 
         /// <summary>
-        /// Returns a specific project by its ID
+        /// Returns a specific project by its ID asynchronously
         /// </summary>
         /// <param name="projectId">ID of the project</param>
         /// <returns>Project if found, null otherwise</returns>
-        ProjectDBModel GetProject(Guid projectId);
+        Task<ProjectDBModel?> GetProjectAsync(Guid projectId);
+        
+        /// <summary>
+        /// Returns a specific task by its ID asynchronously
+        /// </summary>
+        /// <param name="taskId">ID of the task</param>
+        /// <returns>Task if found, null otherwise</returns>
+        Task<TaskDBModel?> GetTaskAsync(Guid taskId);
 
         /// <summary>
-        /// Returns the total number of tasks for a project
+        /// Returns the total number of tasks for a project asynchronously
         /// </summary>
         /// <param name="projectId">ID of the project</param>
         /// <returns>Number of tasks</returns>
-        int GetTasksCountForProject(Guid projectId);
+        Task<int> GetTasksCountForProjectAsync(Guid projectId);
 
         /// <summary>
-        /// Returns the number of completed tasks for a project
+        /// Returns the number of completed tasks for a project asynchronously
         /// </summary>
         /// <param name="projectId">ID of the project</param>
         /// <returns>Number of completed tasks</returns>
-        int GetCompletedTasksCountForProject(Guid projectId);
+        Task<int> GetCompletedTasksCountForProjectAsync(Guid projectId);
 
         /// <summary>
-        /// Adds a new project to the storage
+        /// Adds a new project to the storage asynchronously
         /// </summary>
         /// <param name="project">The project database model to add</param>
-        void AddProject(ProjectDBModel project);
+        Task AddProjectAsync(ProjectDBModel project);
 
         /// <summary>
-        /// Updates an existing project in the storage
+        /// Updates an existing project in the storage asynchronously
         /// </summary>
         /// <param name="project">The project database model with updated values</param>
-        void UpdateProject(ProjectDBModel project);
+        Task UpdateProjectAsync(ProjectDBModel project);
 
         /// <summary>
-        /// Adds a new task to the storage
+        /// Adds a new task to the storage asynchronously
         /// </summary>
         /// <param name="task">The task database model to add</param>
-        void AddTask(TaskDBModel task);
+        Task AddTaskAsync(TaskDBModel task);
 
         /// <summary>
-        /// Updates an existing task in the storage
+        /// Updates an existing task in the storage asynchronously
         /// </summary>
         /// <param name="task">The task database model with updated values</param>
-        void UpdateTask(TaskDBModel task);
+        Task UpdateTaskAsync(TaskDBModel task);
 
-        void DeleteTask(Guid taskId);
+        /// <summary>
+        /// Deletes a task from storage asynchronously
+        /// </summary>
+        /// <param name="taskId">ID of the task to delete</param>
+        Task DeleteTaskAsync(Guid taskId);
 
-        void DeleteProject(Guid projectId);
+        /// <summary>
+        /// Deletes a project and all its tasks from storage asynchronously
+        /// </summary>
+        /// <param name="projectId">ID of the project to delete</param>
+        Task DeleteProjectAsync(Guid projectId);
     }
 }
