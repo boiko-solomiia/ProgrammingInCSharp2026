@@ -25,12 +25,12 @@ namespace TaskManager.Services
         }
 
         /// <inheritdoc />
-        public IEnumerable<ProjectListDTO> GetAllProjects()
+        public async IAsyncEnumerable<ProjectListDTO> GetAllProjectsAsync()
         {
-            foreach (var project in _projectRepository.GetAllProjectsAsync())
+            await foreach (var project in _projectRepository.GetAllProjectsAsync())
             {
-                var taskCount = _taskRepository.GetTasksCountForProjectAsync(project.Id);
-                var completedTaskCount = _taskRepository.GetCompletedTasksCountForProjectAsync(project.Id);
+                var taskCount = await _taskRepository.GetTasksCountForProjectAsync(project.Id);
+                var completedTaskCount = await _taskRepository.GetCompletedTasksCountForProjectAsync(project.Id);
                 var progress = taskCount == 0 ? 0 : (completedTaskCount * 100) / taskCount;
                 yield return new ProjectListDTO(project.Id, project.Name, project.ProjectType,
                     taskCount, progress);
@@ -38,57 +38,65 @@ namespace TaskManager.Services
         }
 
         /// <inheritdoc />
-        public ProjectDetailsDTO GetProject(Guid projectId)
+        public async Task<ProjectDetailsDTO?> GetProjectAsync(Guid projectId)
         {
-            var project = _projectRepository.GetProjectAsync(projectId);
+            var project = await _projectRepository.GetProjectAsync(projectId);
             if (project == null) return null;
-            var taskCount = _taskRepository.GetTasksCountForProjectAsync(project.Id);
-            var completedTaskCount = _taskRepository.GetCompletedTasksCountForProjectAsync(project.Id);
+            var taskCount = await _taskRepository.GetTasksCountForProjectAsync(project.Id);
+            var completedTaskCount = await _taskRepository.GetCompletedTasksCountForProjectAsync(project.Id);
             var progress = taskCount == 0 ? 0 : (completedTaskCount * 100) / taskCount;
             return new ProjectDetailsDTO(project.Id, project.Name, project.Description, project.ProjectType, progress);
         }
 
         /// <inheritdoc />
-        public ProjectEditDTO GetProjectForEdit(Guid projectId)
+        public async Task<ProjectEditDTO?> GetProjectForEditAsync(Guid projectId)
         {
-            var project = _projectRepository.GetProjectAsync(projectId);
+            var project = await _projectRepository.GetProjectAsync(projectId);
             if (project == null) return null;
             return new ProjectEditDTO(project.Id, project.Name, project.Description, project.ProjectType);
         }
 
         /// <inheritdoc />
-        public Guid CreateProject(ProjectCreateDTO projectDto)
+        public async Task<Guid> CreateProjectAsync(ProjectCreateDTO projectDto)
         {
+            ArgumentNullException.ThrowIfNull(projectDto);
             var project = new ProjectDBModel(projectDto.Name, projectDto.Description, projectDto.ProjectType);
-            _projectRepository.AddProjectAsync(project);
+            await _projectRepository.AddProjectAsync(project);
             return project.Id;
         }
 
         /// <inheritdoc />
-        public void UpdateProject(ProjectEditDTO projectDto)
+        public async Task UpdateProjectAsync(ProjectEditDTO projectDto)
         {
-            var project = _projectRepository.GetProjectAsync(projectDto.Id);
+            ArgumentNullException.ThrowIfNull(projectDto);
+            var project = await _projectRepository.GetProjectAsync(projectDto.Id);
             if (project == null) return;
+            
+            if (project.Name == projectDto.Name && 
+                project.Description == projectDto.Description && 
+                project.ProjectType == projectDto.ProjectType)
+                return;
+            
             project.Name = projectDto.Name;
             project.Description = projectDto.Description;
             project.ProjectType = projectDto.ProjectType;
-            _projectRepository.UpdateProjectAsync(project);
+            await _projectRepository.UpdateProjectAsync(project);
         }
 
         /// <inheritdoc />
-        public void DeleteProject(Guid projectId)
+        public async Task DeleteProjectAsync(Guid projectId)
         {
-            var project = _projectRepository.GetProjectAsync(projectId);
+            var project = await _projectRepository.GetProjectAsync(projectId);
             if (project == null)
                 return;
-
-            var tasks = _taskRepository.GetTasksForProject(projectId).ToList();
+            
+            var tasks = await _taskRepository.GetTasksForProjectAsync(projectId);
             foreach (var task in tasks)
             {
-                _taskRepository.DeleteTaskAsync(task.Id);
+                await _taskRepository.DeleteTaskAsync(task.Id);
             }
 
-            _projectRepository.DeleteProjectAsync(projectId);
+            await _projectRepository.DeleteProjectAsync(projectId);
         }
     }
 }

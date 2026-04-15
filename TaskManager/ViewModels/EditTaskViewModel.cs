@@ -70,7 +70,7 @@ namespace TaskManager.ViewModels
 
         private void LoadData()
         {
-            var task = _taskService.GetTaskForEdit(_projectId, _taskId);
+            var task = _taskService.GetTaskForEditAsync(_projectId, _taskId);
 
             if (task == null)
                 return;
@@ -103,7 +103,7 @@ namespace TaskManager.ViewModels
                     Deadline,
                     IsCompleted);
 
-                _taskService.UpdateTask(dto);
+                _taskService.UpdateTaskAsync(dto);
 
                 await Shell.Current.GoToAsync("..");
             }

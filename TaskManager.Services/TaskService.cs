@@ -23,18 +23,15 @@ namespace TaskManager.Services
         }
 
         /// <inheritdoc />
-        public IEnumerable<TaskListDTO> GetTasksForProject(Guid projectId)
+        public async Task<IEnumerable<TaskListDTO>> GetTasksForProjectAsync(Guid projectId)
         {
-            foreach (var task in _taskRepository.GetTasksForProject(projectId))
-            {
-                yield return new TaskListDTO(task.Id, task.Name, task.Priority, task.Deadline, task.IsCompleted);
-            }
+            return (await _taskRepository.GetTasksForProjectAsync(projectId)).Select(task => new TaskListDTO(task.Id, task.Name, task.Priority, task.Deadline, task.IsCompleted));
         }
 
         /// <inheritdoc />
-        public TaskDetailsDTO GetTask(Guid projectId, Guid taskId)
+        public async Task<TaskDetailsDTO?> GetTaskAsync(Guid taskId)
         {
-            var task = _taskRepository.GetTask(projectId, taskId);
+            var task = await _taskRepository.GetTaskAsync(taskId);
             if (task == null) return null;
             var isOverdue = !task.IsCompleted && DateTime.UtcNow > task.Deadline.ToUniversalTime();
             return new TaskDetailsDTO(task.Id, task.Name, task.Description, task.Priority, task.Deadline,
@@ -42,44 +39,54 @@ namespace TaskManager.Services
         }
 
         /// <inheritdoc />
-        public TaskEditDTO GetTaskForEdit(Guid projectId, Guid taskId)
+        public async Task<TaskEditDTO?> GetTaskForEditAsync(Guid taskId)
         {
-            var task = _taskRepository.GetTask(projectId, taskId);
+            var task = await _taskRepository.GetTaskAsync(taskId);
             if (task == null) return null;
             return new TaskEditDTO(task.Id, task.ProjectId, task.Name, task.Description, task.Priority, task.Deadline,
                 task.IsCompleted);
         }
 
         /// <inheritdoc />
-        public Guid CreateTask(TaskCreateDTO taskDto)
+        public async Task<Guid> CreateTaskAsync(TaskCreateDTO taskDto)
         {
+            ArgumentNullException.ThrowIfNull(taskDto);
             var task = new TaskDBModel(taskDto.ProjectId, taskDto.Name, taskDto.Description, taskDto.Priority,
                 taskDto.Deadline, taskDto.IsCompleted);
-            _taskRepository.AddTaskAsync(task);
+            await _taskRepository.AddTaskAsync(task);
             return task.Id;
         }
 
         /// <inheritdoc />
-        public void UpdateTask(TaskEditDTO taskDto)
+        public async Task UpdateTaskAsync(TaskEditDTO taskDto)
         {
-            var task = _taskRepository.GetTask(taskDto.ProjectId, taskDto.Id);
+            ArgumentNullException.ThrowIfNull(taskDto);
+            var task = await _taskRepository.GetTaskAsync(taskDto.Id);
             if (task == null) return;
+            
+            if (task.Name == taskDto.Name && 
+                task.Description == taskDto.Description && 
+                task.Priority == taskDto.Priority &&
+                task.Deadline == taskDto.Deadline &&
+                task.IsCompleted == taskDto.IsCompleted)
+                return;
+            
             task.Name = taskDto.Name;
             task.Description = taskDto.Description;
             task.Priority = taskDto.Priority;
             task.Deadline = taskDto.Deadline;
             task.IsCompleted = taskDto.IsCompleted;
-            _taskRepository.UpdateTaskAsync(task);
+            await _taskRepository.UpdateTaskAsync(task);
         }
 
-        public void DeleteTask(Guid projectId, Guid taskId)
+        /// <inheritdoc />
+        public async Task DeleteTaskAsync(Guid taskId)
         {
-            var task = _taskRepository.GetTask(projectId, taskId);
+            var task = await _taskRepository.GetTaskAsync(taskId);
 
-            if (task == null)
-                throw new Exception("Task not found");
+            if (task == null) return;
 
-            _taskRepository.DeleteTaskAsync(taskId);
+            await _taskRepository.DeleteTaskAsync(taskId);
         }
     }
 }

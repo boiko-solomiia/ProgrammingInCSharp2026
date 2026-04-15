@@ -78,7 +78,7 @@ namespace TaskManager.ViewModels
             try
             {
                 var dto = new ProjectEditDTO(_projectId, Name.Trim(), Description?.Trim() ?? string.Empty, ProjectType.Value);
-                _projectService.UpdateProject(dto);
+                _projectService.UpdateProjectAsync(dto);
                 await Shell.Current.GoToAsync("..");
             }
             catch (Exception ex)

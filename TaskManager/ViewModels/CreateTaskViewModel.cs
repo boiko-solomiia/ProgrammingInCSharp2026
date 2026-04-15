@@ -86,7 +86,7 @@ namespace TaskManager.ViewModels
             try
             {
                 var dto = new TaskCreateDTO(_projectId, Name.Trim(), Description?.Trim() ?? string.Empty, Priority.Value, Deadline.Value, IsCompleted);
-                _taskService.CreateTask(dto);
+                _taskService.CreateTaskAsync(dto);
                 await Shell.Current.DisplayAlertAsync("Success", "Task created successfully!", "OK");
                 await Shell.Current.GoToAsync("..");
             }

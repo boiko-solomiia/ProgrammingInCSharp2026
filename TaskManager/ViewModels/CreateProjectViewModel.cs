@@ -56,7 +56,7 @@ namespace TaskManager.ViewModels
             try
             {
                 var dto = new ProjectCreateDTO(Name.Trim(), Description?.Trim() ?? string.Empty,ProjectType.Value);
-                _projectService.CreateProject(dto);
+                _projectService.CreateProjectAsync(dto);
                 await Shell.Current.GoToAsync("..");
             }
             catch (Exception ex)

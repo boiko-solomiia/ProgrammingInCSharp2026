@@ -43,7 +43,7 @@ namespace TaskManager.ViewModels
             IsBusy = true;
             try
             {
-                CurrentTask = _taskService.GetTask(_projectId, _taskId);
+                CurrentTask = _taskService.GetTaskAsync(_taskId);
             }
             catch (Exception ex)
             {

@@ -9,42 +9,44 @@ namespace TaskManager.Services
     public interface ITaskService
     {
         /// <summary>
-        /// Retrieves all tasks for a specific project, formatted for list views.
+        /// Retrieves all tasks for a specific project, formatted for list views asynchronously
         /// </summary>
         /// <param name="projectId">The unique identifier of the project.</param>
         /// <returns>A collection of tasks with fields optimized for listing (e.g., name, priority, deadline).</returns>
-        IEnumerable<TaskListDTO> GetTasksForProject(Guid projectId);
+        Task<IEnumerable<TaskListDTO>> GetTasksForProjectAsync(Guid projectId);
 
         /// <summary>
-        /// Retrieves detailed information about a specific task within a project.
+        /// Retrieves detailed information about a specific task within a project asynchronously
         /// Includes computed fields like overdue status.
         /// </summary>
-        /// <param name="projectId">The unique identifier of the project containing the task.</param>
         /// <param name="taskId">The unique identifier of the task.</param>
         /// <returns>Detailed task information including description and overdue status, or null if not found.</returns>
-        TaskDetailsDTO GetTask(Guid projectId, Guid taskId);
+        Task<TaskDetailsDTO?> GetTaskAsync(Guid taskId);
 
         /// <summary>
-        /// Gets editable data for a specific task within a project
+        /// Gets editable data for a specific task within a project asynchronously
         /// </summary>
-        /// <param name="projectId">The unique identifier of the project containing the task</param>
         /// <param name="taskId">The unique identifier of the task to edit</param>
         /// <returns>Task data formatted for editing, or null if task not found</returns>
-        TaskEditDTO GetTaskForEdit(Guid projectId, Guid taskId);
+        Task<TaskEditDTO?> GetTaskForEditAsync(Guid taskId);
 
         /// <summary>
-        /// Creates a new task from the provided DTO
+        /// Creates a new task from the provided DTO asynchronously
         /// </summary>
         /// <param name="taskDto">The task data transfer object containing creation information</param>
         /// <returns>The unique identifier of the newly created task</returns>
-        Guid CreateTask(TaskCreateDTO taskDto);
+        Task<Guid> CreateTaskAsync(TaskCreateDTO taskDto);
 
         /// <summary>
-        /// Updates an existing task using the provided DTO
+        /// Updates an existing task using the provided DTO asynchronously
         /// </summary>
         /// <param name="taskDto">The task data transfer object containing updated values</param>
-        void UpdateTask(TaskEditDTO taskDto);
+        Task UpdateTaskAsync(TaskEditDTO taskDto);
 
-        void DeleteTask(Guid projectId, Guid taskId);
+        /// <summary>
+        /// Deletes a task asynchronously
+        /// </summary>
+        /// <param name="taskId">The unique identifier of the task to delete</param>
+        Task DeleteTaskAsync(Guid taskId);
     }
 }

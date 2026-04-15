@@ -62,7 +62,7 @@ namespace TaskManager.ViewModels
             IsBusy = true;
             try
             {
-                CurrentProject = _projectService.GetProject(_projectId);
+                CurrentProject = _projectService.GetProjectAsync(_projectId);
                 Tasks = new ObservableCollection<TaskListDTO>(_taskService.GetTasksForProject(_projectId));
             }
             catch (Exception ex)
@@ -122,7 +122,7 @@ namespace TaskManager.ViewModels
             IsBusy = true;
             try
             {
-                _taskService.DeleteTask(CurrentProject.Id, task.Id);
+                _taskService.DeleteTaskAsync(task.Id);
                 await RefreshData();
             }
             catch (Exception ex)
