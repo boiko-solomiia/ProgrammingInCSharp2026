@@ -21,33 +21,33 @@ namespace TaskManager.Repositories
         }
 
         /// <inheritdoc />
-        public IEnumerable<ProjectDBModel> GetAllProjects()
+        public IAsyncEnumerable<ProjectDBModel> GetAllProjectsAsync()
         {
-            return _storageContext.GetAllProjects();
+            return _storageContext.GetAllProjectsAsync();
         }
 
         /// <inheritdoc />
-        public ProjectDBModel GetProject(Guid projectId)
+        public Task<ProjectDBModel?> GetProjectAsync(Guid projectId)
         {
-            return _storageContext.GetProject(projectId);
+            return _storageContext.GetProjectAsync(projectId);
         }
 
         /// <inheritdoc />
-        public void AddProject(ProjectDBModel project)
+        public Task AddProjectAsync(ProjectDBModel project)
         {
-            _storageContext.AddProject(project);
+            return _storageContext.AddProjectAsync(project);
         }
 
         /// <inheritdoc />
-        public void UpdateProject(ProjectDBModel project)
+        public Task UpdateProjectAsync(ProjectDBModel project)
         {
-            _storageContext.UpdateProject(project);
+            return _storageContext.UpdateProjectAsync(project);
         }
 
         /// <inheritdoc />
-        public void DeleteProject(Guid projectId)
-        {
-            _storageContext.DeleteProject(projectId);
+        public Task DeleteProjectAsync(Guid projectId)
+        { 
+            return _storageContext.DeleteProjectAsync(projectId);
         }
     }
 }

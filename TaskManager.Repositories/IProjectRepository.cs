@@ -9,34 +9,34 @@ namespace TaskManager.Repositories
     public interface IProjectRepository
     {
         /// <summary>
-        /// Retrieves all projects from the storage
+        /// Retrieves all projects from the storage asynchronously
         /// </summary>
         /// <returns>A collection of all project database models</returns>
-        IEnumerable<ProjectDBModel> GetAllProjects();
+        IAsyncEnumerable<ProjectDBModel> GetAllProjectsAsync();
 
         /// <summary>
-        /// Retrieves a specific project by its unique identifier
+        /// Retrieves a specific project by its unique identifier asynchronously
         /// </summary>
         /// <param name="projectId">The unique identifier of the project</param>
         /// <returns>The project database model if found; otherwise, null</returns>
-        ProjectDBModel GetProject(Guid projectId);
+        Task<ProjectDBModel?> GetProjectAsync(Guid projectId);
 
         /// <summary>
-        /// Adds a new project to storage
+        /// Adds a new project to storage asynchronously
         /// </summary>
-        /// <param name="project">The project database model to add</param> 
-        void AddProject(ProjectDBModel project);
+        /// <param name="project">The project database model to add</param>
+        Task AddProjectAsync(ProjectDBModel project);
 
         /// <summary>
-        /// Updates an existing project in storage
+        /// Updates an existing project in storage asynchronously
         /// </summary>
         /// <param name="project">The project database model with updated values</param>
-        void UpdateProject(ProjectDBModel project);
+        Task UpdateProjectAsync(ProjectDBModel project);
 
         /// <summary>
-        /// Deletes a project from storage
+        /// Deletes a project from storage asynchronously
         /// </summary>
         /// <param name="projectId">The unique identifier of the project to delete</param>
-        void DeleteProject(Guid projectId);
+        Task DeleteProjectAsync(Guid projectId);
     }
 }

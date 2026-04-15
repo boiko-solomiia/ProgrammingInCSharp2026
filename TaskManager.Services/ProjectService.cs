@@ -27,10 +27,10 @@ namespace TaskManager.Services
         /// <inheritdoc />
         public IEnumerable<ProjectListDTO> GetAllProjects()
         {
-            foreach (var project in _projectRepository.GetAllProjects())
+            foreach (var project in _projectRepository.GetAllProjectsAsync())
             {
-                var taskCount = _taskRepository.GetTasksCountForProject(project.Id);
-                var completedTaskCount = _taskRepository.GetCompletedTasksCountForProject(project.Id);
+                var taskCount = _taskRepository.GetTasksCountForProjectAsync(project.Id);
+                var completedTaskCount = _taskRepository.GetCompletedTasksCountForProjectAsync(project.Id);
                 var progress = taskCount == 0 ? 0 : (completedTaskCount * 100) / taskCount;
                 yield return new ProjectListDTO(project.Id, project.Name, project.ProjectType,
                     taskCount, progress);
@@ -40,10 +40,10 @@ namespace TaskManager.Services
         /// <inheritdoc />
         public ProjectDetailsDTO GetProject(Guid projectId)
         {
-            var project = _projectRepository.GetProject(projectId);
+            var project = _projectRepository.GetProjectAsync(projectId);
             if (project == null) return null;
-            var taskCount = _taskRepository.GetTasksCountForProject(project.Id);
-            var completedTaskCount = _taskRepository.GetCompletedTasksCountForProject(project.Id);
+            var taskCount = _taskRepository.GetTasksCountForProjectAsync(project.Id);
+            var completedTaskCount = _taskRepository.GetCompletedTasksCountForProjectAsync(project.Id);
             var progress = taskCount == 0 ? 0 : (completedTaskCount * 100) / taskCount;
             return new ProjectDetailsDTO(project.Id, project.Name, project.Description, project.ProjectType, progress);
         }
@@ -51,7 +51,7 @@ namespace TaskManager.Services
         /// <inheritdoc />
         public ProjectEditDTO GetProjectForEdit(Guid projectId)
         {
-            var project = _projectRepository.GetProject(projectId);
+            var project = _projectRepository.GetProjectAsync(projectId);
             if (project == null) return null;
             return new ProjectEditDTO(project.Id, project.Name, project.Description, project.ProjectType);
         }
@@ -60,35 +60,35 @@ namespace TaskManager.Services
         public Guid CreateProject(ProjectCreateDTO projectDto)
         {
             var project = new ProjectDBModel(projectDto.Name, projectDto.Description, projectDto.ProjectType);
-            _projectRepository.AddProject(project);
+            _projectRepository.AddProjectAsync(project);
             return project.Id;
         }
 
         /// <inheritdoc />
         public void UpdateProject(ProjectEditDTO projectDto)
         {
-            var project = _projectRepository.GetProject(projectDto.Id);
+            var project = _projectRepository.GetProjectAsync(projectDto.Id);
             if (project == null) return;
             project.Name = projectDto.Name;
             project.Description = projectDto.Description;
             project.ProjectType = projectDto.ProjectType;
-            _projectRepository.UpdateProject(project);
+            _projectRepository.UpdateProjectAsync(project);
         }
 
         /// <inheritdoc />
         public void DeleteProject(Guid projectId)
         {
-            var project = _projectRepository.GetProject(projectId);
+            var project = _projectRepository.GetProjectAsync(projectId);
             if (project == null)
                 return;
 
             var tasks = _taskRepository.GetTasksForProject(projectId).ToList();
             foreach (var task in tasks)
             {
-                _taskRepository.DeleteTask(task.Id);
+                _taskRepository.DeleteTaskAsync(task.Id);
             }
 
-            _projectRepository.DeleteProject(projectId);
+            _projectRepository.DeleteProjectAsync(projectId);
         }
     }
 }

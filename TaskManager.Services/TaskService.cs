@@ -55,7 +55,7 @@ namespace TaskManager.Services
         {
             var task = new TaskDBModel(taskDto.ProjectId, taskDto.Name, taskDto.Description, taskDto.Priority,
                 taskDto.Deadline, taskDto.IsCompleted);
-            _taskRepository.AddTask(task);
+            _taskRepository.AddTaskAsync(task);
             return task.Id;
         }
 
@@ -69,7 +69,7 @@ namespace TaskManager.Services
             task.Priority = taskDto.Priority;
             task.Deadline = taskDto.Deadline;
             task.IsCompleted = taskDto.IsCompleted;
-            _taskRepository.UpdateTask(task);
+            _taskRepository.UpdateTaskAsync(task);
         }
 
         public void DeleteTask(Guid projectId, Guid taskId)
@@ -79,7 +79,7 @@ namespace TaskManager.Services
             if (task == null)
                 throw new Exception("Task not found");
 
-            _taskRepository.DeleteTask(taskId);
+            _taskRepository.DeleteTaskAsync(taskId);
         }
     }
 }

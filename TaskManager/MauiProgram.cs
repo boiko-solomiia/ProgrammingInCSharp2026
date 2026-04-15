@@ -31,7 +31,7 @@ namespace TaskManager
 #if DEBUG
     		builder.Logging.AddDebug();
 #endif
-            builder.Services.AddSingleton<IStorageContext, InMemoryStorageContext>();
+            builder.Services.AddSingleton<IStorageContext, FileStorageContext>();
             
             builder.Services.AddSingleton<IProjectRepository, ProjectRepository>();
             builder.Services.AddSingleton<ITaskRepository, TaskRepository>();

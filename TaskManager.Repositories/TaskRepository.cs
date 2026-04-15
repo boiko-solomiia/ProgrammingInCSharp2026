@@ -22,46 +22,45 @@ namespace TaskManager.Repositories
         }
 
         /// <inheritdoc />
-        public IEnumerable<TaskDBModel> GetTasksForProject(Guid projectId)
+        public Task<IEnumerable<TaskDBModel>> GetTasksForProjectAsync(Guid projectId)
         {
-            return _storageContext.GetTasksForProject(projectId);
+            return _storageContext.GetTasksForProjectAsync(projectId);
         }
 
         /// <inheritdoc />
-        public TaskDBModel GetTask(Guid projectId, Guid taskId)
+        public Task<TaskDBModel?> GetTaskAsync(Guid taskId)
         {
-            var tasks = _storageContext.GetTasksForProject(projectId);
-            var task = tasks.FirstOrDefault(t => t.Id == taskId);
-            return task;
+            return _storageContext.GetTaskAsync(taskId);
         }
 
         /// <inheritdoc />
-        public int GetTasksCountForProject(Guid projectId)
+        public Task<int> GetTasksCountForProjectAsync(Guid projectId)
         {
-            return _storageContext.GetTasksCountForProject(projectId);
+            return _storageContext.GetTasksCountForProjectAsync(projectId);
         }
 
         /// <inheritdoc />
-        public int GetCompletedTasksCountForProject(Guid projectId)
+        public Task<int> GetCompletedTasksCountForProjectAsync(Guid projectId)
         {
-            return _storageContext.GetCompletedTasksCountForProject(projectId);
+            return _storageContext.GetCompletedTasksCountForProjectAsync(projectId);
         }
 
         /// <inheritdoc />
-        public void AddTask(TaskDBModel task)
+        public Task AddTaskAsync(TaskDBModel task)
         {
-            _storageContext.AddTask(task);
+            return _storageContext.AddTaskAsync(task);
         }
 
         /// <inheritdoc />
-        public void UpdateTask(TaskDBModel task)
+        public Task UpdateTaskAsync(TaskDBModel task)
         {
-            _storageContext.UpdateTask(task);
+            return _storageContext.UpdateTaskAsync(task);
         }
 
-        public void DeleteTask(Guid taskId)
+        /// <inheritdoc />
+        public Task DeleteTaskAsync(Guid taskId)
         {
-            _storageContext.DeleteTask(taskId);
+            return _storageContext.DeleteTaskAsync(taskId);
         }
     }
 }
