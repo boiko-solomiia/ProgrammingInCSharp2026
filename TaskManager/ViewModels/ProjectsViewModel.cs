@@ -3,6 +3,7 @@ using TaskManager.DTOModels.ProjectDTO;
 using TaskManager.Pages;
 using TaskManager.Services;
 using CommunityToolkit.Mvvm.Input;
+using TaskManager.Common.Enums;
 
 namespace TaskManager.ViewModels
 {
@@ -27,6 +28,38 @@ namespace TaskManager.ViewModels
             get => _selectedProject;
             set => SetProperty(ref _selectedProject, value);
         }
+        
+        private string? _searchName;
+        public string? SearchName
+        {
+            get => _searchName;
+            set => SetProperty(ref _searchName, value);
+        }
+
+        private ProjectType? _selectedProjectType;
+
+        public ProjectType? SelectedProjectType
+        {
+            get => _selectedProjectType;
+            set => SetProperty(ref _selectedProjectType, value);
+        }
+
+        private ProjectSortOption _selectedSortOption = ProjectSortOption.NameDesc;
+        public ProjectSortOption SelectedSortOption
+        {
+            get => _selectedSortOption;
+            set => SetProperty(ref _selectedSortOption, value);
+        }
+
+        public Array ProjectTypes
+        {
+            get => Enum.GetValues(typeof(ProjectType));
+        }
+
+        public Array SortOptions
+        {
+            get => Enum.GetValues(typeof(ProjectSortOption));
+        }
 
         public ProjectsViewModel(IProjectService projectService)
         {
@@ -38,11 +71,9 @@ namespace TaskManager.ViewModels
             IsBusy = true;
             try
             {
-                Projects = new ObservableCollection<ProjectListDTO>();
-                await foreach (var project in _projectService.GetAllProjectsAsync())
-                {
-                    Projects.Add(project);
-                }
+                var filtered = await _projectService.GetProjectsFilteredAsync(
+                    SearchName, SelectedProjectType, SelectedSortOption);
+                Projects = new ObservableCollection<ProjectListDTO>(filtered);
             }
             catch (Exception ex)
             {
@@ -142,6 +173,21 @@ namespace TaskManager.ViewModels
             {
                 IsBusy = false;
             }
+        }
+        
+        [RelayCommand]
+        private async Task ApplyFilters()
+        {
+            await RefreshDataAsync();
+        }
+
+        [RelayCommand]
+        private void ResetFilters()
+        {
+            SearchName = null;
+            SelectedProjectType = null;
+            SelectedSortOption = ProjectSortOption.NameDesc;
+            _ = ApplyFiltersCommand.ExecuteAsync(null);
         }
     }
 }

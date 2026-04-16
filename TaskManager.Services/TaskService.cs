@@ -1,3 +1,4 @@
+using TaskManager.Common.Enums;
 using TaskManager.DBModels;
 using TaskManager.DTOModels.TaskDTO;
 using TaskManager.Repositories;
@@ -25,7 +26,8 @@ namespace TaskManager.Services
         /// <inheritdoc />
         public async Task<IEnumerable<TaskListDTO>> GetTasksForProjectAsync(Guid projectId)
         {
-            return (await _taskRepository.GetTasksForProjectAsync(projectId)).Select(task => new TaskListDTO(task.Id, task.Name, task.Priority, task.Deadline, task.IsCompleted));
+            return (await _taskRepository.GetTasksForProjectAsync(projectId)).Select(task =>
+                new TaskListDTO(task.Id, task.Name, task.Priority, task.Deadline, task.IsCompleted));
         }
 
         /// <inheritdoc />
@@ -63,14 +65,14 @@ namespace TaskManager.Services
             ArgumentNullException.ThrowIfNull(taskDto);
             var task = await _taskRepository.GetTaskAsync(taskDto.Id);
             if (task == null) return;
-            
-            if (task.Name == taskDto.Name && 
-                task.Description == taskDto.Description && 
+
+            if (task.Name == taskDto.Name &&
+                task.Description == taskDto.Description &&
                 task.Priority == taskDto.Priority &&
                 task.Deadline == taskDto.Deadline &&
                 task.IsCompleted == taskDto.IsCompleted)
                 return;
-            
+
             task.Name = taskDto.Name;
             task.Description = taskDto.Description;
             task.Priority = taskDto.Priority;
@@ -87,6 +89,40 @@ namespace TaskManager.Services
             if (task == null) return;
 
             await _taskRepository.DeleteTaskAsync(taskId);
+        }
+        
+        /// <inheritdoc />
+        public async Task<IEnumerable<TaskListDTO>> GetTasksFilteredAsync(Guid projectId, string? searchName, Priority? priority, bool? isCompleted, TaskSortOption sortOption = TaskSortOption.PriorityDesc)
+        {
+            var tasks = (await _taskRepository.GetTasksForProjectAsync(projectId))
+                .Select(t => new TaskListDTO(t.Id, t.Name, t.Priority, t.Deadline, t.IsCompleted));
+            
+            if (!string.IsNullOrWhiteSpace(searchName))
+            {
+                tasks = tasks.Where(t => t.Name.Contains(searchName, StringComparison.OrdinalIgnoreCase));
+            }
+            
+            if (priority.HasValue)
+            {
+                tasks = tasks.Where(t => t.Priority == priority.Value);
+            }
+            
+            if (isCompleted.HasValue)
+            {
+                tasks = tasks.Where(t => t.IsCompleted == isCompleted.Value);
+            }
+            
+            tasks = sortOption switch
+            {
+                TaskSortOption.NameAsc => tasks.OrderBy(t => t.Name),
+                TaskSortOption.NameDesc => tasks.OrderByDescending(t => t.Name),
+                TaskSortOption.PriorityAsc => tasks.OrderBy(t => t.Priority),
+                TaskSortOption.PriorityDesc => tasks.OrderByDescending(t => t.Priority),
+                TaskSortOption.DeadlineAsc => tasks.OrderBy(t => t.Deadline),
+                TaskSortOption.DeadlineDesc => tasks.OrderByDescending(t => t.Deadline),
+                _ => tasks
+            };
+            return tasks.ToList();
         }
     }
 }

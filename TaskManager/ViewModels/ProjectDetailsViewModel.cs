@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.Input;
+using TaskManager.Common.Enums;
 using TaskManager.DTOModels.ProjectDTO;
 using TaskManager.DTOModels.TaskDTO;
 using TaskManager.Pages;
@@ -39,7 +40,44 @@ namespace TaskManager.ViewModels
             get => _selectedTask;
             set => SetProperty(ref _selectedTask, value);
         }
+        
+        private string? _searchName;
+        public string? SearchName
+        {
+            get => _searchName;
+            set => SetProperty(ref _searchName, value);
+        }
 
+        private Priority? _selectedPriority;
+        public Priority? SelectedPriority
+        {
+            get => _selectedPriority;
+            set => SetProperty(ref _selectedPriority, value);
+        }
+
+        private bool _showCompletedOnly;
+        public bool ShowCompletedOnly
+        {
+            get => _showCompletedOnly;
+            set => SetProperty(ref _showCompletedOnly, value);
+        }
+
+        private TaskSortOption _selectedSortOption = TaskSortOption.PriorityDesc;
+        public TaskSortOption SelectedSortOption
+        {
+            get => _selectedSortOption;
+            set => SetProperty(ref _selectedSortOption, value);
+        }
+
+        public Array Priorities
+        {
+            get => Enum.GetValues(typeof(Priority));
+        }
+
+        public Array TaskSortOptions
+        {
+            get => Enum.GetValues(typeof(TaskSortOption));
+        }
 
         public ProjectDetailsViewModel(IProjectService projectService, ITaskService taskService)
         {
@@ -69,13 +107,12 @@ namespace TaskManager.ViewModels
                     return;
                 }
 
-                var tasks = await _taskService.GetTasksForProjectAsync(_projectId);
+                var tasks = await _taskService.GetTasksFilteredAsync(_projectId, SearchName, SelectedPriority, ShowCompletedOnly, SelectedSortOption);
                 Tasks = new ObservableCollection<TaskListDTO>(tasks);
             }
             catch (Exception ex)
             {
-                await Shell.Current.DisplayAlertAsync("Error", $"Failed to load project details: {ex.Message}", "OK");
-                await Shell.Current.GoToAsync("..");
+                await Shell.Current.DisplayAlertAsync("Error", $"Failed to load data: {ex.Message}", "OK");
             }
             finally
             {
@@ -162,6 +199,22 @@ namespace TaskManager.ViewModels
             {
                 IsBusy = false;
             }
+        }
+        
+        [RelayCommand]
+        private async Task ApplyFilters()
+        {
+            await RefreshDataAsync();
+        }
+
+        [RelayCommand]
+        private void ResetFilters()
+        {
+            SearchName = null;
+            SelectedPriority = null;
+            ShowCompletedOnly = false;
+            SelectedSortOption = TaskSortOption.PriorityDesc;
+            _ = ApplyFiltersCommand.ExecuteAsync(null);
         }
     }
 }

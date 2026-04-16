@@ -1,3 +1,4 @@
+using TaskManager.Common.Enums;
 using TaskManager.DBModels;
 using TaskManager.DTOModels.ProjectDTO;
 using TaskManager.Repositories;
@@ -71,12 +72,12 @@ namespace TaskManager.Services
             ArgumentNullException.ThrowIfNull(projectDto);
             var project = await _projectRepository.GetProjectAsync(projectDto.Id);
             if (project == null) return;
-            
-            if (project.Name == projectDto.Name && 
-                project.Description == projectDto.Description && 
+
+            if (project.Name == projectDto.Name &&
+                project.Description == projectDto.Description &&
                 project.ProjectType == projectDto.ProjectType)
                 return;
-            
+
             project.Name = projectDto.Name;
             project.Description = projectDto.Description;
             project.ProjectType = projectDto.ProjectType;
@@ -89,7 +90,7 @@ namespace TaskManager.Services
             var project = await _projectRepository.GetProjectAsync(projectId);
             if (project == null)
                 return;
-            
+
             var tasks = await _taskRepository.GetTasksForProjectAsync(projectId);
             foreach (var task in tasks)
             {
@@ -97,6 +98,41 @@ namespace TaskManager.Services
             }
 
             await _projectRepository.DeleteProjectAsync(projectId);
+        }
+
+        /// <inheritdoc />
+        public async Task<IEnumerable<ProjectListDTO>> GetProjectsFilteredAsync(string? searchName,
+            ProjectType? projectType, ProjectSortOption sortOption = ProjectSortOption.NameDesc)
+        {
+            var projects = new List<ProjectListDTO>();
+            await foreach (var project in GetAllProjectsAsync())
+            {
+                projects.Add(project);
+            }
+
+            IEnumerable<ProjectListDTO> filtered = projects;
+
+            if (!string.IsNullOrWhiteSpace(searchName))
+            {
+                filtered = filtered.Where(p => p.Name.Contains(searchName, StringComparison.OrdinalIgnoreCase));
+            }
+
+            if (projectType.HasValue)
+            {
+                filtered = filtered.Where(p => p.ProjectType == projectType.Value);
+            }
+
+            filtered = sortOption switch
+            {
+                ProjectSortOption.NameAsc => filtered.OrderBy(p => p.Name),
+                ProjectSortOption.NameDesc => filtered.OrderByDescending(p => p.Name),
+                ProjectSortOption.ProgressAsc => filtered.OrderBy(p => p.Progress),
+                ProjectSortOption.ProgressDesc => filtered.OrderByDescending(p => p.Progress),
+                ProjectSortOption.TaskCountAsc => filtered.OrderBy(p => p.TaskCount),
+                ProjectSortOption.TaskCountDesc => filtered.OrderByDescending(p => p.TaskCount),
+                _ => filtered
+            };
+            return filtered.ToList();
         }
     }
 }

@@ -1,3 +1,4 @@
+using TaskManager.Common.Enums;
 using TaskManager.DTOModels.TaskDTO;
 
 namespace TaskManager.Services
@@ -48,5 +49,16 @@ namespace TaskManager.Services
         /// </summary>
         /// <param name="taskId">The unique identifier of the task to delete</param>
         Task DeleteTaskAsync(Guid taskId);
+        
+        /// <summary>
+        /// Retrieves tasks for a specific project, filtered by various criteria and sorted by the specified option
+        /// </summary>
+        /// <param name="projectId">The unique identifier of the parent project</param>
+        /// <param name="searchName">Text to search in task name. If null or empty, no search filter is applied</param>
+        /// <param name="priority">Specific priority to filter by. If null, all priorities are included</param>
+        /// <param name="isCompleted">Completion status filter. If null, both completed and uncompleted tasks are included</param>
+        /// <param name="sortOption">Sorting option for the result list. Defaults to <see cref="TaskSortOption.PriorityDesc"/></param>
+        /// <returns>A collection of <see cref="TaskListDTO"/> matching the criteria</returns>
+        Task<IEnumerable<TaskListDTO>> GetTasksFilteredAsync(Guid projectId, string? searchName, Priority? priority, bool? isCompleted, TaskSortOption sortOption = TaskSortOption.PriorityDesc);
     }
 }

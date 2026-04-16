@@ -8,9 +8,28 @@
              x:DataType="vm:ProjectsViewModel"
              x:Name="ProjectsPageRoot" Title="Projects" IsEnabled="{Binding IsNotBusy}">
 
-    <Grid RowDefinitions="*, Auto">
+    <Grid RowDefinitions="Auto, *, Auto">
+        <VerticalStackLayout Grid.Row="0" Padding="10" Spacing="5">
+            <SearchBar Placeholder="Search by name"
+                       Text="{Binding SearchName}"
+                       SearchCommand="{Binding ApplyFiltersCommand}" />
+
+            <Picker Title="Filter by project type"
+                    ItemsSource="{Binding ProjectTypes}"
+                    SelectedItem="{Binding SelectedProjectType}" />
+
+            <Picker Title="Sort by"
+                    ItemsSource="{Binding SortOptions}"
+                    SelectedItem="{Binding SelectedSortOption}" />
+
+            <HorizontalStackLayout Spacing="10" HorizontalOptions="Center">
+                <Button Text="Apply filters" Command="{Binding ApplyFiltersCommand}" />
+                <Button Text="Reset" Command="{Binding ResetFiltersCommand}" />
+            </HorizontalStackLayout>
+        </VerticalStackLayout>
+        
         <CollectionView x:Name="ProjectsCollection"
-                        Grid.Row="0"
+                        Grid.Row="1"
                         ItemsSource="{Binding Projects}"
                         SelectionMode="Single"
                         Margin="10"
@@ -68,20 +87,20 @@
             </CollectionView.ItemTemplate>
         </CollectionView>
 
-        <Button Grid.Row="1"
+        <Button Grid.Row="2"
                 Text="Add project"
                 Command="{Binding AddProjectCommand}"
                 HorizontalOptions="Center"
                 Margin="10"
                 WidthRequest="180" />
 
-        <BoxView Grid.RowSpan="2"
+        <BoxView Grid.RowSpan="3"
                  IsVisible="{Binding IsBusy}"
                  BackgroundColor="PowderBlue"
                  Opacity="0.3"
                  InputTransparent="False" />
 
-        <ActivityIndicator Grid.RowSpan="2"
+        <ActivityIndicator Grid.RowSpan="3"
                            Color="HotPink"
                            IsVisible="{Binding IsBusy}"
                            IsRunning="{Binding IsBusy}"

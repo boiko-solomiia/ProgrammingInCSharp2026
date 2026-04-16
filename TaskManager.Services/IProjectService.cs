@@ -1,3 +1,4 @@
+using TaskManager.Common.Enums;
 using TaskManager.DTOModels.ProjectDTO;
 
 namespace TaskManager.Services
@@ -45,5 +46,14 @@ namespace TaskManager.Services
         /// </summary>
         /// <param name="projectId">The unique identifier of the project to delete</param>
         Task DeleteProjectAsync(Guid projectId);
+        
+        /// <summary>
+        /// Retrieves projects filtered by search text and project type, sorted by the specified option
+        /// </summary>
+        /// <param name="searchName">Text to search in project names. If null or empty, no search filter is applied</param>
+        /// <param name="projectType">Specific project type to filter by. If null, all types are included</param>
+        /// <param name="sortOption">Sorting option for the result list. Defaults to <see cref="ProjectSortOption.NameDesc"/></param>
+        /// <returns>A collection of <see cref="ProjectListDTO"/> matching the criteria.</returns>
+        Task<IEnumerable<ProjectListDTO>> GetProjectsFilteredAsync(string? searchName, ProjectType? projectType, ProjectSortOption sortOption = ProjectSortOption.NameDesc);
     }
 }

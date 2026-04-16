@@ -2,14 +2,13 @@
 
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:projectModels="clr-namespace:TaskManager.DTOModels.ProjectDTO;assembly=TaskManager.DTOModels"
              xmlns:taskModels="clr-namespace:TaskManager.DTOModels.TaskDTO;assembly=TaskManager.DTOModels"
              xmlns:vm="clr-namespace:TaskManager.ViewModels"
              x:Class="TaskManager.Pages.ProjectDetailsPage"
              x:DataType="vm:ProjectDetailsViewModel"
              x:Name="ProjectDetailsPageRoot"
              Title="Project Details" IsEnabled="{Binding IsNotBusy}">
-    <Grid RowDefinitions="Auto, Auto, *, Auto"
+    <Grid RowDefinitions="Auto, Auto, Auto, *, Auto"
           RowSpacing="3">
         <!-- Project information -->
         <Border
@@ -48,9 +47,33 @@
                TextColor="{StaticResource TextBlue}"
                Margin="5" />
 
+        <VerticalStackLayout Grid.Row="2" Padding="10,5" Spacing="5">
+            <SearchBar Placeholder="Search tasks..."
+                       Text="{Binding SearchName}"
+                       SearchCommand="{Binding ApplyFiltersCommand}" />
+
+            <Picker Title="Filter by priority"
+                    ItemsSource="{Binding Priorities}"
+                    SelectedItem="{Binding SelectedPriority}" />
+
+            <HorizontalStackLayout Spacing="10">
+                <Label Text="Show completed only" VerticalOptions="Center" />
+                <Switch IsToggled="{Binding ShowCompletedOnly}" />
+            </HorizontalStackLayout>
+
+            <Picker Title="Sort by"
+                    ItemsSource="{Binding TaskSortOptions}"
+                    SelectedItem="{Binding SelectedSortOption}" />
+
+            <HorizontalStackLayout Spacing="10" HorizontalOptions="Center">
+                <Button Text="Apply filters" Command="{Binding ApplyFiltersCommand}" />
+                <Button Text="Reset" Command="{Binding ResetFiltersCommand}" />
+            </HorizontalStackLayout>
+        </VerticalStackLayout>
+
         <!-- List of tasks -->
         <CollectionView x:Name="TasksCollection"
-                        Grid.Row="2"
+                        Grid.Row="3"
                         ItemsSource="{Binding Tasks}"
                         SelectionMode="Single"
                         SelectedItem="{Binding SelectedTask}"
@@ -97,19 +120,19 @@
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
-        <Button Grid.Row="3"
+        <Button Grid.Row="4"
                 Text="Add task"
                 Command="{Binding AddTaskCommand}"
                 Margin="10"
                 HorizontalOptions="Center" />
 
-        <BoxView Grid.RowSpan="4"
+        <BoxView Grid.RowSpan="5"
                  IsVisible="{Binding IsBusy}"
                  BackgroundColor="PowderBlue"
                  Opacity="0.3"
-                 InputTransparent="False"/>
+                 InputTransparent="False" />
 
-        <ActivityIndicator Grid.RowSpan="4"
+        <ActivityIndicator Grid.RowSpan="5"
                            Color="HotPink"
                            IsVisible="{Binding IsBusy}"
                            IsRunning="{Binding IsBusy}"
