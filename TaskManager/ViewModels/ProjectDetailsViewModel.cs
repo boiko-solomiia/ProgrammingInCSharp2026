@@ -55,8 +55,8 @@ namespace TaskManager.ViewModels
             set => SetProperty(ref _selectedPriority, value);
         }
 
-        private bool _showCompletedOnly;
-        public bool ShowCompletedOnly
+        private bool? _showCompletedOnly;
+        public bool? ShowCompletedOnly
         {
             get => _showCompletedOnly;
             set => SetProperty(ref _showCompletedOnly, value);
@@ -212,7 +212,7 @@ namespace TaskManager.ViewModels
         {
             SearchName = null;
             SelectedPriority = null;
-            ShowCompletedOnly = false;
+            ShowCompletedOnly = null;
             SelectedSortOption = TaskSortOption.PriorityDesc;
             _ = ApplyFiltersCommand.ExecuteAsync(null);
         }
