@@ -5,78 +5,91 @@
              xmlns:vm="clr-namespace:TaskManager.ViewModels"
              x:Class="TaskManager.Pages.TaskDetailsPage"
              x:DataType="vm:TaskDetailsViewModel"
-             Title="Task Details">
-    <ScrollView>
-        <VerticalStackLayout Padding="20" Spacing="20">
+             Title="Task Details" IsEnabled="{Binding IsNotBusy}">
+    <Grid>
+        <ScrollView>
+            <VerticalStackLayout Padding="20" Spacing="20">
 
-            <Grid ColumnDefinitions="Auto,*"
-                  RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto"
-                  ColumnSpacing="15"
-                  RowSpacing="15">
+                <Grid ColumnDefinitions="Auto,*"
+                      RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto"
+                      ColumnSpacing="15"
+                      RowSpacing="15">
 
-                <Label Text="Name:"
-                       Style="{StaticResource Headline18}"
-                       FontAttributes="Bold"
-                       Grid.Row="0"
-                       Grid.Column="0" />
-                <Label Text="{Binding CurrentTask.Name}"
-                       Style="{StaticResource Headline18}"
-                       Grid.Row="0"
-                       Grid.Column="1" />
+                    <Label Text="Name:"
+                           Style="{StaticResource Headline18}"
+                           FontAttributes="Bold"
+                           Grid.Row="0"
+                           Grid.Column="0" />
+                    <Label Text="{Binding CurrentTask.Name}"
+                           Style="{StaticResource Headline18}"
+                           Grid.Row="0"
+                           Grid.Column="1" />
 
-                <Label Text="Description:"
-                       Style="{StaticResource Headline18}"
-                       FontAttributes="Bold"
-                       Grid.Row="1"
-                       Grid.Column="0"
-                       VerticalOptions="Start" />
-                <Label Text="{Binding CurrentTask.Description}"
-                       Style="{StaticResource Headline18}"
-                       Grid.Row="1"
-                       Grid.Column="1"
-                       LineBreakMode="WordWrap" />
+                    <Label Text="Description:"
+                           Style="{StaticResource Headline18}"
+                           FontAttributes="Bold"
+                           Grid.Row="1"
+                           Grid.Column="0"
+                           VerticalOptions="Start" />
+                    <Label Text="{Binding CurrentTask.Description}"
+                           Style="{StaticResource Headline18}"
+                           Grid.Row="1"
+                           Grid.Column="1"
+                           LineBreakMode="WordWrap" />
 
-                <Label Text="Priority:"
-                       Style="{StaticResource Headline18}"
-                       FontAttributes="Bold"
-                       Grid.Row="2"
-                       Grid.Column="0" />
-                <Label Text="{Binding CurrentTask.Priority}"
-                       Style="{StaticResource Headline18}"
-                       Grid.Row="2"
-                       Grid.Column="1" />
+                    <Label Text="Priority:"
+                           Style="{StaticResource Headline18}"
+                           FontAttributes="Bold"
+                           Grid.Row="2"
+                           Grid.Column="0" />
+                    <Label Text="{Binding CurrentTask.Priority}"
+                           Style="{StaticResource Headline18}"
+                           Grid.Row="2"
+                           Grid.Column="1" />
 
-                <Label Text="Deadline:"
-                       Style="{StaticResource Headline18}"
-                       FontAttributes="Bold"
-                       Grid.Row="3"
-                       Grid.Column="0" />
-                <Label Text="{Binding CurrentTask.Deadline, StringFormat='{0:MMMM dd, yyyy}'}"
-                       Style="{StaticResource Headline18}"
-                       Grid.Row="3"
-                       Grid.Column="1" />
+                    <Label Text="Deadline:"
+                           Style="{StaticResource Headline18}"
+                           FontAttributes="Bold"
+                           Grid.Row="3"
+                           Grid.Column="0" />
+                    <Label Text="{Binding CurrentTask.Deadline, StringFormat='{0:MMMM dd, yyyy}'}"
+                           Style="{StaticResource Headline18}"
+                           Grid.Row="3"
+                           Grid.Column="1" />
 
-                <Label Text="Is Completed:"
-                       Style="{StaticResource Headline18}"
-                       FontAttributes="Bold"
-                       Grid.Row="4"
-                       Grid.Column="0" />
-                <Label Text="{Binding CurrentTask.IsCompleted}"
-                       Style="{StaticResource Headline18}"
-                       Grid.Row="4"
-                       Grid.Column="1" />
+                    <Label Text="Is Completed:"
+                           Style="{StaticResource Headline18}"
+                           FontAttributes="Bold"
+                           Grid.Row="4"
+                           Grid.Column="0" />
+                    <Label Text="{Binding CurrentTask.IsCompleted}"
+                           Style="{StaticResource Headline18}"
+                           Grid.Row="4"
+                           Grid.Column="1" />
 
-                <Label Text="Is Overdue:"
-                       Style="{StaticResource Headline18}"
-                       FontAttributes="Bold"
-                       Grid.Row="5"
-                       Grid.Column="0" />
-                <Label Text="{Binding CurrentTask.IsOverdue}"
-                       Style="{StaticResource Headline18}"
-                       Grid.Row="5"
-                       Grid.Column="1" />
+                    <Label Text="Is Overdue:"
+                           Style="{StaticResource Headline18}"
+                           FontAttributes="Bold"
+                           Grid.Row="5"
+                           Grid.Column="0" />
+                    <Label Text="{Binding CurrentTask.IsOverdue}"
+                           Style="{StaticResource Headline18}"
+                           Grid.Row="5"
+                           Grid.Column="1" />
 
-            </Grid>
-        </VerticalStackLayout>
-    </ScrollView>
+                </Grid>
+            </VerticalStackLayout>
+        </ScrollView>
+           
+        <BoxView IsVisible="{Binding IsBusy}"
+                 BackgroundColor="PowderBlue"
+                 Opacity="0.3"
+                 InputTransparent="False" />
+
+        <ActivityIndicator Color="HotPink"
+                           IsVisible="{Binding IsBusy}"
+                           IsRunning="{Binding IsBusy}"
+                           VerticalOptions="Center"
+                           HorizontalOptions="Center" />
+    </Grid>
 </ContentPage>

@@ -8,7 +8,7 @@
              x:Class="TaskManager.Pages.ProjectDetailsPage"
              x:DataType="vm:ProjectDetailsViewModel"
              x:Name="ProjectDetailsPageRoot"
-             Title="Project Details">
+             Title="Project Details" IsEnabled="{Binding IsNotBusy}">
     <Grid RowDefinitions="Auto, Auto, *, Auto"
           RowSpacing="3">
         <!-- Project information -->
@@ -50,12 +50,12 @@
 
         <!-- List of tasks -->
         <CollectionView x:Name="TasksCollection"
-                Grid.Row="2"
-                ItemsSource="{Binding Tasks}"
-                SelectionMode="Single"
-                SelectedItem="{Binding SelectedTask}"
-                SelectionChangedCommand="{Binding LoadTaskCommand}"
-                SelectionChangedCommandParameter="{Binding SelectedItem, Source={x:Reference TasksCollection}}">
+                        Grid.Row="2"
+                        ItemsSource="{Binding Tasks}"
+                        SelectionMode="Single"
+                        SelectedItem="{Binding SelectedTask}"
+                        SelectionChangedCommand="{Binding LoadTaskCommand}"
+                        SelectionChangedCommandParameter="{Binding SelectedItem, Source={x:Reference TasksCollection}}">
             <CollectionView.ItemTemplate>
                 <DataTemplate
                     x:DataType="taskModels:TaskListDTO">
@@ -63,36 +63,36 @@
                         <SwipeView.RightItems>
                             <SwipeItems Mode="Reveal">
                                 <SwipeItem Text="Delete"
-                               BackgroundColor="#F6C1CC"
-                               Command="{Binding Source={x:Reference ProjectDetailsPageRoot}, Path=BindingContext.DeleteTaskCommand}"
-                               CommandParameter="{Binding .}" />
+                                           BackgroundColor="#F6C1CC"
+                                           Command="{Binding Source={x:Reference ProjectDetailsPageRoot}, Path=BindingContext.DeleteTaskCommand}"
+                                           CommandParameter="{Binding .}" />
                                 <SwipeItem Text="Edit"
-                               BackgroundColor="#C7DDF7"
-                               Command="{Binding Source={x:Reference ProjectDetailsPageRoot}, Path=BindingContext.EditTaskCommand}"
-                               CommandParameter="{Binding .}" />
+                                           BackgroundColor="#C7DDF7"
+                                           Command="{Binding Source={x:Reference ProjectDetailsPageRoot}, Path=BindingContext.EditTaskCommand}"
+                                           CommandParameter="{Binding .}" />
                             </SwipeItems>
                         </SwipeView.RightItems>
-                        
+
                         <Border
-                        Stroke="{StaticResource Secondary}"
-                        StrokeThickness="1"
-                        Padding="12"
-                        Margin="0,5">
-                        <VerticalStackLayout>
-                            <Label
-                                Style="{StaticResource SubHeadline}"
-                                Text="{Binding Name}" />
-                            <Grid ColumnDefinitions="*, Auto">
-                                <Label Grid.Column="0"
-                                       Text="{Binding Priority, StringFormat='Priority: {0}'}"
-                                       TextColor="{StaticResource SecondaryDark}" />
-                                <Label Grid.Column="1"
-                                       Text="{Binding IsCompleted, StringFormat='Completed: {0}'}"
-                                       TextColor="{StaticResource SecondaryDark}" />
-                            </Grid>
-                            <Label Text="{Binding Deadline, StringFormat='Due: {0:dd MMM yyyy}'}" />
-                        </VerticalStackLayout>
-                    </Border>
+                            Stroke="{StaticResource Secondary}"
+                            StrokeThickness="1"
+                            Padding="12"
+                            Margin="0,5">
+                            <VerticalStackLayout>
+                                <Label
+                                    Style="{StaticResource SubHeadline}"
+                                    Text="{Binding Name}" />
+                                <Grid ColumnDefinitions="*, Auto">
+                                    <Label Grid.Column="0"
+                                           Text="{Binding Priority, StringFormat='Priority: {0}'}"
+                                           TextColor="{StaticResource SecondaryDark}" />
+                                    <Label Grid.Column="1"
+                                           Text="{Binding IsCompleted, StringFormat='Completed: {0}'}"
+                                           TextColor="{StaticResource SecondaryDark}" />
+                                </Grid>
+                                <Label Text="{Binding Deadline, StringFormat='Due: {0:dd MMM yyyy}'}" />
+                            </VerticalStackLayout>
+                        </Border>
                     </SwipeView>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
@@ -102,5 +102,18 @@
                 Command="{Binding AddTaskCommand}"
                 Margin="10"
                 HorizontalOptions="Center" />
+
+        <BoxView Grid.RowSpan="4"
+                 IsVisible="{Binding IsBusy}"
+                 BackgroundColor="PowderBlue"
+                 Opacity="0.3"
+                 InputTransparent="False"/>
+
+        <ActivityIndicator Grid.RowSpan="4"
+                           Color="HotPink"
+                           IsVisible="{Binding IsBusy}"
+                           IsRunning="{Binding IsBusy}"
+                           VerticalOptions="Center"
+                           HorizontalOptions="Center" />
     </Grid>
 </ContentPage>

@@ -1,44 +1,57 @@
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8"?>
 
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:TaskManager.ViewModels"
              x:Class="TaskManager.Pages.EditTaskPage"
              x:DataType="vm:EditTaskViewModel"
-             Title="Edit Task">
+             Title="Edit Task" IsEnabled="{Binding IsNotBusy}">
 
-    <ScrollView>
-        <VerticalStackLayout Padding="20" Spacing="14">
+    <Grid>
+        <ScrollView>
+            <VerticalStackLayout Padding="20" Spacing="14">
 
-            <Label Text="Name"
-                   Style="{StaticResource SubHeadline}" />
-            <Entry Text="{Binding Name}" />
-
-            <Label Text="Description"
-                   Style="{StaticResource SubHeadline}" />
-            <Editor Text="{Binding Description}"
-                    AutoSize="TextChanges"/>
-
-            <Label Text="Priority"
-                   Style="{StaticResource SubHeadline}" />
-            <Picker Title="Select priority"
-                    ItemsSource="{Binding Priorities}"
-                    SelectedItem="{Binding Priority}" />
-
-            <Label Text="Deadline"
-                   Style="{StaticResource SubHeadline}" />
-            <DatePicker Date="{Binding Deadline}" />
-
-            <HorizontalStackLayout Spacing="10">
-                <Label Text="Completed"
-                       VerticalOptions="Center"
+                <Label Text="Name"
                        Style="{StaticResource SubHeadline}" />
-                <Switch IsToggled="{Binding IsCompleted}" />
-            </HorizontalStackLayout>
+                <Entry Text="{Binding Name}" />
 
-            <Button Text="Save"
-                    Command="{Binding SaveCommand}"
-                    IsEnabled="{Binding IsNotBusy}" />
-        </VerticalStackLayout>
-    </ScrollView>
+                <Label Text="Description"
+                       Style="{StaticResource SubHeadline}" />
+                <Editor Text="{Binding Description}"
+                        AutoSize="TextChanges" />
+
+                <Label Text="Priority"
+                       Style="{StaticResource SubHeadline}" />
+                <Picker Title="Select priority"
+                        ItemsSource="{Binding Priorities}"
+                        SelectedItem="{Binding Priority}" />
+
+                <Label Text="Deadline"
+                       Style="{StaticResource SubHeadline}" />
+                <DatePicker Date="{Binding Deadline}" />
+
+                <HorizontalStackLayout Spacing="10">
+                    <Label Text="Completed"
+                           VerticalOptions="Center"
+                           Style="{StaticResource SubHeadline}" />
+                    <Switch IsToggled="{Binding IsCompleted}" />
+                </HorizontalStackLayout>
+
+                <Button Text="Save"
+                        Command="{Binding SaveCommand}"
+                        IsEnabled="{Binding IsNotBusy}" />
+            </VerticalStackLayout>
+        </ScrollView>
+        
+        <BoxView IsVisible="{Binding IsBusy}"
+                 BackgroundColor="PowderBlue"
+                 Opacity="0.3"
+                 InputTransparent="False" />
+
+        <ActivityIndicator Color="HotPink"
+                           IsVisible="{Binding IsBusy}"
+                           IsRunning="{Binding IsBusy}"
+                           VerticalOptions="Center"
+                           HorizontalOptions="Center" />
+    </Grid>
 </ContentPage>

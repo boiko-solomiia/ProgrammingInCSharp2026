@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
@@ -8,52 +8,53 @@
              Title="Create Task"
              IsEnabled="{Binding IsNotBusy}">
 
-	<Grid>
-		<ScrollView>
-			<VerticalStackLayout Padding="20" Spacing="14">
+    <Grid>
+        <ScrollView>
+            <VerticalStackLayout Padding="20" Spacing="14">
 
-				<Label Text="Name"
-					   Style="{StaticResource SubHeadline}" />
-				<Entry Text="{Binding Name}" />
+                <Label Text="Name"
+                       Style="{StaticResource SubHeadline}" />
+                <Entry Text="{Binding Name}" />
 
-				<Label Text="Description"
-					   Style="{StaticResource SubHeadline}" />
-				<Editor Text="{Binding Description}"
-						AutoSize="TextChanges" />
+                <Label Text="Description"
+                       Style="{StaticResource SubHeadline}" />
+                <Editor Text="{Binding Description}"
+                        AutoSize="TextChanges" />
 
-				<Label Text="Priority"
-					   Style="{StaticResource SubHeadline}" />
-				<Picker Title="Select priority"
-						ItemsSource="{Binding Priorities}"
-						SelectedItem="{Binding Priority}" />
+                <Label Text="Priority"
+                       Style="{StaticResource SubHeadline}" />
+                <Picker Title="Select priority"
+                        ItemsSource="{Binding Priorities}"
+                        SelectedItem="{Binding Priority}" />
 
-				<Label Text="Deadline"
-					   Style="{StaticResource SubHeadline}" />
-				<DatePicker Date="{Binding Deadline}" />
+                <Label Text="Deadline"
+                       Style="{StaticResource SubHeadline}" />
+                <DatePicker Date="{Binding Deadline}" />
 
-				<HorizontalStackLayout Spacing="10">
-					<Label Text="Completed"
-						   VerticalOptions="Center"
-						   Style="{StaticResource SubHeadline}" />
-					<Switch IsToggled="{Binding IsCompleted}" />
-				</HorizontalStackLayout>
+                <HorizontalStackLayout Spacing="10">
+                    <Label Text="Completed"
+                           VerticalOptions="Center"
+                           Style="{StaticResource SubHeadline}" />
+                    <Switch IsToggled="{Binding IsCompleted}" />
+                </HorizontalStackLayout>
 
-				<Button Text="Create"
-						Command="{Binding CreateCommand}"
-						HorizontalOptions="Center"
-						WidthRequest="160"
-						Margin="0,10,0,0" />
-			</VerticalStackLayout>
-		</ScrollView>
+                <Button Text="Create"
+                        Command="{Binding CreateCommand}"
+                        HorizontalOptions="Center"
+                        WidthRequest="160"
+                        Margin="0,10,0,0" />
+            </VerticalStackLayout>
+        </ScrollView>
 
-		<BoxView IsVisible="{Binding IsBusy}"
-				 BackgroundColor="Gray"
-				 Opacity="0.2"
-				 InputTransparent="False" />
+        <BoxView IsVisible="{Binding IsBusy}"
+                 BackgroundColor="PowderBlue"
+                 Opacity="0.3"
+                 InputTransparent="False" />
 
-		<ActivityIndicator IsVisible="{Binding IsBusy}"
-						   IsRunning="{Binding IsBusy}"
-						   VerticalOptions="Center"
-						   HorizontalOptions="Center" />
-	</Grid>
+        <ActivityIndicator Color="HotPink"
+                           IsVisible="{Binding IsBusy}"
+                           IsRunning="{Binding IsBusy}"
+                           VerticalOptions="Center"
+                           HorizontalOptions="Center" />
+    </Grid>
 </ContentPage>

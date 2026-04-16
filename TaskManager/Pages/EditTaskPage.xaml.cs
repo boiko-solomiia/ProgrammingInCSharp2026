@@ -4,9 +4,9 @@ namespace TaskManager.Pages;
 
 public partial class EditTaskPage : ContentPage
 {
-    public EditTaskPage(EditTaskViewModel viewModel)
+    public EditTaskPage(EditTaskViewModel vm)
     {
         InitializeComponent();
-        BindingContext = viewModel;
+        BindingContext = vm;
     }
 }

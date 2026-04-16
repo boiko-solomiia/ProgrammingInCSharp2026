@@ -6,20 +6,19 @@
              xmlns:vm="clr-namespace:TaskManager.ViewModels"
              x:Class="TaskManager.Pages.ProjectsPage"
              x:DataType="vm:ProjectsViewModel"
-             x:Name="ProjectsPageRoot"
-             Title="Projects">
+             x:Name="ProjectsPageRoot" Title="Projects" IsEnabled="{Binding IsNotBusy}">
 
-<Grid RowDefinitions="*, Auto">
+    <Grid RowDefinitions="*, Auto">
         <CollectionView x:Name="ProjectsCollection"
-        Grid.Row="0"
-        ItemsSource="{Binding Projects}"
-        SelectionMode="Single"
-        Margin="10"
-        SelectedItem="{Binding SelectedProject}"
-        SelectionChangedCommand="{Binding LoadProjectCommand}">
+                        Grid.Row="0"
+                        ItemsSource="{Binding Projects}"
+                        SelectionMode="Single"
+                        Margin="10"
+                        SelectedItem="{Binding SelectedProject}"
+                        SelectionChangedCommand="{Binding LoadProjectCommand}">
 
             <CollectionView.ItemTemplate>
-            <DataTemplate x:DataType="models:ProjectListDTO">
+                <DataTemplate x:DataType="models:ProjectListDTO">
                     <SwipeView>
                         <SwipeView.RightItems>
                             <SwipeItems Mode="Reveal">
@@ -34,41 +33,41 @@
                             </SwipeItems>
                         </SwipeView.RightItems>
                         <Border
-                    Stroke="{StaticResource BorderMedium}"
-                    StrokeThickness="1"
-                    Padding="15"
-                    Margin="0,8"
-                    BackgroundColor="{StaticResource ProjectCardBackground}">
-                    
-                    <VerticalStackLayout Spacing="5">
-                        <Label
-                            Style="{StaticResource Headline}"
-                            Text="{Binding Name}" />
+                            Stroke="{StaticResource BorderMedium}"
+                            StrokeThickness="1"
+                            Padding="15"
+                            Margin="0,8"
+                            BackgroundColor="{StaticResource ProjectCardBackground}">
 
-                        <Label
-                            TextColor="{StaticResource TextLighterPink}"
-                            Text="{Binding TaskCountDescription}"
-                            Style="{StaticResource Headline18}"
-                            HorizontalOptions="Center" />
-                        
-                        <Grid ColumnDefinitions="*, *">
-                            <Label Grid.Column="0"
-                                   Style="{StaticResource SubHeadline}"
-                                   Text="{Binding ProjectType}"
-                                   HorizontalOptions="Start" />
+                            <VerticalStackLayout Spacing="5">
+                                <Label
+                                    Style="{StaticResource Headline}"
+                                    Text="{Binding Name}" />
 
-                            <Label Grid.Column="1"
-                                   Style="{StaticResource SubHeadline}"
-                                   Text="{Binding ProgressDescription}"
-                                   HorizontalOptions="End" />
-                        </Grid>
-                    </VerticalStackLayout>
-                </Border>
-              </SwipeView>
-            </DataTemplate>
-        </CollectionView.ItemTemplate>
-    </CollectionView>
-    
+                                <Label
+                                    TextColor="{StaticResource TextLighterPink}"
+                                    Text="{Binding TaskCountDescription}"
+                                    Style="{StaticResource Headline18}"
+                                    HorizontalOptions="Center" />
+
+                                <Grid ColumnDefinitions="*, *">
+                                    <Label Grid.Column="0"
+                                           Style="{StaticResource SubHeadline}"
+                                           Text="{Binding ProjectType}"
+                                           HorizontalOptions="Start" />
+
+                                    <Label Grid.Column="1"
+                                           Style="{StaticResource SubHeadline}"
+                                           Text="{Binding ProgressDescription}"
+                                           HorizontalOptions="End" />
+                                </Grid>
+                            </VerticalStackLayout>
+                        </Border>
+                    </SwipeView>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
         <Button Grid.Row="1"
                 Text="Add project"
                 Command="{Binding AddProjectCommand}"
@@ -78,11 +77,12 @@
 
         <BoxView Grid.RowSpan="2"
                  IsVisible="{Binding IsBusy}"
-                 BackgroundColor="Gray"
-                 Opacity="0.2"
+                 BackgroundColor="PowderBlue"
+                 Opacity="0.3"
                  InputTransparent="False" />
 
         <ActivityIndicator Grid.RowSpan="2"
+                           Color="HotPink"
                            IsVisible="{Binding IsBusy}"
                            IsRunning="{Binding IsBusy}"
                            VerticalOptions="Center"
