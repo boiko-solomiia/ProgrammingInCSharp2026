@@ -1,8 +1,6 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
+﻿using CommunityToolkit.Mvvm.Input;
 using TaskManager.Common.Enums;
 using TaskManager.DTOModels.TaskDTO;
-using TaskManager.Pages;
 using TaskManager.Services;
 
 namespace TaskManager.ViewModels
@@ -49,7 +47,10 @@ namespace TaskManager.ViewModels
             set => SetProperty(ref _isCompleted, value);
         }
 
-        public Array Priorities => Enum.GetValues(typeof(Priority));
+        public Array Priorities
+        {
+            get => Enum.GetValues(typeof(Priority));
+        }
 
         public EditTaskViewModel(ITaskService taskService)
         {
@@ -65,21 +66,37 @@ namespace TaskManager.ViewModels
             if (query.TryGetValue("TaskId", out var tValue) && tValue is Guid tId)
                 _taskId = tId;
 
-            LoadData();
+            _ = LoadDataAsync();
         }
 
-        private void LoadData()
+        private async Task LoadDataAsync()
         {
-            var task = _taskService.GetTaskForEditAsync(_projectId, _taskId);
+            IsBusy = true;
+            try
+            {
+                var task = await _taskService.GetTaskForEditAsync(_taskId);
+                if (task == null)
+                {
+                    await Shell.Current.DisplayAlertAsync("Error", "Task not found.", "OK");
+                    await Shell.Current.GoToAsync("..");
+                    return;
+                }
 
-            if (task == null)
-                return;
-
-            Name = task.Name;
-            Description = task.Description;
-            Priority = task.Priority;
-            Deadline = task.Deadline;
-            IsCompleted = task.IsCompleted;
+                Name = task.Name;
+                Description = task.Description;
+                Priority = task.Priority;
+                Deadline = task.Deadline;
+                IsCompleted = task.IsCompleted;
+            }
+            catch (Exception ex)
+            {
+                await Shell.Current.DisplayAlertAsync("Error", $"Failed to load task: {ex.Message}", "OK");
+                await Shell.Current.GoToAsync("..");
+            }
+            finally
+            {
+                IsBusy = false;
+            }
         }
 
         [RelayCommand]
@@ -97,14 +114,14 @@ namespace TaskManager.ViewModels
                 var dto = new TaskEditDTO(
                     _taskId,
                     _projectId,
-                    Name,
-                    Description,
+                    Name.Trim(),
+                    Description.Trim(),
                     Priority,
                     Deadline,
                     IsCompleted);
 
-                _taskService.UpdateTaskAsync(dto);
-
+                await _taskService.UpdateTaskAsync(dto);
+                await Shell.Current.DisplayAlertAsync("Success", "Task updated successfully!", "OK");
                 await Shell.Current.GoToAsync("..");
             }
             catch (Exception ex)

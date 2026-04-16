@@ -32,7 +32,10 @@ namespace TaskManager.ViewModels
             set => SetProperty(ref _projectType, value);
         }
 
-        public Array ProjectTypes => Enum.GetValues(typeof(ProjectType));
+        public Array ProjectTypes
+        {
+            get => Enum.GetValues(typeof(ProjectType));
+        }
 
         public EditProjectViewModel(IProjectService projectService)
         {
@@ -44,19 +47,35 @@ namespace TaskManager.ViewModels
             if (query.TryGetValue("ProjectId", out var value) && value is Guid id)
                 _projectId = id;
 
-            LoadData();
+            _ = LoadDataAsync();
         }
 
-        private void LoadData()
+        private async Task LoadDataAsync()
         {
-            var project = _projectService.GetProjectForEdit(_projectId);
+            IsBusy = true;
+            try
+            {
+                var project = await _projectService.GetProjectForEditAsync(_projectId);
+                if (project == null)
+                {
+                    await Shell.Current.DisplayAlertAsync("Error", "Project not found.", "OK");
+                    await Shell.Current.GoToAsync("..");
+                    return;
+                }
 
-            if (project == null)
-                return;
-
-            Name = project.Name;
-            Description = project.Description;
-            ProjectType = project.ProjectType;
+                Name = project.Name;
+                Description = project.Description;
+                ProjectType = project.ProjectType;
+            }
+            catch (Exception ex)
+            {
+                await Shell.Current.DisplayAlertAsync("Error", $"Failed to load project: {ex.Message}", "OK");
+                await Shell.Current.GoToAsync("..");
+            }
+            finally
+            {
+                IsBusy = false;
+            }
         }
 
         [RelayCommand]
@@ -77,8 +96,9 @@ namespace TaskManager.ViewModels
             IsBusy = true;
             try
             {
-                var dto = new ProjectEditDTO(_projectId, Name.Trim(), Description?.Trim() ?? string.Empty, ProjectType.Value);
-                _projectService.UpdateProjectAsync(dto);
+                var dto = new ProjectEditDTO(_projectId, Name.Trim(), Description.Trim(), ProjectType.Value);
+                await _projectService.UpdateProjectAsync(dto);
+                await Shell.Current.DisplayAlertAsync("Success", "Project updated successfully!", "OK");
                 await Shell.Current.GoToAsync("..");
             }
             catch (Exception ex)

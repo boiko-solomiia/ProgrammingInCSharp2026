@@ -2,7 +2,6 @@
 using TaskManager.DTOModels.ProjectDTO;
 using TaskManager.Pages;
 using TaskManager.Services;
-using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 
 namespace TaskManager.ViewModels
@@ -39,7 +38,11 @@ namespace TaskManager.ViewModels
             IsBusy = true;
             try
             {
-                Projects = new ObservableCollection<ProjectListDTO>(_projectService.GetAllProjectsAsync());
+                Projects = new ObservableCollection<ProjectListDTO>();
+                await foreach (var project in _projectService.GetAllProjectsAsync())
+                {
+                    Projects.Add(project);
+                }
             }
             catch (Exception ex)
             {
@@ -54,15 +57,15 @@ namespace TaskManager.ViewModels
         /// <summary>
         /// Navigates to the selected project's details page
         /// </summary>
-
         [RelayCommand]
         private async Task LoadProject()
         {
+            if (SelectedProject == null)
+                return;
+
             IsBusy = true;
             try
             {
-                if(SelectedProject == null)
-                    return;
                 await Shell.Current.GoToAsync(nameof(ProjectDetailsPage), new Dictionary<string, object> { { "ProjectId", SelectedProject.Id } });
             }
             catch (Exception ex)
@@ -128,7 +131,7 @@ namespace TaskManager.ViewModels
             IsBusy = true;
             try
             {
-                _projectService.DeleteProjectAsync(project.Id);
+                await _projectService.DeleteProjectAsync(project.Id);
                 await RefreshData();
             }
             catch (Exception ex)

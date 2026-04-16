@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using TaskManager.Common.Enums;
 
 namespace TaskManager.DBModels
@@ -29,6 +30,7 @@ namespace TaskManager.DBModels
         /// <param name="priority">Task priority</param>
         /// <param name="deadline">Task deadline (will be converted to UTC)</param>
         /// <param name="isCompleted">Task completion status</param>
+        [JsonConstructor]
         public TaskDBModel(Guid id, Guid projectId, string name, string description, Priority priority, DateTime deadline, bool isCompleted)
         {
             Id = id;

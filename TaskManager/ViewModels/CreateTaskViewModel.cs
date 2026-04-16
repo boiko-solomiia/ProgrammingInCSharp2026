@@ -46,7 +46,10 @@ namespace TaskManager.ViewModels
             set => SetProperty(ref _isCompleted, value);
         }
 
-        public Array Priorities => Enum.GetValues(typeof(Priority));
+        public Array Priorities
+        {
+            get => Enum.GetValues(typeof(Priority));
+        }
 
         public CreateTaskViewModel(ITaskService taskService)
         {
@@ -85,8 +88,8 @@ namespace TaskManager.ViewModels
             IsBusy = true;
             try
             {
-                var dto = new TaskCreateDTO(_projectId, Name.Trim(), Description?.Trim() ?? string.Empty, Priority.Value, Deadline.Value, IsCompleted);
-                _taskService.CreateTaskAsync(dto);
+                var dto = new TaskCreateDTO(_projectId, Name.Trim(), Description.Trim(), Priority.Value, Deadline.Value, IsCompleted);
+                await _taskService.CreateTaskAsync(dto);
                 await Shell.Current.DisplayAlertAsync("Success", "Task created successfully!", "OK");
                 await Shell.Current.GoToAsync("..");
             }

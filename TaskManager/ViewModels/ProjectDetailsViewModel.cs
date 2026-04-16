@@ -1,5 +1,4 @@
 ﻿using System.Collections.ObjectModel;
-using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using TaskManager.DTOModels.ProjectDTO;
 using TaskManager.DTOModels.TaskDTO;
@@ -53,21 +52,30 @@ namespace TaskManager.ViewModels
             if (query.TryGetValue("ProjectId", out var value) && value is Guid id)
             {
                 _projectId = id;
-                _ = RefreshData();
+                _ = LoadDataAsync();
             }
         }
 
-        internal async Task RefreshData()
+        private async Task LoadDataAsync()
         {
             IsBusy = true;
             try
             {
-                CurrentProject = _projectService.GetProjectAsync(_projectId);
-                Tasks = new ObservableCollection<TaskListDTO>(_taskService.GetTasksForProject(_projectId));
+                CurrentProject = await _projectService.GetProjectAsync(_projectId);
+                if (CurrentProject == null)
+                {
+                    await Shell.Current.DisplayAlertAsync("Error", "Project not found.", "OK");
+                    await Shell.Current.GoToAsync("..");
+                    return;
+                }
+
+                var tasks = await _taskService.GetTasksForProjectAsync(_projectId);
+                Tasks = new ObservableCollection<TaskListDTO>(tasks);
             }
             catch (Exception ex)
             {
                 await Shell.Current.DisplayAlertAsync("Error", $"Failed to load project details: {ex.Message}", "OK");
+                await Shell.Current.GoToAsync("..");
             }
             finally
             {
@@ -122,8 +130,8 @@ namespace TaskManager.ViewModels
             IsBusy = true;
             try
             {
-                _taskService.DeleteTaskAsync(task.Id);
-                await RefreshData();
+                await _taskService.DeleteTaskAsync(task.Id);
+                await LoadDataAsync();
             }
             catch (Exception ex)
             {

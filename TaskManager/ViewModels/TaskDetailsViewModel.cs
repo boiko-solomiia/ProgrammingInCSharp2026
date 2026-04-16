@@ -1,5 +1,4 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using TaskManager.DTOModels.TaskDTO;
+﻿using TaskManager.DTOModels.TaskDTO;
 using TaskManager.Services;
 
 namespace TaskManager.ViewModels
@@ -11,8 +10,7 @@ namespace TaskManager.ViewModels
     public partial class TaskDetailsViewModel : BaseViewModel, IQueryAttributable
     {
         private readonly ITaskService _taskService;
-
-        private Guid _projectId;
+        
         private Guid _taskId;
 
         private TaskDetailsDTO? _currentTask;
@@ -29,25 +27,28 @@ namespace TaskManager.ViewModels
 
         public void ApplyQueryAttributes(IDictionary<string, object> query)
         {
-            if (query.TryGetValue("ProjectId", out var pValue) && pValue is Guid pId)
-                _projectId = pId;
-
             if (query.TryGetValue("TaskId", out var tValue) && tValue is Guid tId)
                 _taskId = tId;
 
-            _ = RefreshData();
+            _ = LoadDataAsync();
         }
 
-        internal async Task RefreshData()
+        private async Task LoadDataAsync()
         {
             IsBusy = true;
             try
             {
-                CurrentTask = _taskService.GetTaskAsync(_taskId);
+                CurrentTask = await _taskService.GetTaskAsync(_taskId);
+                if (CurrentTask == null)
+                {
+                    await Shell.Current.DisplayAlertAsync("Error", "Task not found.", "OK");
+                    await Shell.Current.GoToAsync("..");
+                }
             }
             catch (Exception ex)
             {
                 await Shell.Current.DisplayAlertAsync("Error", $"Failed to load task details: {ex.Message}", "OK");
+                await Shell.Current.GoToAsync("..");
             }
             finally
             {

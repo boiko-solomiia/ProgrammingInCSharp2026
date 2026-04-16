@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using TaskManager.Common.Enums;
 
 namespace TaskManager.DBModels
@@ -38,6 +39,7 @@ namespace TaskManager.DBModels
         /// <param name="name">Project name</param>
         /// <param name="description">Project description</param>
         /// <param name="projectType">Project type</param>
+        [JsonConstructor]
         public ProjectDBModel(Guid id, string name, string description, ProjectType projectType)
         {
             Id = id;

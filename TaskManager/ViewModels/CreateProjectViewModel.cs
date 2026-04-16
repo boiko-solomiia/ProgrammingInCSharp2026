@@ -30,7 +30,10 @@ namespace TaskManager.ViewModels
             set => SetProperty(ref _projectType, value);
         }
 
-        public Array ProjectTypes => Enum.GetValues(typeof(ProjectType));
+        public Array ProjectTypes
+        {
+            get => Enum.GetValues(typeof(ProjectType));
+        }
 
         public CreateProjectViewModel(IProjectService projectService)
         {
@@ -55,8 +58,9 @@ namespace TaskManager.ViewModels
             IsBusy = true;
             try
             {
-                var dto = new ProjectCreateDTO(Name.Trim(), Description?.Trim() ?? string.Empty,ProjectType.Value);
-                _projectService.CreateProjectAsync(dto);
+                var dto = new ProjectCreateDTO(Name.Trim(), Description.Trim(), ProjectType.Value);
+                await _projectService.CreateProjectAsync(dto);
+                await Shell.Current.DisplayAlertAsync("Success", "Project created successfully!", "OK");
                 await Shell.Current.GoToAsync("..");
             }
             catch (Exception ex)
