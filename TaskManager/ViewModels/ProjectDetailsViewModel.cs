@@ -52,11 +52,11 @@ namespace TaskManager.ViewModels
             if (query.TryGetValue("ProjectId", out var value) && value is Guid id)
             {
                 _projectId = id;
-                _ = LoadDataAsync();
+                _ = RefreshDataAsync();
             }
         }
 
-        private async Task LoadDataAsync()
+        internal async Task RefreshDataAsync()
         {
             IsBusy = true;
             try
@@ -131,7 +131,7 @@ namespace TaskManager.ViewModels
             try
             {
                 await _taskService.DeleteTaskAsync(task.Id);
-                await LoadDataAsync();
+                await RefreshDataAsync();
             }
             catch (Exception ex)
             {

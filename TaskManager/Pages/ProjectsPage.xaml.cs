@@ -23,7 +23,7 @@ public partial class ProjectsPage : ContentPage
 
         if (BindingContext is ProjectsViewModel vm)
         {
-            await vm.RefreshData();
+            await vm.RefreshDataAsync();
         }
     }
 }

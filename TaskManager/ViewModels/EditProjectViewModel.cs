@@ -47,10 +47,10 @@ namespace TaskManager.ViewModels
             if (query.TryGetValue("ProjectId", out var value) && value is Guid id)
                 _projectId = id;
 
-            _ = LoadDataAsync();
+            _ = RefreshDataAsync();
         }
 
-        private async Task LoadDataAsync()
+        private async Task RefreshDataAsync()
         {
             IsBusy = true;
             try

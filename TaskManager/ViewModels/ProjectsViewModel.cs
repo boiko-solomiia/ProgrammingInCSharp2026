@@ -33,7 +33,7 @@ namespace TaskManager.ViewModels
             _projectService = projectService;
         }
 
-        internal async Task RefreshData()
+        internal async Task RefreshDataAsync()
         {
             IsBusy = true;
             try
@@ -97,7 +97,7 @@ namespace TaskManager.ViewModels
         }
 
         [RelayCommand]
-        private async Task EditProject(ProjectListDTO? project)
+        public async Task EditProject(ProjectListDTO? project)
         {
             if (project == null)
                 return;
@@ -132,7 +132,7 @@ namespace TaskManager.ViewModels
             try
             {
                 await _projectService.DeleteProjectAsync(project.Id);
-                await RefreshData();
+                await RefreshDataAsync();
             }
             catch (Exception ex)
             {

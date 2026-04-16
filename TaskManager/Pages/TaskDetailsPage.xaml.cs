@@ -21,9 +21,9 @@ public partial class TaskDetailsPage : ContentPage
     {
         base.OnAppearing();
 
-        if (BindingContext is ProjectsViewModel vm)
+        if (BindingContext is TaskDetailsViewModel vm)
         {
-            await vm.RefreshData();
+            await vm.RefreshDataAsync();
         }
     }
 }
