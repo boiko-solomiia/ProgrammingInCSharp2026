@@ -1,6 +1,6 @@
 # TaskManager
 
-A .NET MAUI application for managing projects and tasks. Developed in C# with .NET 10.0 following layered architecture principles, MVVM, DTO models, repositories, services, and dependency injection
+A .NET MAUI application for managing projects and tasks. Developed in C# with .NET 10.0 following layered architecture principles, MVVM, asynchronous file storage,DTO models, repositories, services, and dependency injection
 
 ## Project Structure
 
@@ -42,12 +42,9 @@ DTO models are used to pass data from the service layer to the UI
 
 ### Storage (TaskManager.Storage)
 
-**IStorageContext**
-- interface for working with in-memory data
-
-**InMemoryStorageContext**
-- stores fake data for projects and tasks
-The storage layer keeps sample data and returns DB models
+- **IStorageContext**: Interface defining asynchronous operations for projects and tasks
+- **InMemoryStorageContext**: In‑memory implementation with sample data (used to seed the file storage)
+- **FileStorageContext**: JSON file‑based implementation. Stores each project as a `.json` file and tasks inside project‑specific subdirectories. Automatically initializes with sample data on first run
 
 ### Repositories (TaskManager.Repositories)
 Repositories work with the storage layer and return DB models
@@ -68,19 +65,24 @@ Repositories work with the storage layer and return DB models
 
 **Task Service:**
 - ITaskService - interface for task operations
-- TaskService - gets task data, calculates overdue status, and returns DTO models
+- TaskService - gets task data, calculates overdue status, and returns DTO models. 
 
 ### MAUI Application (TaskManager)
 
 **Pages:**
 - `ProjectsPage` - displays list of all projects
 - `ProjectDetailsPage` - shows project details with tasks
+- `CreateProjectPage` / `EditProjectPage` – forms for creating/editing projects
 - `TaskDetailsPage` - shows detailed task information
+- `CreateTaskPage` / `EditTaskPage` – forms for creating/editing tasks
 
 **ViewModels:**
 - ProjectsViewModel - loads projects and handles navigation to project details
 - ProjectDetailsViewModel - loads selected project and its tasks
-- TaskDetailsViewModel - loads selected task details 
+- TaskDetailsViewModel - loads selected task details
+- `CreateProjectViewModel`, `EditProjectViewModel`, `CreateTaskViewModel`, `EditTaskViewModel` – manage input forms and validation
+
+All ViewModels inherit from `BaseViewModel`, which provides `IsBusy` and `IsNotBusy` properties for UI state management
 
 ## Sample Data
 
@@ -95,6 +97,19 @@ The application includes pre-loaded data for testing:
 2. Browse projects on the main page
 3. Tap a project to see its details and tasks
 4. Tap a task to see full task information
+
+## Filtering, search and sorting
+
+- **Projects Page**:
+  - Search by project name
+  - Filter by project type
+  - Sort by name, progress, or task count
+- **Project Details Page**:
+  - Search tasks by name
+  - Filter by priority
+  - Toggle to show only completed tasks
+  - Sort by name, priority, or deadline
+- Each page includes **Apply** and **Reset** buttons for easy filter management
 
 ## Code Documentation
 
