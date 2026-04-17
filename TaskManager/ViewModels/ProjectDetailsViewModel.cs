@@ -123,6 +123,7 @@ namespace TaskManager.ViewModels
         /// <summary>
         /// Navigates to task details when a task is selected
         /// </summary>
+        /// <param name="task">The selected task</param>
         [RelayCommand]
         private async Task LoadTask(TaskListDTO? task)
         {
@@ -143,6 +144,10 @@ namespace TaskManager.ViewModels
             }
         }
 
+        /// <summary>
+        /// Navigates to the edit task page for the selected task
+        /// </summary>
+        /// <param name="task">The task to edit</param>
         [RelayCommand]
         private async Task EditTask(TaskListDTO? task)
         {
@@ -153,6 +158,10 @@ namespace TaskManager.ViewModels
         }
 
 
+        /// <summary>
+        /// Deletes the selected task after user confirmation
+        /// </summary>
+        /// <param name="task">The task to delete</param>
         [RelayCommand]
         private async Task DeleteTask(TaskListDTO? task)
         {
@@ -180,6 +189,9 @@ namespace TaskManager.ViewModels
             }
         }
 
+        /// <summary>
+        /// Navigates to the create task page for the current project
+        /// </summary>
         [RelayCommand]
         private async Task AddTask()
         {
@@ -201,12 +213,18 @@ namespace TaskManager.ViewModels
             }
         }
         
+        /// <summary>
+        /// Applies the current task filters and refreshes the list
+        /// </summary>
         [RelayCommand]
         private async Task ApplyFilters()
         {
             await RefreshDataAsync();
         }
 
+        /// <summary>
+        /// Resets all task filters to their default values and refreshes the list
+        /// </summary>
         [RelayCommand]
         private void ResetFilters()
         {

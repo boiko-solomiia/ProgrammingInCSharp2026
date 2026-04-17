@@ -2,6 +2,10 @@
 
 namespace TaskManager.ViewModels
 {
+    /// <summary>
+    /// Base ViewModel providing common functionality for all ViewModels.
+    /// Implements <see cref="ObservableObject"/> and provides properties to indicate busy state for UI binding
+    /// </summary>
     public abstract partial class BaseViewModel : ObservableObject
     {
         private bool _isBusy;
@@ -18,6 +22,9 @@ namespace TaskManager.ViewModels
             }
         }
 
-        public bool IsNotBusy => !IsBusy;
+        public bool IsNotBusy
+        {
+            get => !IsBusy;
+        }
     }
 }

@@ -5,6 +5,10 @@ using TaskManager.Services;
 
 namespace TaskManager.ViewModels
 {
+    /// <summary>
+    /// ViewModel for the Edit Task page.
+    /// Loads existing task data and handles updates
+    /// </summary>
     public partial class EditTaskViewModel : BaseViewModel, IQueryAttributable
     {
         private readonly ITaskService _taskService;
@@ -99,6 +103,10 @@ namespace TaskManager.ViewModels
             }
         }
 
+        /// <summary>
+        /// Saves the updated task data.
+        /// Validates that task name is provided.
+        /// </summary>
         [RelayCommand]
         private async Task Save()
         {

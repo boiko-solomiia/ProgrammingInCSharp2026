@@ -5,6 +5,10 @@ using TaskManager.Services;
 
 namespace TaskManager.ViewModels
 {
+    /// <summary>
+    /// ViewModel for the Edit Project page.
+    /// Loads existing project data and handles updates
+    /// </summary>
     public partial class EditProjectViewModel : BaseViewModel, IQueryAttributable
     {
         private readonly IProjectService _projectService;
@@ -78,6 +82,10 @@ namespace TaskManager.ViewModels
             }
         }
 
+        /// <summary>
+        /// Saves the updated project data.
+        /// Validates that name and project type are provided
+        /// </summary>
         [RelayCommand]
         private async Task Save()
         {

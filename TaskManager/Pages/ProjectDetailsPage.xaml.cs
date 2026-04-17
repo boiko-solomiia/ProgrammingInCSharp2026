@@ -7,10 +7,6 @@ namespace TaskManager.Pages;
 /// </summary>
 public partial class ProjectDetailsPage : ContentPage
 {
-    /// <summary>
-    /// Creates the page and assigns the view model
-    /// </summary>
-    /// <param name="vm">The view model for the project details page</param>
     public ProjectDetailsPage(ProjectDetailsViewModel vm)
     {
         InitializeComponent();

@@ -10,7 +10,6 @@
              Title="Project Details" IsEnabled="{Binding IsNotBusy}">
     <Grid RowDefinitions="Auto, Auto, Auto, *, Auto"
           RowSpacing="3">
-        <!-- Project information -->
         <Border
             Grid.Row="0"
             Stroke="{StaticResource BorderMedium}"
@@ -40,7 +39,6 @@
             </VerticalStackLayout>
         </Border>
 
-        <!-- Tasks title -->
         <Label Grid.Row="1"
                Text="Tasks"
                Style="{StaticResource Headline}"
@@ -48,7 +46,7 @@
                Margin="5" />
 
         <VerticalStackLayout Grid.Row="2" Padding="10,5" Spacing="5">
-            <SearchBar Placeholder="Search tasks..."
+            <SearchBar Placeholder="Search tasks"
                        Text="{Binding SearchName}"
                        SearchCommand="{Binding ApplyFiltersCommand}" />
 
@@ -56,8 +54,12 @@
                     ItemsSource="{Binding Priorities}"
                     SelectedItem="{Binding SelectedPriority}" />
 
+            <!--Task completion filter:By default (ShowCompletedOnly = null) all tasks are shown.
+            Toggling the switch filters tasks to show only completed tasks (true)
+            or only uncompleted tasks (false). To return to showing all tasks,
+            use the "Reset" button which sets the filter back to null-->
             <HorizontalStackLayout Spacing="10">
-                <Label Text="Show completed only" VerticalOptions="Center" />
+                <Label Text="Completed" VerticalOptions="Center" />
                 <Switch IsToggled="{Binding ShowCompletedOnly}" />
             </HorizontalStackLayout>
 
@@ -71,7 +73,6 @@
             </HorizontalStackLayout>
         </VerticalStackLayout>
 
-        <!-- List of tasks -->
         <CollectionView x:Name="TasksCollection"
                         Grid.Row="3"
                         ItemsSource="{Binding Tasks}"
@@ -120,6 +121,7 @@
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
+
         <Button Grid.Row="4"
                 Text="Add task"
                 Command="{Binding AddTaskCommand}"

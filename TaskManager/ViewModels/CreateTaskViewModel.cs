@@ -5,6 +5,10 @@ using TaskManager.Services;
 
 namespace TaskManager.ViewModels
 {
+    /// <summary>
+    /// ViewModel for the Create Task page.
+    /// Handles user input and task creation within a project
+    /// </summary>
     public partial class CreateTaskViewModel : BaseViewModel, IQueryAttributable
     {
         private readonly ITaskService _taskService;
@@ -64,6 +68,10 @@ namespace TaskManager.ViewModels
             }
         }
 
+        /// <summary>
+        /// Creates a new task in the current project using the entered data.
+        /// Validates that name, priority, and deadline are provided
+        /// </summary>
         [RelayCommand]
         private async Task Create()
         {

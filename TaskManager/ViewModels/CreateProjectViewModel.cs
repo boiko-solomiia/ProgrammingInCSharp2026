@@ -5,6 +5,10 @@ using TaskManager.Services;
 
 namespace TaskManager.ViewModels
 {
+    /// <summary>
+    /// ViewModel for the Create Project page.
+    /// Handles user input and project creation
+    /// </summary>
     public partial class CreateProjectViewModel : BaseViewModel
     {
         private readonly IProjectService _projectService;
@@ -40,6 +44,10 @@ namespace TaskManager.ViewModels
             _projectService = projectService;
         }
 
+        /// <summary>
+        /// Creates a new project using the entered data.
+        /// Validates that name and project type are provided
+        /// </summary>
         [RelayCommand]
         private async Task Create()
         {

@@ -109,6 +109,9 @@ namespace TaskManager.ViewModels
             }
         }
 
+        /// <summary>
+        /// Navigates to the create project page
+        /// </summary>
         [RelayCommand]
         private async Task AddProject()
         {
@@ -127,8 +130,12 @@ namespace TaskManager.ViewModels
             }
         }
 
+        /// <summary>
+        /// Navigates to the edit project page for the specified project
+        /// </summary>
+        /// <param name="project">The project to edit</param>
         [RelayCommand]
-        public async Task EditProject(ProjectListDTO? project)
+        private async Task EditProject(ProjectListDTO? project)
         {
             if (project == null)
                 return;
@@ -148,6 +155,10 @@ namespace TaskManager.ViewModels
             }
         }
 
+        /// <summary>
+        /// Deletes the specified project after user confirmation
+        /// </summary>
+        /// <param name="project">The project to delete</param>
         [RelayCommand]
         private async Task DeleteProject(ProjectListDTO? project)
         {
@@ -175,12 +186,18 @@ namespace TaskManager.ViewModels
             }
         }
         
+        /// <summary>
+        /// Applies the current project filters and refreshes the list
+        /// </summary>
         [RelayCommand]
         private async Task ApplyFilters()
         {
             await RefreshDataAsync();
         }
 
+        /// <summary>
+        /// Resets all project filters to their default values and refreshes the list
+        /// </summary>
         [RelayCommand]
         private void ResetFilters()
         {
